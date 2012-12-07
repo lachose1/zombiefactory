@@ -24,6 +24,7 @@ namespace zombiefactory
         public ResourceManager<Song> MusicMgr { get; private set; }
         public ResourceManager<SoundEffect> SfxMgr { get; private set; }
         public FpsCounter FpsHandler { get; private set; }
+        private FpsDisplay FpsDisplayer { get; set; }
         #endregion properties
 
         public ZombieGame()
@@ -43,20 +44,28 @@ namespace zombiefactory
             MusicMgr = new ResourceManager<Song>(this);
             SfxMgr = new ResourceManager<SoundEffect>(this);
 
+            LoadAssets();
+
             FpsHandler = new FpsCounter(this, FPS_INTERVAL);
             InputMgr = new InputManager(this);
+            FpsDisplayer = new FpsDisplay(this, "Arial14");
+
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
+            Components.Add(FpsDisplayer);
 
             base.Initialize();
+        }
+
+        private void LoadAssets()
+        {
+            FontMgr.Add("Fonts/Arial14");
         }
 
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            FontMgr.Add("Fonts/Arial14");
         }
 
         protected override void UnloadContent()
@@ -74,18 +83,29 @@ namespace zombiefactory
             base.Update(gameTime);
         }
 
+        protected override bool BeginDraw()
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+
+            return base.BeginDraw();
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-
             //Juste un test, dans la vraie vie c'est de l'hostie de marde parce que ca fait Find() a chaque frame
             spriteBatch.DrawString(FontMgr.Find("Arial14"), "Zombie Factory", new Vector2(0, 0), Color.Black);
 
+            base.Draw(gameTime);
+        }
+
+        protected override void EndDraw()
+        {
             spriteBatch.End();
 
-            base.Draw(gameTime);
+            base.EndDraw();
         }
     }
 }

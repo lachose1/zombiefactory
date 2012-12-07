@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.Storage;
+
+
+namespace zombiefactory
+{
+    public class FpsDisplay : Microsoft.Xna.Framework.DrawableGameComponent
+    {
+        ZombieGame ZombieGame { get; set; }
+        Vector2 BottomRightPosition { get; set; }
+        Vector2 StringPosition { get; set; }
+        string StringFps { get; set; }
+        Vector2 Dimention { get; set; }
+        SpriteFont FontDisplay { get; set; }
+        float FpsValue { get; set; }
+        string FontName { get; set; }
+        float BottomMargin { get; set; }
+        float RightMargin { get; set; }
+
+        public FpsDisplay(ZombieGame game, string fontName)
+            : base(game)
+        {
+            ZombieGame = game;
+            FontName = fontName;
+        }
+
+        public override void Initialize()
+        {
+            BottomMargin = 0;
+            RightMargin = 10;
+
+            BottomRightPosition = new Vector2(ZombieGame.Window.ClientBounds.Width - RightMargin,
+                                            ZombieGame.Window.ClientBounds.Height - BottomMargin);
+            FpsValue = -1;
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            FontDisplay = ZombieGame.FontMgr.Find(FontName);
+            base.LoadContent();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (ZombieGame.FpsHandler.FpsValue != FpsValue)
+            {
+                StringFps = ZombieGame.FpsHandler.FpsValue.ToString("0");
+                Dimention = FontDisplay.MeasureString(StringFps);
+                StringPosition = BottomRightPosition - Dimention;
+                FpsValue = ZombieGame.FpsHandler.FpsValue;
+            }
+
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            ZombieGame.spriteBatch.DrawString(FontDisplay, StringFps, StringPosition, Color.Black, 0, 
+                Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+
+            base.Draw(gameTime);
+        }
+    }
+}
