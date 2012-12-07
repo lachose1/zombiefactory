@@ -56,7 +56,7 @@ namespace zombiefactory
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            FontMgr.Add("Fonts/Arial14");
         }
 
         protected override void UnloadContent()
@@ -66,7 +66,6 @@ namespace zombiefactory
 
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
             if (InputMgr.ControllerState.Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
@@ -79,7 +78,12 @@ namespace zombiefactory
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            //Juste un test, dans la vraie vie c'est de l'hostie de marde parce que ca fait Find() a chaque frame
+            spriteBatch.DrawString(FontMgr.Find("Arial14"), "Zombie Factory", new Vector2(0, 0), Color.Black);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
