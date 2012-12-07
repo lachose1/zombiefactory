@@ -16,8 +16,17 @@ namespace zombiefactory
     /// </summary>
     public class ZombieGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        #region properties
+        public GraphicsDeviceManager graphics;
+        public SpriteBatch spriteBatch;
+        public InputManager InputMgr { get; private set; }
+        public ResourceManager<Texture2D> TextureMgr { get; private set; }
+        public ResourceManager<SpriteFont> FontMgr { get; private set; }
+        public ResourceManager<Model> ModelMgr { get; private set; }
+        public ResourceManager<Song> MusicMgr { get; private set; }
+        public ResourceManager<SoundEffect> SfxMgr { get; private set; }
+        public FpsCounter FpsHandler { get; private set; }
+        #endregion properties
 
         public ZombieGame()
         {

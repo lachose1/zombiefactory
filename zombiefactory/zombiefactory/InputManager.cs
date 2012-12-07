@@ -2,11 +2,11 @@
 using Microsoft.Xna.Framework.Input;
 
 
-namespace RaceXNA
+namespace zombiefactory
 {
     public class InputManager : Microsoft.Xna.Framework.GameComponent
     {
-        private Game RaceGame;
+        private Game ZombieGame;
         public GamePadState ControllerState { get; private set; }
         public GamePadState PreviousControllerState { get; private set; }
         private Keys[] PreviousKeys { get; set; }
@@ -16,7 +16,7 @@ namespace RaceXNA
         public InputManager(Game game)
             : base(game)
         {
-            RaceGame = game;
+            ZombieGame = game;
         }
 
         public override void Initialize()
