@@ -10,7 +10,7 @@ namespace zombiefactory
         /// </summary>
         static void Main(string[] args)
         {
-            using (ZombieFactory game = new ZombieFactory())
+            using (ZombieGame game = new ZombieGame())
             {
                 game.Run();
             }
