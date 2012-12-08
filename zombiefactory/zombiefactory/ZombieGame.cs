@@ -25,6 +25,7 @@ namespace zombiefactory
         public ResourceManager<SoundEffect> SfxMgr { get; private set; }
         public FpsCounter FpsHandler { get; private set; }
         private FpsDisplay FpsDisplayer { get; set; }
+        public Player Player { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -50,11 +51,12 @@ namespace zombiefactory
             InputMgr = new InputManager(this);
             FpsDisplayer = new FpsDisplay(this, "Arial14");
 
+            Player = new Player(this, new Vector2(100.0f, 100.0f));
+
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
             Components.Add(FpsDisplayer);
-            //Test Sprite
-            Components.Add(new AnimatedSprite(this, "Link", 3, 4, new Vector2(100.0f, 100.0f)));
+            Components.Add(Player);
 
             base.Initialize();
         }
