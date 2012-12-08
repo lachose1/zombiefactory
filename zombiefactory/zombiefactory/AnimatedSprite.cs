@@ -27,8 +27,8 @@ namespace zombiefactory
         Rectangle[,] Rectangles;
         public int Frames { get; private set; }
         public int Lines { get; private set; }
-        public bool IsLooping { get; private set; }
-        public int CurLine { get; private set; }
+        public bool IsLooping { get; set; }
+        public int CurLine { get; set; }
         public int CurFrame { get; private set; }
         public SpriteEffects Effects { get; private set; }
         public float Depth { get; private set; }
@@ -46,7 +46,7 @@ namespace zombiefactory
             Lines = lines;
             Position = position;
 
-            CurLine = 1;
+            CurLine = 0;
             CurFrame = 0;
             IsLooping = true;
             ElapsedTime = 0.0f;
@@ -90,6 +90,10 @@ namespace zombiefactory
                     CurFrame++;
                     CurFrame %= Frames;
                 }
+            }
+            else if (CurFrame != 0)
+            {
+                CurFrame = 0;
             }
 
             base.Update(gameTime);

@@ -14,7 +14,7 @@ namespace zombiefactory
 {
     public class Player : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        public enum Direction { Up, Right, Left, Down };
+        public enum Direction { Up, Right, Down, Left };
         public const string SPRITE_NAME = "Link";
         public const int SPRITE_FRAMES = 3;
         public const int SPRITE_LINES = 4;
@@ -40,6 +40,34 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
+            if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left == Vector2.Zero)
+            {
+                Sprite.IsLooping = false;
+            }
+            else
+            {
+                Sprite.IsLooping = true;
+
+                if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y > 0)
+                {
+                    if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y > Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X))
+                        Sprite.CurLine = (int)Direction.Up;
+                    else if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X > 0)
+                        Sprite.CurLine = (int)Direction.Right;
+                    else
+                        Sprite.CurLine = (int)Direction.Left;
+                }
+                else
+                {
+                    if (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y) > Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X))
+                        Sprite.CurLine = (int)Direction.Down;
+                    else if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X > 0)
+                        Sprite.CurLine = (int)Direction.Right;
+                    else
+                        Sprite.CurLine = (int)Direction.Left;
+                }
+            }
+
             Sprite.Update(gameTime);
 
             base.Update(gameTime);
