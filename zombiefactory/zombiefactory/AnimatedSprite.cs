@@ -19,7 +19,7 @@ namespace zombiefactory
         #region properties
         ZombieGame ZombieGame { get; set; }
         Texture2D SpriteSheet { get; set; }
-        public Vector2 Position { get; private set; }
+        public Vector2 Position { get; set; }
         public Vector2 Origin { get; private set; }
         public float Rotation { get; private set; }
         public float Scale { get; private set; }

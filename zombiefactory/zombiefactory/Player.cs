@@ -18,10 +18,10 @@ namespace zombiefactory
         public const string SPRITE_NAME = "Link";
         public const int SPRITE_FRAMES = 3;
         public const int SPRITE_LINES = 4;
+        public const float MAX_SPEED = 150.0f;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
-        public Vector2 Position { get; private set; }
         AnimatedSprite Sprite { get; set; }
         #endregion properties
 
@@ -29,8 +29,7 @@ namespace zombiefactory
             : base(game)
         {
             ZombieGame = game;
-            Position = initPos;
-            Sprite = new AnimatedSprite(ZombieGame, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, Position);
+            Sprite = new AnimatedSprite(ZombieGame, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos);
         }
 
         public override void Initialize()
@@ -39,6 +38,23 @@ namespace zombiefactory
         }
 
         public override void Update(GameTime gameTime)
+        {
+            SetSpriteDirection();
+            MoveSprite();
+
+            Sprite.Update(gameTime);
+
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            Sprite.Draw(gameTime);
+
+            base.Draw(gameTime);
+        }
+
+        private void SetSpriteDirection()
         {
             if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left == Vector2.Zero)
             {
@@ -67,17 +83,22 @@ namespace zombiefactory
                         Sprite.CurLine = (int)Direction.Left;
                 }
             }
-
-            Sprite.Update(gameTime);
-
-            base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
+        private void MoveSprite()
         {
-            Sprite.Draw(gameTime);
+            float x = Sprite.Position.X;
+            float y = Sprite.Position.Y;
 
-            base.Draw(gameTime);
+            x += ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X * MAX_SPEED / ZombieGame.FpsHandler.FpsValue;
+            y -= ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y * MAX_SPEED / ZombieGame.FpsHandler.FpsValue;
+
+            Sprite.Position = new Vector2(x, y);
+        }
+
+        public Vector2 GetPosition()
+        {
+            return Sprite.Position;
         }
     }
 }
