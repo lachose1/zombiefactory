@@ -97,7 +97,7 @@ namespace zombiefactory
 
         public override void Draw(GameTime gameTime)
         {
-            ZombieGame.spriteBatch.Draw(SpriteSheet, new Rectangle((int)Position.X, (int)Position.Y, Width, Height), Rectangles[CurLine, CurFrame], Color, Rotation, Origin, Effects, Depth);
+            ZombieGame.SpriteBatch.Draw(SpriteSheet, new Rectangle((int)Position.X, (int)Position.Y, Width, Height), Rectangles[CurLine, CurFrame], Color, Rotation, Origin, Effects, Depth);
 
             base.Draw(gameTime);
         }

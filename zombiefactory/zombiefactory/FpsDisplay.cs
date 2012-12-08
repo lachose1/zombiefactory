@@ -55,7 +55,7 @@ namespace zombiefactory
 
         public override void Draw(GameTime gameTime)
         {
-            ZombieGame.spriteBatch.DrawString(FontDisplay, StringFps, StringPosition, Color.Black, 0, 
+            ZombieGame.SpriteBatch.DrawString(FontDisplay, StringFps, StringPosition, Color.Black, 0, 
                 Vector2.Zero, 1.0f, SpriteEffects.None, 0);
 
             base.Draw(gameTime);

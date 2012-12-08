@@ -16,8 +16,8 @@ namespace zombiefactory
         const float FPS_INTERVAL = 1.0f;
 
         #region properties
-        public GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
+        public GraphicsDeviceManager Graphics;
+        public SpriteBatch SpriteBatch;
         public InputManager InputMgr { get; private set; }
         public ResourceManager<Texture2D> TextureMgr { get; private set; }
         public ResourceManager<SpriteFont> FontMgr { get; private set; }
@@ -29,9 +29,9 @@ namespace zombiefactory
 
         public ZombieGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.SynchronizeWithVerticalRetrace = true;
+            Graphics.SynchronizeWithVerticalRetrace = true;
             IsFixedTimeStep = true;
             IsMouseVisible = false;
         }
@@ -68,7 +68,7 @@ namespace zombiefactory
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -89,7 +89,7 @@ namespace zombiefactory
         protected override bool BeginDraw()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            SpriteBatch.Begin();
 
             return base.BeginDraw();
         }
@@ -99,14 +99,14 @@ namespace zombiefactory
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //Juste un test, dans la vraie vie c'est de l'hostie de marde parce que ca fait Find() a chaque frame
-            spriteBatch.DrawString(FontMgr.Find("Arial14"), "Zombie Factory", new Vector2(0, 0), Color.Black);
+            SpriteBatch.DrawString(FontMgr.Find("Arial14"), "Zombie Factory", new Vector2(0, 0), Color.Black);
 
             base.Draw(gameTime);
         }
 
         protected override void EndDraw()
         {
-            spriteBatch.End();
+            SpriteBatch.End();
 
             base.EndDraw();
         }
