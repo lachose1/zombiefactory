@@ -14,6 +14,8 @@ namespace zombiefactory
 {
     public class AnimatedSprite : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        public const float UPDATE_TIME = 1.0f / 10.0f; //Will change to variable eventually, so anim speed can be adjusted for each spritesheet.
+
         #region properties
         ZombieGame ZombieGame { get; set; }
         Texture2D SpriteSheet { get; set; }
@@ -32,6 +34,7 @@ namespace zombiefactory
         public float Depth { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        float ElapsedTime { get; set; }
         #endregion properties
 
         public AnimatedSprite(ZombieGame game, string fileName, int frames, int lines, Vector2 position)
@@ -43,9 +46,10 @@ namespace zombiefactory
             Lines = lines;
             Position = position;
 
-            CurLine = 0;
+            CurLine = 1;
             CurFrame = 0;
             IsLooping = true;
+            ElapsedTime = 0.0f;
 
             Rotation = 0.0f;
             Scale = 1.0f;
@@ -70,22 +74,30 @@ namespace zombiefactory
 
         public override void Initialize()
         {
-            if (IsLooping)
-            {
-                CurFrame++;
-                CurFrame %= Frames;
-            }
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (IsLooping)
+            {
+                ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (ElapsedTime >= UPDATE_TIME)
+                {
+                    ElapsedTime -= UPDATE_TIME;
+
+                    CurFrame++;
+                    CurFrame %= Frames;
+                }
+            }
+
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            ZombieGame.spriteBatch.Draw(SpriteSheet, Rectangles[CurLine, CurFrame], new Rectangle((int)Position.X, (int)Position.Y, Width, Height), Color, Rotation, Origin, Effects, Depth);
+            ZombieGame.spriteBatch.Draw(SpriteSheet, new Rectangle((int)Position.X, (int)Position.Y, Width, Height), Rectangles[CurLine, CurFrame], Color, Rotation, Origin, Effects, Depth);
 
             base.Draw(gameTime);
         }

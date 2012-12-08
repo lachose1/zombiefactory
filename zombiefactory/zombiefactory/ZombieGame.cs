@@ -53,6 +53,8 @@ namespace zombiefactory
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
             Components.Add(FpsDisplayer);
+            //Test Sprite
+            Components.Add(new AnimatedSprite(this, "Link", 3, 4, new Vector2(100.0f, 100.0f)));
 
             base.Initialize();
         }
@@ -60,6 +62,7 @@ namespace zombiefactory
         private void LoadAssets()
         {
             FontMgr.Add("Fonts/Arial14");
+            TextureMgr.Add("Sprites/Link");
         }
 
         protected override void LoadContent()
