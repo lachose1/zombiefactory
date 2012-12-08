@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimatedSprite.cs" />
     <Compile Include="BaseResource.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="FpsDisplay.cs" />
