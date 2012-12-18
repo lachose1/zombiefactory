@@ -26,6 +26,7 @@ namespace zombiefactory
         public FpsCounter FpsHandler { get; private set; }
         private FpsDisplay FpsDisplayer { get; set; }
         public Player Player { get; private set; }
+        public Gun Gun { get; private set; }
         public Level Level { get; private set; }
         #endregion properties
 
@@ -55,6 +56,7 @@ namespace zombiefactory
             FpsDisplayer = new FpsDisplay(this, "Arial14");
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
+            Gun = new Gun(this, Player, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
 
             Components.Add(FpsHandler);
@@ -62,7 +64,7 @@ namespace zombiefactory
             Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
-            //Components.Add(Gun);
+            Components.Add(Gun);
 
             base.Initialize();
         }
@@ -71,6 +73,7 @@ namespace zombiefactory
         {
             FontMgr.Add("Fonts/Arial14");
             TextureMgr.Add("Sprites/Link");
+            TextureMgr.Add("Sprites/Pistol");
             TextureMgr.Add("Tilesets/alttp_tiles");
         }
 

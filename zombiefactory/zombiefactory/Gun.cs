@@ -29,7 +29,7 @@ namespace zombiefactory
         {
             ZombieGame = game;
             Player = player;
-            //Sprite = new AnimatedSprite(ZombieGame, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos);
+            Sprite = new AnimatedSprite(ZombieGame, "Pistol", 1, 1, initPos);
         }
 
         public override void Initialize()
@@ -40,26 +40,26 @@ namespace zombiefactory
         public override void Update(GameTime gameTime)
         {
             //SetSpriteDirection();
-            //MoveSprite();
+            MoveSprite();
 
-            //Sprite.Update(gameTime);
+            Sprite.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            //Sprite.Draw(gameTime);
+            Sprite.Draw(gameTime);
 
             base.Draw(gameTime);
         }
 
-        private void SetGunDirection()
+        private void SetSpriteDirection()
         {
             
         }
 
-        private void MoveGun()
+        private void MoveSprite()
         {
             Vector2 PlayerPosition = Player.GetPosition();
             float x = PlayerPosition.X;
