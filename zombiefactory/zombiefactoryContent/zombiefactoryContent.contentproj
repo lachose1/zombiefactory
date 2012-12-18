@@ -60,8 +60,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tilesets\alttp_tiles.gif">
+    <Compile Include="Tilesets\alttp_tiles.png">
       <Name>alttp_tiles</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
