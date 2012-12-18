@@ -100,9 +100,6 @@ namespace zombiefactory
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //Juste un test, dans la vraie vie c'est de l'hostie de marde parce que ca fait Find() a chaque frame
-            SpriteBatch.DrawString(FontMgr.Find("Arial14"), "Zombie Factory", new Vector2(0, 0), Color.Black);
-
             base.Draw(gameTime);
         }
 
