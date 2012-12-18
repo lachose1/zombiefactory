@@ -18,7 +18,7 @@ namespace zombiefactory
         public const string SPRITE_NAME = "Link";
         public const int SPRITE_FRAMES = 3;
         public const int SPRITE_LINES = 4;
-        public const float MAX_SPEED = 150.0f;
+        public const float MAX_SPEED = 250.0f;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
