@@ -40,7 +40,7 @@ namespace zombiefactory
 
             TileType = new int[Width, Height];
 
-            for(int i = 0; i < Width; ++i)
+            for (int i = 0; i < Width; ++i)
             {
                 string[] numbers = levelData.ReadLine().Split(' ');
 
