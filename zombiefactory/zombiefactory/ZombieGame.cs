@@ -53,7 +53,7 @@ namespace zombiefactory
             FpsDisplayer = new FpsDisplay(this, "Arial14");
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
-            Level = new Level(this, "alttp_tiles", 13, 16, "testlvl");
+            Level = new Level(this, "testlvl");
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);

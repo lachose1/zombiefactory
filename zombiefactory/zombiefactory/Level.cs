@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -24,11 +25,16 @@ namespace zombiefactory
         float Depth { get; set; }
 
         //Idealement le nom et la taille du tileset vont tous aller dans le fichier lvl.dat ou wtv, et on va juste passer game et levelName
-        public Level(ZombieGame game, string tilesetName, int tileSetRows, int tileSetColumns, string levelName)
+        public Level(ZombieGame game, string levelName)
             : base(game)
         {
+            StreamReader levelData = new StreamReader("Content/Levels/" + levelName + ".dat");
+            string tilesetName = levelData.ReadLine();
+            int tilesetRows = int.Parse(levelData.ReadLine());
+            int tilesetColumns = int.Parse(levelData.ReadLine());
+
             ZombieGame = game;
-            Tileset = new Tileset(ZombieGame.TextureMgr.Find(tilesetName), tileSetRows, tileSetColumns);
+            Tileset = new Tileset(ZombieGame.TextureMgr.Find(tilesetName), tilesetRows, tilesetColumns);
 
             Rotation = 0.0f;
             Scale = 1.0f;
