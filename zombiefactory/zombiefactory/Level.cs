@@ -57,11 +57,11 @@ namespace zombiefactory
         public override void Initialize()
         {
             Rotation = 0.0f;
-            Scale = 1.0f;
+            Scale = 2.0f;
             Color = Color.White;
             Origin = Vector2.Zero;
             Effects = SpriteEffects.None;
-            Depth = 0.0f;
+            Depth = 1.0f;
 
             base.Initialize();
         }
@@ -77,8 +77,8 @@ namespace zombiefactory
             {
                 for (int j = 0; j < Height; ++j)
                 {
-                    ZombieGame.SpriteBatch.Draw(Tileset.TilesTexture, new Rectangle(j * Tileset.TileWidth, i * Tileset.TileHeight, Tileset.TileWidth, Tileset.TileHeight),
-                        Tileset.getRectangle(TileType[i, j]), Color, Rotation, Origin, Effects, Depth);
+                    ZombieGame.SpriteBatch.Draw(Tileset.TilesTexture, new Vector2((int)(j * Tileset.TileWidth * Scale), (int)(i * Tileset.TileHeight * Scale)),
+                        Tileset.getRectangle(TileType[i, j]), Color, Rotation, Origin, Scale, Effects, Depth);
                 }
             }
 

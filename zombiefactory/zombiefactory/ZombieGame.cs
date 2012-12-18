@@ -98,7 +98,7 @@ namespace zombiefactory
         protected override bool BeginDraw()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            SpriteBatch.Begin();
+            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
 
             return base.BeginDraw();
         }

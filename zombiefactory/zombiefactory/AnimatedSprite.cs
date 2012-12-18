@@ -43,7 +43,7 @@ namespace zombiefactory
             ElapsedTime = 0.0f;
 
             Rotation = 0.0f;
-            Scale = 1.0f;
+            Scale = 2.0f;
             Color = Color.White;
             Origin = Vector2.Zero;
             Effects = SpriteEffects.None;
@@ -92,7 +92,7 @@ namespace zombiefactory
 
         public override void Draw(GameTime gameTime)
         {
-            ZombieGame.SpriteBatch.Draw(SpriteSheet, new Rectangle((int)Position.X, (int)Position.Y, Width, Height), Rectangles[CurLine, CurFrame], Color, Rotation, Origin, Effects, Depth);
+            ZombieGame.SpriteBatch.Draw(SpriteSheet, new Vector2(Position.X, Position.Y), Rectangles[CurLine, CurFrame], Color, Rotation, Origin, Scale, Effects, Depth);
 
             base.Draw(gameTime);
         }
