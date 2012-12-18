@@ -8,8 +8,8 @@ namespace zombiefactory
         public Texture2D TilesTexture { get; private set; }
         int Rows { get; set; }
         int Columns { get; set; }
-        int Width { get; set; }
-        int Height { get; set; }
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
         Rectangle[,] Rectangles;
 
         public Tileset(Texture2D texture, int rows, int columns)
@@ -18,8 +18,8 @@ namespace zombiefactory
             Rows = rows;
             Columns = columns;
 
-            Width = TilesTexture.Width / Rows;
-            Height = TilesTexture.Height / Columns;
+            TileWidth = TilesTexture.Width / Rows;
+            TileHeight = TilesTexture.Height / Columns;
 
             Rectangles = new Rectangle[Rows, Columns];
 
@@ -27,7 +27,7 @@ namespace zombiefactory
             {
                 for (int j = 0; j < Columns; ++j)
                 {
-                    Rectangles[i, j] = new Rectangle(j * Width, i * Height, Width, Height);
+                    Rectangles[i, j] = new Rectangle(j * TileWidth, i * TileHeight, TileWidth, TileHeight);
                 }
             }
         }
