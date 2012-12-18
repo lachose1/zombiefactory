@@ -56,32 +56,35 @@ namespace zombiefactory
 
         private void SetSpriteDirection()
         {
-            if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left == Vector2.Zero)
-            {
+            Vector2 directionStick; //Stick currently used to set sprite direction
+
+            if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left == Vector2.Zero) //If sprite is moving loop anim
                 Sprite.IsLooping = false;
+            else
+                Sprite.IsLooping = true;
+
+            if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Right != Vector2.Zero) //As soon as aim (right stick) is used, sprite takes that direction, else the direction of the movement
+                directionStick = ZombieGame.InputMgr.ControllerState.ThumbSticks.Right;
+            else
+                directionStick = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left;
+
+            if (directionStick.Y > 0)
+            {
+                if (directionStick.Y > Math.Abs(directionStick.X))
+                    Sprite.CurLine = (int)Direction.Up;
+                else if (directionStick.X > 0)
+                    Sprite.CurLine = (int)Direction.Right;
+                else
+                    Sprite.CurLine = (int)Direction.Left;
             }
             else
             {
-                Sprite.IsLooping = true;
-
-                if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y > 0)
-                {
-                    if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y > Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X))
-                        Sprite.CurLine = (int)Direction.Up;
-                    else if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X > 0)
-                        Sprite.CurLine = (int)Direction.Right;
-                    else
-                        Sprite.CurLine = (int)Direction.Left;
-                }
+                if (Math.Abs(directionStick.Y) > Math.Abs(directionStick.X))
+                    Sprite.CurLine = (int)Direction.Down;
+                else if (directionStick.X > 0)
+                    Sprite.CurLine = (int)Direction.Right;
                 else
-                {
-                    if (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y) > Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X))
-                        Sprite.CurLine = (int)Direction.Down;
-                    else if (ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X > 0)
-                        Sprite.CurLine = (int)Direction.Right;
-                    else
-                        Sprite.CurLine = (int)Direction.Left;
-                }
+                    Sprite.CurLine = (int)Direction.Left;
             }
         }
 
