@@ -34,6 +34,8 @@ namespace zombiefactory
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Graphics.SynchronizeWithVerticalRetrace = true;
+            Graphics.PreferredBackBufferWidth = 800;
+            Graphics.PreferredBackBufferHeight = 600;
             IsFixedTimeStep = true;
             IsMouseVisible = false;
         }
@@ -53,7 +55,7 @@ namespace zombiefactory
             FpsDisplayer = new FpsDisplay(this, "Arial14");
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
-            //Level = new Level(this, "testlvl");
+            Level = new Level(this, "testlvl");
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
