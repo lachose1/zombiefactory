@@ -32,9 +32,9 @@ namespace zombiefactory
             }
         }
 
-        public Rectangle getRectangle(int row, int col)
+        public Rectangle getRectangle(int tileNumber)
         {
-            return Rectangles[row, col];
+            return Rectangles[tileNumber / Rows, tileNumber % Rows];
         }
     }
 }

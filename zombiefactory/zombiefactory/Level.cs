@@ -23,6 +23,9 @@ namespace zombiefactory
         Color Color { get; set; }
         SpriteEffects Effects { get; set; }
         float Depth { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
+        int[,] TileType { get; set; }
 
         //Idealement le nom et la taille du tileset vont tous aller dans le fichier lvl.dat ou wtv, et on va juste passer game et levelName
         public Level(ZombieGame game, string levelName)
@@ -32,20 +35,34 @@ namespace zombiefactory
             string tilesetName = levelData.ReadLine();
             int tilesetRows = int.Parse(levelData.ReadLine());
             int tilesetColumns = int.Parse(levelData.ReadLine());
+            Width = int.Parse(levelData.ReadLine());
+            Height = int.Parse(levelData.ReadLine());
+
+            TileType = new int[Width, Height];
+
+            for(int i = 0; i < Width; ++i)
+            {
+                string[] numbers = levelData.ReadLine().Split(' ');
+
+                for (int j = 0; j < Height; ++j)
+                {
+                    TileType[i, j] = int.Parse(numbers[j]);
+                }
+            }
 
             ZombieGame = game;
             Tileset = new Tileset(ZombieGame.TextureMgr.Find(tilesetName), tilesetRows, tilesetColumns);
+        }
 
+        public override void Initialize()
+        {
             Rotation = 0.0f;
             Scale = 1.0f;
             Color = Color.White;
             Origin = Vector2.Zero;
             Effects = SpriteEffects.None;
             Depth = 0.0f;
-        }
 
-        public override void Initialize()
-        {
             base.Initialize();
         }
 
@@ -56,7 +73,14 @@ namespace zombiefactory
 
         public override void Draw(GameTime gameTime)
         {
-            ZombieGame.SpriteBatch.Draw(Tileset.TilesTexture, new Rectangle(0, 0, Tileset.TileWidth, Tileset.TileHeight), Tileset.getRectangle(0, 0), Color, Rotation, Origin, Effects, Depth);
+            for (int i = 0; i < Width; ++i)
+            {
+                for (int j = 0; j < Height; ++j)
+                {
+                    ZombieGame.SpriteBatch.Draw(Tileset.TilesTexture, new Rectangle(j * Tileset.TileWidth, i * Tileset.TileHeight, Tileset.TileWidth, Tileset.TileHeight),
+                        Tileset.getRectangle(TileType[i, j]), Color, Rotation, Origin, Effects, Depth);
+                }
+            }
 
             base.Draw(gameTime);
         }
