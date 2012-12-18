@@ -68,23 +68,26 @@ namespace zombiefactory
             else
                 directionStick = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left;
 
-            if (directionStick.Y > 0)
+            if (directionStick != Vector2.Zero)
             {
-                if (directionStick.Y > Math.Abs(directionStick.X))
-                    Sprite.CurLine = (int)Direction.Up;
-                else if (directionStick.X > 0)
-                    Sprite.CurLine = (int)Direction.Right;
+                if (directionStick.Y > 0)
+                {
+                    if (directionStick.Y > Math.Abs(directionStick.X))
+                        Sprite.CurLine = (int)Direction.Up;
+                    else if (directionStick.X > 0)
+                        Sprite.CurLine = (int)Direction.Right;
+                    else
+                        Sprite.CurLine = (int)Direction.Left;
+                }
                 else
-                    Sprite.CurLine = (int)Direction.Left;
-            }
-            else
-            {
-                if (Math.Abs(directionStick.Y) > Math.Abs(directionStick.X))
-                    Sprite.CurLine = (int)Direction.Down;
-                else if (directionStick.X > 0)
-                    Sprite.CurLine = (int)Direction.Right;
-                else
-                    Sprite.CurLine = (int)Direction.Left;
+                {
+                    if (Math.Abs(directionStick.Y) > Math.Abs(directionStick.X))
+                        Sprite.CurLine = (int)Direction.Down;
+                    else if (directionStick.X > 0)
+                        Sprite.CurLine = (int)Direction.Right;
+                    else
+                        Sprite.CurLine = (int)Direction.Left;
+                }
             }
         }
 
