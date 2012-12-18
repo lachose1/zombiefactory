@@ -60,6 +60,7 @@ namespace zombiefactory
             Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
+            //Components.Add(Gun);
 
             base.Initialize();
         }
