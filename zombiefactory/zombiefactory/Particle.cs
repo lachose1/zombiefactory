@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace zombiefactory
 {
-    class Particle : AnimatedSprite
+    public class Particle : AnimatedSprite
     {
         public Vector2 Direction { get; set; }
         public float Life { get; set; }

@@ -28,6 +28,7 @@ namespace zombiefactory
         public Player Player { get; private set; }
         public Gun Gun { get; private set; }
         public Level Level { get; private set; }
+        public Emitter EmitterTest { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -59,6 +60,8 @@ namespace zombiefactory
             Gun = new Gun(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
 
+            EmitterTest = new Emitter(this, 100, false);
+            
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
             Components.Add(FpsDisplayer);
@@ -92,9 +95,11 @@ namespace zombiefactory
         {
             if (InputMgr.ControllerState.Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+            
+            EmitterTest.addParticle("Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(300.0f, 300.0f), 200.0f);
 
             // TODO: Add your update logic here
-
+            EmitterTest.Update(gameTime, 0.01f);
             base.Update(gameTime);
         }
 
