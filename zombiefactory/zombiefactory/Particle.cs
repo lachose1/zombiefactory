@@ -20,7 +20,7 @@ namespace zombiefactory
             base.Initialize();
         }
 
-        public override bool Update(GameTime gameTime, float dt)
+        public bool Update(GameTime gameTime, float dt)
         {
             this.Position += this.Direction * dt;
             this.Life -= dt;
