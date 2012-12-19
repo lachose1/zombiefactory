@@ -21,6 +21,7 @@ namespace zombiefactory
         float Direction { get; set; }
         int Damage { get; set; }
         int Ammo { get; set; }
+        bool Shooting { get; set; }
         #endregion properties
 
         public Gun(ZombieGame game, Vector2 initPos)
@@ -29,6 +30,7 @@ namespace zombiefactory
             ZombieGame = game;
             Sprite = new AnimatedSprite(ZombieGame, "Pistol", 1, 1, initPos);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
+            Shooting = false;
         }
 
         public override void Initialize()
@@ -61,7 +63,12 @@ namespace zombiefactory
 
             //Sprite.Origin = new Vector2(x, y);
             if (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > 0.04f || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > 0.04f)
+            {
                 Sprite.Rotation = -(float)Math.Atan2((double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y, (double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X);
+                Shooting = true;
+            }
+            else
+                Shooting = false;
         }
 
         private void MoveSprite()
