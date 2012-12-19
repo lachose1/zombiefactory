@@ -56,7 +56,7 @@ namespace zombiefactory
             FpsDisplayer = new FpsDisplay(this, "Arial14");
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
-            Gun = new Gun(this, Player, new Vector2(100.0f, 100.0f));
+            Gun = new Gun(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
 
             Components.Add(FpsHandler);

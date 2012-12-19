@@ -18,18 +18,17 @@ namespace zombiefactory
         #region properties
         ZombieGame ZombieGame { get; set; }
         AnimatedSprite Sprite { get; set; }
-        Player Player { get; set; }
         float Direction { get; set; }
         int Damage { get; set; }
         int Ammo { get; set; }
         #endregion properties
 
-        public Gun(ZombieGame game, Player player, Vector2 initPos)
+        public Gun(ZombieGame game, Vector2 initPos)
             : base(game)
         {
             ZombieGame = game;
-            Player = player;
             Sprite = new AnimatedSprite(ZombieGame, "Pistol", 1, 1, initPos);
+            Sprite.Origin = new Vector2(0, Sprite.Height / 2);
         }
 
         public override void Initialize()
@@ -39,7 +38,7 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
-            //SetSpriteDirection();
+            SetSpriteDirection();
             MoveSprite();
 
             Sprite.Update(gameTime);
@@ -56,14 +55,20 @@ namespace zombiefactory
 
         private void SetSpriteDirection()
         {
-            
+            //Vector2 PlayerPosition = Player.GetPosition();
+            //float x = PlayerPosition.X + Player.Sprite.Width / 2;
+            //float y = PlayerPosition.Y + Player.Sprite.Height / 2;
+
+            //Sprite.Origin = new Vector2(x, y);
+            if (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > 0.04f || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > 0.04f)
+                Sprite.Rotation = -(float)Math.Atan2((double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y, (double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X);
         }
 
         private void MoveSprite()
         {
-            Vector2 PlayerPosition = Player.GetPosition();
-            float x = PlayerPosition.X;
-            float y = PlayerPosition.Y;
+            Vector2 PlayerPosition = ZombieGame.Player.GetPosition();
+            float x = PlayerPosition.X + ZombieGame.Player.Sprite.Width / 2 + Sprite.Width / 2;
+            float y = PlayerPosition.Y + ZombieGame.Player.Sprite.Height / 2;
 
             Sprite.Position = new Vector2(x, y);
         }

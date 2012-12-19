@@ -22,7 +22,7 @@ namespace zombiefactory
 
         #region properties
         ZombieGame ZombieGame { get; set; }
-        AnimatedSprite Sprite { get; set; }
+        public AnimatedSprite Sprite { get; private set; }
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)

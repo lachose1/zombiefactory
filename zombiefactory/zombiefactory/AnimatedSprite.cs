@@ -11,8 +11,8 @@ namespace zombiefactory
         ZombieGame ZombieGame { get; set; }
         Texture2D SpriteSheet { get; set; }
         public Vector2 Position { get; set; }
-        public Vector2 Origin { get; private set; }
-        public float Rotation { get; private set; }
+        public Vector2 Origin { get; set; }
+        public float Rotation { get; set; }
         public float Scale { get; private set; }
         public Color Color { get; private set; }
         Rectangle[,] Rectangles;
