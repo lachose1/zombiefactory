@@ -72,7 +72,7 @@ namespace zombiefactory
 
         public void addParticle(Particle particle)
         {
-            ActiveParticles.AddLast(new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(300.0f, 300.0f), 200.0f));
+            ActiveParticles.AddLast(new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(200.0f, 200.0f), 200.0f));
             ZombieGame.Components.Add(ActiveParticles.Last.Value);
         }
     }
