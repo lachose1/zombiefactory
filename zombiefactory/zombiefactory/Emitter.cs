@@ -8,16 +8,21 @@ namespace zombiefactory
     public class Emitter
     {
         ZombieGame ZombieGame { get; set; }
+        Particle ParticleToSpawn { get; set; }
         public int MaxParticles { get; set; }
         public bool AutomaticSpawn { get; set; }
-        float NextSpawnCountdown { get; set; }
+        float TimeBetweenSpawn { get; set; }
         float TimeSinceLastSpawn { get; set; }
         LinkedList<Particle> ActiveParticles;
         Random Noise { get; set; }
 
-        public Emitter(ZombieGame game, int maxParticles, bool automaticSpawn)
+        public Emitter(ZombieGame game, int maxParticles, bool automaticSpawn, float timeBetweenSpawn, Particle particle)
         {
             ZombieGame = game;
+            ParticleToSpawn = particle;
+            TimeBetweenSpawn = timeBetweenSpawn;
+            AutomaticSpawn = automaticSpawn;
+            TimeSinceLastSpawn = 0.0f;
             ActiveParticles = new LinkedList<Particle>();
         }
 
@@ -40,6 +45,13 @@ namespace zombiefactory
                     }
                 }
             }
+            if (AutomaticSpawn == true)
+                if (TimeSinceLastSpawn > TimeBetweenSpawn)
+                {
+                    addParticle(ParticleToSpawn);
+                    TimeSinceLastSpawn = 0.0f;
+                }
+            TimeSinceLastSpawn += 0.1f;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -55,6 +67,12 @@ namespace zombiefactory
         public void addParticle(string fileName, int frames, int lines, Vector2 position, Vector2 direction, float life)
         {
             ActiveParticles.AddLast(new Particle(ZombieGame, fileName, frames, lines, position, direction, life));
+            ZombieGame.Components.Add(ActiveParticles.Last.Value);
+        }
+
+        public void addParticle(Particle particle)
+        {
+            ActiveParticles.AddLast(new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(300.0f, 300.0f), 200.0f));
             ZombieGame.Components.Add(ActiveParticles.Last.Value);
         }
     }
