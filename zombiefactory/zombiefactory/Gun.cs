@@ -30,8 +30,7 @@ namespace zombiefactory
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Sprite.Rotation = 3 * MathHelper.PiOver2;
             Emitters = new List<Emitter>();
-            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE,
-                new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f, ComputeBulletSpeed())));
+            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE));
             IsShooting = false;
         }
 
@@ -44,20 +43,22 @@ namespace zombiefactory
         {
             SetSpriteDirection();
             MoveSprite();
+            CheckCollision();
 
             if (IsShooting)
                 Emitters[0].addParticle("Bullet", Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)),
                     200.0f, 0.0f, ComputeBulletSpeed());
 
-            Sprite.Update(gameTime);
-            for (int i = 0; i < Emitters.Count; i++)
-                Emitters[i].Update(gameTime, 0.01f);
+            foreach (Emitter emitter in Emitters)
+                emitter.Update(gameTime);
+
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             Sprite.Draw(gameTime);
+            Emitters[0].Draw(gameTime);
 
             base.Draw(gameTime);
         }
@@ -115,6 +116,19 @@ namespace zombiefactory
             Vector2 bulletSpeed = new Vector2(bulletSpeedX, bulletSpeedY);
 
             return bulletSpeed.Length();
+        }
+
+        private void CheckCollision()
+        {
+            Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
+                ZombieGame.Monolith.Width, ZombieGame.Monolith.Height);
+
+            foreach (Particle particle in Emitters[0].ActiveParticles)
+            {
+                Rectangle particleRectangle = new Rectangle((int)particle.Position.X, (int)particle.Position.Y, particle.Width, particle.Height);
+                if (particleRectangle.Intersects(monolithRectangle))
+                    particle.IsAlive = false;
+            }
         }
     }
 }

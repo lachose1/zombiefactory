@@ -1,14 +1,6 @@
-using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 
 namespace zombiefactory
@@ -57,7 +49,7 @@ namespace zombiefactory
         public override void Initialize()
         {
             Rotation = 0.0f;
-            Scale = 2.0f;
+            Scale = 1.0f;
             Color = Color.White;
             Origin = Vector2.Zero;
             Effects = SpriteEffects.None;
