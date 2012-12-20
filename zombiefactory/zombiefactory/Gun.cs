@@ -11,12 +11,11 @@ namespace zombiefactory
         const float STICK_THRESHOLD = 0.04f;
         //Guns' fire rates and bullet speeds
         const float PISTOL_FIRE_RATE = 0.25f;
-        const float PISTOL_BULLET_SPEED = 800.0f;
+        const float PISTOL_BULLET_SPEED = 750.0f;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
         Sprite Sprite { get; set; }
-        float Direction { get; set; }
         int Damage { get; set; }
         int Ammo { get; set; }
         bool IsShooting { get; set; }
@@ -32,7 +31,7 @@ namespace zombiefactory
             Sprite.Rotation = 3 * MathHelper.PiOver2;
             Emitters = new List<Emitter>();
             Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE,
-                new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length())));
+                new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f, ComputeBulletSpeed())));
             IsShooting = false;
         }
 
@@ -48,7 +47,7 @@ namespace zombiefactory
 
             if (IsShooting)
                 Emitters[0].addParticle("Bullet", Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)),
-                    200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length());
+                    200.0f, 0.0f, ComputeBulletSpeed());
 
             Sprite.Update(gameTime);
             for (int i = 0; i < Emitters.Count; i++)
@@ -104,6 +103,18 @@ namespace zombiefactory
             float y = PlayerPosition.Y + ZombieGame.Player.Sprite.FrameHeight / 2;
 
             Sprite.Position = new Vector2(x, y);
+        }
+
+        private float ComputeBulletSpeed()
+        {
+            float bulletSpeedX = (float)Math.Cos(Sprite.Rotation) * PISTOL_BULLET_SPEED;
+            float bulletSpeedY = (float)Math.Sin(Sprite.Rotation) * PISTOL_BULLET_SPEED;
+            bulletSpeedX += ZombieGame.Player.Speed.X;
+            bulletSpeedY -= ZombieGame.Player.Speed.Y;
+
+            Vector2 bulletSpeed = new Vector2(bulletSpeedX, bulletSpeedY);
+
+            return bulletSpeed.Length();
         }
     }
 }
