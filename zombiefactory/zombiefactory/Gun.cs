@@ -15,6 +15,9 @@ namespace zombiefactory
     public class Gun : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
+        //Guns' fire rates
+        const float PISTOL_FIRE_RATE = 1.5f;
+
         #region properties
         ZombieGame ZombieGame { get; set; }
         AnimatedSprite Sprite { get; set; }
@@ -32,7 +35,7 @@ namespace zombiefactory
             Sprite = new AnimatedSprite(ZombieGame, "Pistol", 1, 1, initPos, 0.0f);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Emitters = new List<Emitter>();
-            Emitters.Add(new Emitter(ZombieGame, 100, false, 1.0f, new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(300.0f, 300.0f), 200.0f, 0.0f)));
+            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE, new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f)));
             Shooting = false;
         }
 
@@ -47,7 +50,7 @@ namespace zombiefactory
             MoveSprite();
 
             if (Shooting)
-                Emitters[0].addParticle(new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(44.0f, 44.0f), new Vector2(44.0f, 44.0f), 200.0f, 0.0f));
+                Emitters[0].addParticle("Bullet", 1, 1, Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f);
 
             Sprite.Update(gameTime);
             for (int i = 0; i < Emitters.Count; i++)

@@ -23,7 +23,7 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
-            Position += Direction / ZombieGame.FpsHandler.FpsValue;
+            Position += Direction / ZombieGame.FpsHandler.FpsValue * 300;
             Life -= 1 / ZombieGame.FpsHandler.FpsValue;
 
             if (Life > 0)
