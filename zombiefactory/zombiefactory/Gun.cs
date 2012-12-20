@@ -25,7 +25,7 @@ namespace zombiefactory
         float Direction { get; set; }
         int Damage { get; set; }
         int Ammo { get; set; }
-        bool Shooting { get; set; }
+        bool IsShooting { get; set; }
         List<Emitter> Emitters;
         #endregion properties
 
@@ -37,7 +37,7 @@ namespace zombiefactory
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Emitters = new List<Emitter>();
             Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE, new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f)));
-            Shooting = false;
+            IsShooting = false;
         }
 
         public override void Initialize()
@@ -50,7 +50,7 @@ namespace zombiefactory
             SetSpriteDirection();
             MoveSprite();
 
-            if (Shooting)
+            if (IsShooting)
                 Emitters[0].addParticle("Bullet", 1, 1, Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f);
 
             Sprite.Update(gameTime);
@@ -68,9 +68,9 @@ namespace zombiefactory
 
         private void SetSpriteDirection()
         {
-            Shooting = (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > STICK_THRESHOLD || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > STICK_THRESHOLD);
+            IsShooting = (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > STICK_THRESHOLD || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > STICK_THRESHOLD);
 
-            if (Shooting)
+            if (IsShooting)
                 Sprite.Rotation = -(float)Math.Atan2((double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y, (double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X);
 
         }
