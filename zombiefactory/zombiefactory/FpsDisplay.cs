@@ -9,7 +9,7 @@ namespace zombiefactory
         Vector2 BottomRightPosition { get; set; }
         Vector2 StringPosition { get; set; }
         string StringFps { get; set; }
-        Vector2 Dimention { get; set; }
+        Vector2 Dimension { get; set; }
         SpriteFont FontDisplay { get; set; }
         float FpsValue { get; set; }
         string FontName { get; set; }
@@ -45,8 +45,8 @@ namespace zombiefactory
             if (ZombieGame.FpsHandler.FpsValue != FpsValue)
             {
                 StringFps = ZombieGame.FpsHandler.FpsValue.ToString("0");
-                Dimention = FontDisplay.MeasureString(StringFps);
-                StringPosition = BottomRightPosition - Dimention;
+                Dimension = FontDisplay.MeasureString(StringFps);
+                StringPosition = BottomRightPosition - Dimension;
                 FpsValue = ZombieGame.FpsHandler.FpsValue;
             }
 

@@ -24,10 +24,11 @@ namespace zombiefactory
         public ResourceManager<Song> MusicMgr { get; private set; }
         public ResourceManager<SoundEffect> SfxMgr { get; private set; }
         public FpsCounter FpsHandler { get; private set; }
-        private FpsDisplay FpsDisplayer { get; set; }
+        //private FpsDisplay FpsDisplayer { get; set; } Does not follow the camera yet
         public Player Player { get; private set; }
         public Gun Gun { get; private set; }
         public Level Level { get; private set; }
+        public Camera Camera { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -53,18 +54,20 @@ namespace zombiefactory
 
             FpsHandler = new FpsCounter(this, FPS_INTERVAL);
             InputMgr = new InputManager(this);
-            FpsDisplayer = new FpsDisplay(this, "Arial14");
+            //FpsDisplayer = new FpsDisplay(this, "Arial14");
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
             Gun = new Gun(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
+            Camera = new Camera(this);
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
-            Components.Add(FpsDisplayer);
+            //Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
             Components.Add(Gun);
+            Components.Add(Camera);
 
             base.Initialize();
         }
@@ -100,7 +103,8 @@ namespace zombiefactory
         protected override bool BeginDraw()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
+                DepthStencilState.Default, RasterizerState.CullNone, null, Camera.Transform);
 
             return base.BeginDraw();
         }

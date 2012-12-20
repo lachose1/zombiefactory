@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="BaseResource.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="Emitter.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="FpsCounter.cs" />
