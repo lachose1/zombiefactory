@@ -15,6 +15,7 @@ namespace zombiefactory
     public class Gun : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
+        const float STICK_THRESHOLD = 0.04f;
         //Guns' fire rates
         const float PISTOL_FIRE_RATE = 0.25f;
 
@@ -67,12 +68,7 @@ namespace zombiefactory
 
         private void SetSpriteDirection()
         {
-            //Vector2 PlayerPosition = Player.GetPosition();
-            //float x = PlayerPosition.X + Player.Sprite.Width / 2;
-            //float y = PlayerPosition.Y + Player.Sprite.Height / 2;
-
-            //Sprite.Origin = new Vector2(x, y);
-            if (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > 0.04f || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > 0.04f)
+            if (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > STICK_THRESHOLD || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > STICK_THRESHOLD)
             {
                 Sprite.Rotation = -(float)Math.Atan2((double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y, (double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X);
                 Shooting = true;
