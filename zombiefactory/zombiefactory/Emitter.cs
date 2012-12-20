@@ -46,12 +46,9 @@ namespace zombiefactory
                 }
             }
             //if (AutomaticSpawn)
-            //    if (TimeSinceLastSpawn >= TimeBetweenSpawn)
-            //    {
-            //        addParticle(ParticleToSpawn);
-            //        TimeSinceLastSpawn = 0.0f;
-            //    }
-            TimeSinceLastSpawn += 0.1f; //Mofidier pour les FPS
+            //    addParticle(ParticleToSpawn);
+
+            TimeSinceLastSpawn += 1.0f / ZombieGame.FpsHandler.FpsValue;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

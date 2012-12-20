@@ -16,7 +16,7 @@ namespace zombiefactory
     {
 
         //Guns' fire rates
-        const float PISTOL_FIRE_RATE = 1.5f;
+        const float PISTOL_FIRE_RATE = 0.25f;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
