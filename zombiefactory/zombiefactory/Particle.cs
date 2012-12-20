@@ -3,14 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace zombiefactory
 {
-    public class Particle : AnimatedSprite
+    public class Particle : Sprite
     {
         public Vector2 Direction { get; set; }
         public float Life { get; set; }
         public bool IsAlive { get; private set; }
 
-        public Particle(ZombieGame game, string fileName, int frames, int lines, Vector2 position, Vector2 direction, float life, float depth)
-            : base(game, fileName, frames, lines, position, depth)
+        public Particle(ZombieGame game, string fileName, Vector2 position, Vector2 direction, float life, float depth)
+            : base(game, fileName, position, depth)
         {
             Direction = direction;
             Life = life;

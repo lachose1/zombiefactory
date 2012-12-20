@@ -30,8 +30,8 @@ namespace zombiefactory
             IsLooping = true;
             ElapsedTime = 0.0f;
 
-            FrameWidth = SpriteSheet.Width / Frames;
-            FrameHeight = SpriteSheet.Height / Lines;
+            FrameWidth = Width / Frames;
+            FrameHeight = Height / Lines;
 
             Rectangles = new Rectangle[Lines, Frames]; //Like a matrix, the first index is the row (line), the second the column (frame)
 

@@ -24,6 +24,8 @@ namespace zombiefactory
         public Color Color { get; private set; }
         public SpriteEffects Effects { get; private set; }
         public float Depth { get; private set; }
+        public int Height { get; private set; }
+        public int Width { get; private set; }
         #endregion properties
 
         public Sprite(ZombieGame game, string fileName, Vector2 position, float depth)
@@ -38,6 +40,8 @@ namespace zombiefactory
             Origin = Vector2.Zero;
             Effects = SpriteEffects.None;
             Depth = depth;
+            Height = SpriteSheet.Height;
+            Width = SpriteSheet.Width;
         }
 
         public override void Initialize()
@@ -53,7 +57,7 @@ namespace zombiefactory
         public override void Draw(GameTime gameTime)
         {
             ZombieGame.SpriteBatch.Draw(SpriteSheet, new Vector2(Position.X, Position.Y),
-                new Rectangle((int)Position.X, (int)Position.Y, SpriteSheet.Width, SpriteSheet.Height), Color, Rotation, Origin, Scale, Effects, Depth);
+                new Rectangle(0, 0, Width, Height), Color, Rotation, Origin, Scale, Effects, Depth);
 
             base.Draw(gameTime);
         }
