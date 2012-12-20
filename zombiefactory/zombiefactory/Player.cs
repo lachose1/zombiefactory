@@ -29,7 +29,7 @@ namespace zombiefactory
             : base(game)
         {
             ZombieGame = game;
-            Sprite = new AnimatedSprite(ZombieGame, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos);
+            Sprite = new AnimatedSprite(ZombieGame, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, 0.1f);
         }
 
         public override void Initialize()

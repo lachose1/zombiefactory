@@ -28,7 +28,7 @@ namespace zombiefactory
         float ElapsedTime { get; set; }
         #endregion properties
 
-        public AnimatedSprite(ZombieGame game, string fileName, int frames, int lines, Vector2 position)
+        public AnimatedSprite(ZombieGame game, string fileName, int frames, int lines, Vector2 position, float depth)
             : base(game)
         {
             ZombieGame = game;
@@ -47,7 +47,7 @@ namespace zombiefactory
             Color = Color.White;
             Origin = Vector2.Zero;
             Effects = SpriteEffects.None;
-            Depth = 0.0f;
+            Depth = depth;
 
             Width = SpriteSheet.Width / Frames;
             Height = SpriteSheet.Height / Lines;

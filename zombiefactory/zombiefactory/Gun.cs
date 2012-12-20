@@ -28,7 +28,7 @@ namespace zombiefactory
             : base(game)
         {
             ZombieGame = game;
-            Sprite = new AnimatedSprite(ZombieGame, "Pistol", 1, 1, initPos);
+            Sprite = new AnimatedSprite(ZombieGame, "Pistol", 1, 1, initPos, 0.0f);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Shooting = false;
         }
