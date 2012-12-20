@@ -97,7 +97,20 @@ namespace zombiefactory
             x += Speed.X / ZombieGame.FpsHandler.FpsValue;
             y -= Speed.Y / ZombieGame.FpsHandler.FpsValue;
 
-            Sprite.Position = new Vector2(x, y);
+            if(!IsCollision(x, y))
+                Sprite.Position = new Vector2(x, y);
+        }
+
+        private bool IsCollision(float x, float y)
+        {
+            Rectangle futurePos = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
+            Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
+                ZombieGame.Monolith.Width, ZombieGame.Monolith.Height);
+
+            if (futurePos.Intersects(monolithRectangle)) //Eventually this will loop and test for every enemy's rectangle
+                return true;
+
+            return false;
         }
     }
 }
