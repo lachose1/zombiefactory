@@ -7,7 +7,7 @@ namespace zombiefactory
     {
         public Vector2 Direction { get; set; }
         public float Life { get; set; }
-        public bool IsAlive { get; private set; }
+        public bool IsAlive { get; set; }
         public float Speed { get; private set; }
 
         public Particle(ZombieGame game, string fileName, Vector2 position, Vector2 direction, float life, float depth, float speed)
@@ -16,6 +16,7 @@ namespace zombiefactory
             Direction = direction;
             Life = life;
             Speed = speed;
+            IsAlive = true;
         }
 
         public override void Initialize()
@@ -26,19 +27,18 @@ namespace zombiefactory
         public override void Update(GameTime gameTime)
         {
             Position += Direction * Speed / ZombieGame.FpsHandler.FpsValue;
-            Life -= 1 / ZombieGame.FpsHandler.FpsValue;
+            Life -= 1.0f / ZombieGame.FpsHandler.FpsValue;
 
-            if (Life > 0)
-            {
+            if (Life < 0)
                 IsAlive = false;
-            }
 
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
+            if(IsAlive)
+                base.Draw(gameTime);
         }
     }
 }

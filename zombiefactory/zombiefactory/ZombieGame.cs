@@ -29,6 +29,7 @@ namespace zombiefactory
         public Gun Gun { get; private set; }
         public Level Level { get; private set; }
         public Camera Camera { get; private set; }
+        public Sprite Monolith { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -60,6 +61,7 @@ namespace zombiefactory
             Gun = new Gun(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
+            Monolith = new Sprite(this, "Monolith", new Vector2(200.0f, 200.0f), 0.0f);
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
@@ -68,6 +70,7 @@ namespace zombiefactory
             Components.Add(Player);
             Components.Add(Gun);
             Components.Add(Camera);
+            Components.Add(Monolith);
 
             base.Initialize();
         }
@@ -79,6 +82,7 @@ namespace zombiefactory
             TextureMgr.Add("Sprites/Pistol");
             TextureMgr.Add("Sprites/Bullet");
             TextureMgr.Add("Tilesets/alttp_tiles");
+            TextureMgr.Add("Sprites/Monolith");
 
             SfxMgr.Add("Sounds/PistolShot");
         }

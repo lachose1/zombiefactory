@@ -17,7 +17,6 @@ namespace zombiefactory
         #region properties
         ZombieGame ZombieGame { get; set; }
         Sprite Sprite { get; set; }
-        float Direction { get; set; }
         int Damage { get; set; }
         int Ammo { get; set; }
         bool IsShooting { get; set; }
@@ -31,9 +30,9 @@ namespace zombiefactory
             ZombieGame = game;
             Sprite = new Sprite(ZombieGame, "Pistol", initPos, 0.0f);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
+            Sprite.Rotation = 3 * MathHelper.PiOver2;
             Emitters = new List<Emitter>();
-            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE,
-                new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length())));
+            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE));
             IsShooting = false;
             GunShotSound = ZombieGame.SfxMgr.Find("PistolShot");
         }
@@ -47,20 +46,22 @@ namespace zombiefactory
         {
             SetSpriteDirection();
             MoveSprite();
+            CheckCollision();
 
             if (IsShooting)
                 Emitters[0].addParticle("Bullet", Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)),
-                    200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length());
+                    200.0f, 0.0f, ComputeBulletSpeed());
 
-            Sprite.Update(gameTime);
-            for (int i = 0; i < Emitters.Count; i++)
-                Emitters[i].Update(gameTime, 0.01f);
+            foreach (Emitter emitter in Emitters)
+                emitter.Update(gameTime);
+
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             Sprite.Draw(gameTime);
+            Emitters[0].Draw(gameTime);
 
             base.Draw(gameTime);
         }
@@ -71,6 +72,31 @@ namespace zombiefactory
 
             if (IsShooting)
                 Sprite.Rotation = -(float)Math.Atan2((double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y, (double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X);
+            else
+            {
+                Vector2 directionStick = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left;
+                if (directionStick != Vector2.Zero)
+                {
+                    if (directionStick.Y > 0)
+                    {
+                        if (directionStick.Y > Math.Abs(directionStick.X))
+                            Sprite.Rotation = 3 * MathHelper.PiOver2;
+                        else if (directionStick.X > 0)
+                            Sprite.Rotation = 0.0f;
+                        else
+                            Sprite.Rotation = MathHelper.Pi;
+                    }
+                    else
+                    {
+                        if (Math.Abs(directionStick.Y) > Math.Abs(directionStick.X))
+                            Sprite.Rotation = MathHelper.PiOver2;
+                        else if (directionStick.X > 0)
+                            Sprite.Rotation = 0.0f;
+                        else
+                            Sprite.Rotation = MathHelper.Pi;
+                    }
+                }
+            }
 
         }
 
@@ -81,6 +107,31 @@ namespace zombiefactory
             float y = PlayerPosition.Y + ZombieGame.Player.Sprite.FrameHeight / 2;
 
             Sprite.Position = new Vector2(x, y);
+        }
+
+        private float ComputeBulletSpeed()
+        {
+            float bulletSpeedX = (float)Math.Cos(Sprite.Rotation) * PISTOL_BULLET_SPEED;
+            float bulletSpeedY = (float)Math.Sin(Sprite.Rotation) * PISTOL_BULLET_SPEED;
+            bulletSpeedX += ZombieGame.Player.Speed.X;
+            bulletSpeedY -= ZombieGame.Player.Speed.Y;
+
+            Vector2 bulletSpeed = new Vector2(bulletSpeedX, bulletSpeedY);
+
+            return bulletSpeed.Length();
+        }
+
+        private void CheckCollision()
+        {
+            Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
+                ZombieGame.Monolith.Width, ZombieGame.Monolith.Height);
+
+            foreach (Particle particle in Emitters[0].ActiveParticles)
+            {
+                Rectangle particleRectangle = new Rectangle((int)particle.Position.X, (int)particle.Position.Y, particle.Width, particle.Height);
+                if (particleRectangle.Intersects(monolithRectangle))
+                    particle.IsAlive = false;
+            }
         }
     }
 }
