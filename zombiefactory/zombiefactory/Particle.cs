@@ -9,8 +9,8 @@ namespace zombiefactory
         public float Life { get; set; }
         public bool IsAlive { get; private set; }
 
-        public Particle(ZombieGame game, string fileName, int frames, int lines, Vector2 position, Vector2 direction, float life)
-            : base(game, fileName, frames, lines, position)
+        public Particle(ZombieGame game, string fileName, int frames, int lines, Vector2 position, Vector2 direction, float life, float depth)
+            : base(game, fileName, frames, lines, position, depth)
         {
             Direction = direction;
             Life = life;

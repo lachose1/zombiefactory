@@ -58,7 +58,7 @@ namespace zombiefactory
             Player = new Player(this, new Vector2(100.0f, 100.0f));
             Gun = new Gun(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
-            
+
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
             Components.Add(FpsDisplayer);
@@ -74,6 +74,7 @@ namespace zombiefactory
             FontMgr.Add("Fonts/Arial14");
             TextureMgr.Add("Sprites/Link");
             TextureMgr.Add("Sprites/Pistol");
+            TextureMgr.Add("Sprites/Bullet");
             TextureMgr.Add("Tilesets/alttp_tiles");
         }
 

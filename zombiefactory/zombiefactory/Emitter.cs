@@ -70,7 +70,7 @@ namespace zombiefactory
             {
                 return;
             }
-            ActiveParticles.AddLast(new Particle(ZombieGame, fileName, frames, lines, position, direction, life));
+            ActiveParticles.AddLast(new Particle(ZombieGame, fileName, frames, lines, position, direction, life, 0.0f));
             ZombieGame.Components.Add(ActiveParticles.Last.Value);
             TimeSinceLastSpawn = 0.0f;
         }
@@ -81,7 +81,7 @@ namespace zombiefactory
             {
                 return;
             }
-            ActiveParticles.AddLast(new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(200.0f, 200.0f), 200.0f));
+            ActiveParticles.AddLast(new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(200.0f, 200.0f), 200.0f, 0.0f));
             ZombieGame.Components.Add(ActiveParticles.Last.Value);
             TimeSinceLastSpawn = 0.0f;
         }
