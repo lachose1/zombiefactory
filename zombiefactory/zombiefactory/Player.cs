@@ -5,7 +5,7 @@ namespace zombiefactory
 {
     public class Player : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        public enum Direction { Up, Right, Down, Left };
+        public enum Direction { Up, Right, Down, Left, NbDirections };
         public const string SPRITE_NAME = "Link";
         public const int SPRITE_FRAMES = 3;
         public const int SPRITE_LINES = 4;
@@ -106,11 +106,22 @@ namespace zombiefactory
             Rectangle futurePos = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
             Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
                 ZombieGame.Monolith.Width, ZombieGame.Monolith.Height);
-            int tileType = ZombieGame.Level.TileType[(int)(y / ZombieGame.Level.Tileset.TileHeight),
-                (int)(x / ZombieGame.Level.Tileset.TileWidth)]; //Evidemment ne fonctionne pas si le player va en x < 0 ou y < 0
 
-            if (tileType == 82 || tileType == 146 || tileType == 147 || tileType == 162 || tileType == 163)
-            return true;
+            int[] tileType = new int[4]; // Tiles a 4 points, un sur chaque cote du sprite
+            tileType[(int)Direction.Up] = ZombieGame.Level.TileType[(int)(y / ZombieGame.Level.Tileset.TileHeight),
+                (int)((x + Sprite.FrameWidth / 2) / ZombieGame.Level.Tileset.TileWidth)]; //Evidemment ne fonctionne pas si le player va en x < 0 ou y < 0
+            tileType[(int)Direction.Right] = ZombieGame.Level.TileType[(int)((y + Sprite.FrameHeight / 2) / ZombieGame.Level.Tileset.TileHeight),
+                (int)((x + Sprite.FrameWidth) / ZombieGame.Level.Tileset.TileWidth)];
+            tileType[(int)Direction.Down] = ZombieGame.Level.TileType[(int)((y + Sprite.FrameHeight) / ZombieGame.Level.Tileset.TileHeight),
+                (int)((x + Sprite.FrameWidth / 2) / ZombieGame.Level.Tileset.TileWidth)];
+            tileType[(int)Direction.Left] = ZombieGame.Level.TileType[(int)((y + Sprite.FrameHeight / 2) / ZombieGame.Level.Tileset.TileHeight),
+                    (int)(x / ZombieGame.Level.Tileset.TileWidth)];
+
+            for (int i = 0; i < (int)Direction.NbDirections; ++i)
+            {
+                if (tileType[i] == 82 || tileType[i] == 146 || tileType[i] == 147 || tileType[i] == 162 || tileType[i] == 163)
+                    return true;
+            }
             if (futurePos.Intersects(monolithRectangle)) //Eventually this will loop and test for every enemy's rectangle
                 return true;
 
