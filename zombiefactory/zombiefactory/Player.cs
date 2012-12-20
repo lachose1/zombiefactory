@@ -23,6 +23,7 @@ namespace zombiefactory
         #region properties
         ZombieGame ZombieGame { get; set; }
         public AnimatedSprite Sprite { get; private set; }
+        public Vector2 Speed { get; private set; }
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)
@@ -34,6 +35,8 @@ namespace zombiefactory
 
         public override void Initialize()
         {
+            Speed = Vector2.Zero;
+
             base.Initialize();
         }
 
@@ -95,9 +98,13 @@ namespace zombiefactory
         {
             float x = Sprite.Position.X;
             float y = Sprite.Position.Y;
+            float speedX = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X * MAX_SPEED;
+            float speedY = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y * MAX_SPEED;
 
-            x += ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X * MAX_SPEED / ZombieGame.FpsHandler.FpsValue;
-            y -= ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y * MAX_SPEED / ZombieGame.FpsHandler.FpsValue;
+            Speed = new Vector2(speedX, speedY);
+
+            x += Speed.X / ZombieGame.FpsHandler.FpsValue;
+            y -= Speed.Y / ZombieGame.FpsHandler.FpsValue;
 
             Sprite.Position = new Vector2(x, y);
         }

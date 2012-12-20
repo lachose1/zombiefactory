@@ -1,13 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 
 namespace zombiefactory
@@ -16,8 +9,9 @@ namespace zombiefactory
     {
 
         const float STICK_THRESHOLD = 0.04f;
-        //Guns' fire rates
+        //Guns' fire rates and bullet speeds
         const float PISTOL_FIRE_RATE = 0.25f;
+        const float PISTOL_BULLET_SPEED = 1000.0f;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
@@ -36,7 +30,8 @@ namespace zombiefactory
             Sprite = new Sprite(ZombieGame, "Pistol", initPos, 0.0f);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Emitters = new List<Emitter>();
-            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE, new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f)));
+            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE,
+                new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length())));
             IsShooting = false;
         }
 
@@ -51,7 +46,8 @@ namespace zombiefactory
             MoveSprite();
 
             if (IsShooting)
-                Emitters[0].addParticle("Bullet", Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f);
+                Emitters[0].addParticle("Bullet", Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)),
+                    200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length());
 
             Sprite.Update(gameTime);
             for (int i = 0; i < Emitters.Count; i++)
