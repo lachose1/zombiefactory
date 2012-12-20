@@ -31,7 +31,19 @@ namespace zombiefactory
             while (node != null)
             {
                 node.Value.Update(gameTime);
+                bool alive = node.Value.IsAlive;
                 node = node.Next;
+
+                if (node != null)
+                {
+                    if (!alive)
+                        ActiveParticles.Remove(node.Previous.Value);
+                }
+                else
+                {
+                    if (!alive)
+                        ActiveParticles.RemoveLast();
+                }
             }
             //if (AutomaticSpawn)
             //    addParticle(ParticleToSpawn);
@@ -39,7 +51,6 @@ namespace zombiefactory
             TimeSinceLastSpawn += 1.0f / ZombieGame.FpsHandler.FpsValue;
         }
 
-        //Cette fonction n'est jamais appellee...
         public override void Draw(GameTime gameTime)
         {
             LinkedListNode<Particle> node = ActiveParticles.First;
@@ -55,7 +66,6 @@ namespace zombiefactory
             if (TimeSinceLastSpawn > TimeBetweenSpawn)
             {
                 ActiveParticles.AddLast(new Particle(ZombieGame, fileName, position, direction, life, depth, speed));
-                //ZombieGame.Components.Add(ActiveParticles.Last.Value);
                 TimeSinceLastSpawn = 0.0f;
             }
         }
