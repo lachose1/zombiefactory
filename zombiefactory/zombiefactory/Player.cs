@@ -101,10 +101,5 @@ namespace zombiefactory
 
             Sprite.Position = new Vector2(x, y);
         }
-
-        public Vector2 GetPosition()
-        {
-            return Sprite.Position;
-        }
     }
 }

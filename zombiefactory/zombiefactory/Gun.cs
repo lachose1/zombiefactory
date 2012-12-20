@@ -68,27 +68,20 @@ namespace zombiefactory
 
         private void SetSpriteDirection()
         {
-            if (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > STICK_THRESHOLD || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > STICK_THRESHOLD)
-            {
+            Shooting = (Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X) > STICK_THRESHOLD || Math.Abs(ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y) > STICK_THRESHOLD);
+
+            if (Shooting)
                 Sprite.Rotation = -(float)Math.Atan2((double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y, (double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X);
-                Shooting = true;
-            }
-            else
-                Shooting = false;
+
         }
 
         private void MoveSprite()
         {
-            Vector2 PlayerPosition = ZombieGame.Player.GetPosition();
+            Vector2 PlayerPosition = ZombieGame.Player.Sprite.Position;
             float x = PlayerPosition.X + ZombieGame.Player.Sprite.Width / 2 + Sprite.Width / 2;
             float y = PlayerPosition.Y + ZombieGame.Player.Sprite.Height / 2;
 
             Sprite.Position = new Vector2(x, y);
-        }
-
-        public Vector2 GetPosition()
-        {
-            return Sprite.Position;
         }
     }
 }

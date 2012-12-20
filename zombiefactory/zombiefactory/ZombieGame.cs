@@ -93,10 +93,7 @@ namespace zombiefactory
         {
             if (InputMgr.ControllerState.Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            
-            //EmitterTest.addParticle("Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(300.0f, 300.0f), 200.0f);
 
-            // TODO: Add your update logic here
             base.Update(gameTime);
         }
 
