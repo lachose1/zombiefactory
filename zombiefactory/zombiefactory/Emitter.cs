@@ -31,10 +31,10 @@ namespace zombiefactory
             LinkedListNode<Particle> node = ActiveParticles.First;
             while (node != null)
             {
-                bool isAlive = node.Value.Update(gameTime, dt);
-                node = node.Next;
-                if (!isAlive)
+                node.Value.Update(gameTime);
+                if (!node.Value.IsAlive)
                 {
+                    node = node.Next;
                     if (node == null)
                     {
                         ActiveParticles.RemoveLast();
@@ -45,13 +45,13 @@ namespace zombiefactory
                     }
                 }
             }
-            if (AutomaticSpawn == true)
-                if (TimeSinceLastSpawn > TimeBetweenSpawn)
-                {
-                    addParticle(ParticleToSpawn);
-                    TimeSinceLastSpawn = 0.0f;
-                }
-            TimeSinceLastSpawn += 0.1f;
+            //if (AutomaticSpawn)
+            //    if (TimeSinceLastSpawn >= TimeBetweenSpawn)
+            //    {
+            //        addParticle(ParticleToSpawn);
+            //        TimeSinceLastSpawn = 0.0f;
+            //    }
+            TimeSinceLastSpawn += 0.1f; //Mofidier pour les FPS
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -66,14 +66,24 @@ namespace zombiefactory
 
         public void addParticle(string fileName, int frames, int lines, Vector2 position, Vector2 direction, float life)
         {
+            if (TimeSinceLastSpawn < TimeBetweenSpawn)
+            {
+                return;
+            }
             ActiveParticles.AddLast(new Particle(ZombieGame, fileName, frames, lines, position, direction, life));
             ZombieGame.Components.Add(ActiveParticles.Last.Value);
+            TimeSinceLastSpawn = 0.0f;
         }
 
         public void addParticle(Particle particle)
         {
+            if (TimeSinceLastSpawn < TimeBetweenSpawn)
+            {
+                return;
+            }
             ActiveParticles.AddLast(new Particle(ZombieGame, "Pistol", 1, 1, new Vector2(200.0f, 200.0f), new Vector2(200.0f, 200.0f), 200.0f));
             ZombieGame.Components.Add(ActiveParticles.Last.Value);
+            TimeSinceLastSpawn = 0.0f;
         }
     }
 }

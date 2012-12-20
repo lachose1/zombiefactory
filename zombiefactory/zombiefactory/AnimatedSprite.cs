@@ -8,7 +8,7 @@ namespace zombiefactory
         public const float UPDATE_TIME = 1.0f / 10.0f; //Will change to variable eventually, so anim speed can be adjusted for each spritesheet.
 
         #region properties
-        ZombieGame ZombieGame { get; set; }
+        protected ZombieGame ZombieGame { get; set; }
         Texture2D SpriteSheet { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Origin { get; set; }
