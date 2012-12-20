@@ -29,6 +29,7 @@ namespace zombiefactory
             ZombieGame = game;
             Sprite = new Sprite(ZombieGame, "Pistol", initPos, 0.0f);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
+            Sprite.Rotation = 3 * MathHelper.PiOver2;
             Emitters = new List<Emitter>();
             Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE,
                 new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length())));
@@ -68,6 +69,31 @@ namespace zombiefactory
 
             if (IsShooting)
                 Sprite.Rotation = -(float)Math.Atan2((double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.Y, (double)ZombieGame.InputMgr.ControllerState.ThumbSticks.Right.X);
+            else
+            {
+                Vector2 directionStick = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left;
+                if (directionStick != Vector2.Zero)
+                {
+                    if (directionStick.Y > 0)
+                    {
+                        if (directionStick.Y > Math.Abs(directionStick.X))
+                            Sprite.Rotation = 3 * MathHelper.PiOver2;
+                        else if (directionStick.X > 0)
+                            Sprite.Rotation = 0.0f;
+                        else
+                            Sprite.Rotation = MathHelper.Pi;
+                    }
+                    else
+                    {
+                        if (Math.Abs(directionStick.Y) > Math.Abs(directionStick.X))
+                            Sprite.Rotation = MathHelper.PiOver2;
+                        else if (directionStick.X > 0)
+                            Sprite.Rotation = 0.0f;
+                        else
+                            Sprite.Rotation = MathHelper.Pi;
+                    }
+                }
+            }
 
         }
 
