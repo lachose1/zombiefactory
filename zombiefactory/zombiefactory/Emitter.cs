@@ -68,6 +68,7 @@ namespace zombiefactory
                 ActiveParticles.AddLast(new Particle(ZombieGame, fileName, position, direction, life, depth, speed));
                 ZombieGame.Components.Add(ActiveParticles.Last.Value);
                 TimeSinceLastSpawn = 0.0f;
+                ZombieGame.Gun.GunShotSound.Play();
             }
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 
 namespace zombiefactory
@@ -11,7 +12,7 @@ namespace zombiefactory
         const float STICK_THRESHOLD = 0.04f;
         //Guns' fire rates and bullet speeds
         const float PISTOL_FIRE_RATE = 0.25f;
-        const float PISTOL_BULLET_SPEED = 1000.0f;
+        const float PISTOL_BULLET_SPEED = 500.0f;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
@@ -21,6 +22,7 @@ namespace zombiefactory
         int Ammo { get; set; }
         bool IsShooting { get; set; }
         List<Emitter> Emitters;
+        public SoundEffect GunShotSound { get; set; }
         #endregion properties
 
         public Gun(ZombieGame game, Vector2 initPos)
@@ -33,6 +35,7 @@ namespace zombiefactory
             Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE,
                 new Particle(ZombieGame, "Pistol", new Vector2(200.0f, 200.0f), new Vector2(0.0f, 300.0f), 200.0f, 0.0f, PISTOL_BULLET_SPEED + ZombieGame.Player.Speed.Length())));
             IsShooting = false;
+            GunShotSound = ZombieGame.SfxMgr.Find("PistolShot");
         }
 
         public override void Initialize()

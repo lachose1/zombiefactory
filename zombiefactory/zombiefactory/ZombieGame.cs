@@ -79,6 +79,8 @@ namespace zombiefactory
             TextureMgr.Add("Sprites/Pistol");
             TextureMgr.Add("Sprites/Bullet");
             TextureMgr.Add("Tilesets/alttp_tiles");
+
+            SfxMgr.Add("Sounds/PistolShot");
         }
 
         protected override void LoadContent()
