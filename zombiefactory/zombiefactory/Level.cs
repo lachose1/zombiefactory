@@ -7,7 +7,7 @@ namespace zombiefactory
 {
     public class Level : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        Tileset Tileset { get; set; }
+        public Tileset Tileset { get; private set; }
         ZombieGame ZombieGame { get; set; }
         Vector2 Origin { get; set; }
         float Rotation { get; set; }
@@ -17,7 +17,7 @@ namespace zombiefactory
         float Depth { get; set; }
         int Width { get; set; }
         int Height { get; set; }
-        int[,] TileType { get; set; }
+        public int[,] TileType { get; private set; }
 
         //Idealement le nom et la taille du tileset vont tous aller dans le fichier lvl.dat ou wtv, et on va juste passer game et levelName
         public Level(ZombieGame game, string levelName)

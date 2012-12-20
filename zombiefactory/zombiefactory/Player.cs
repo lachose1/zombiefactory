@@ -106,9 +106,14 @@ namespace zombiefactory
             Rectangle futurePos = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
             Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
                 ZombieGame.Monolith.Width, ZombieGame.Monolith.Height);
+            int tileType = ZombieGame.Level.TileType[(int)(y / ZombieGame.Level.Tileset.TileHeight),
+                (int)(x / ZombieGame.Level.Tileset.TileWidth)]; //Evidemment ne fonctionne pas si le player va en x < 0 ou y < 0
 
+            if (tileType == 82 || tileType == 146 || tileType == 147 || tileType == 162 || tileType == 163)
+            return true;
             if (futurePos.Intersects(monolithRectangle)) //Eventually this will loop and test for every enemy's rectangle
                 return true;
+
 
             return false;
         }
