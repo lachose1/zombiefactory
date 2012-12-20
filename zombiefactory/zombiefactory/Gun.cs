@@ -11,7 +11,7 @@ namespace zombiefactory
         const float STICK_THRESHOLD = 0.04f;
         //Guns' fire rates and bullet speeds
         const float PISTOL_FIRE_RATE = 0.25f;
-        const float PISTOL_BULLET_SPEED = 1000.0f;
+        const float PISTOL_BULLET_SPEED = 800.0f;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
