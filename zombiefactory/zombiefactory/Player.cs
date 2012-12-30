@@ -3,31 +3,23 @@ using Microsoft.Xna.Framework;
 
 namespace zombiefactory
 {
-    public class Player : Microsoft.Xna.Framework.DrawableGameComponent
+    public class Player : Character
     {
-        public enum Direction { Up, Right, Down, Left, NbDirections };
+        #region constants
         public const string SPRITE_NAME = "Link";
         public const int SPRITE_FRAMES = 3;
         public const int SPRITE_LINES = 4;
         public const float MAX_SPEED = 150.0f;
-
-        #region properties
-        ZombieGame ZombieGame { get; set; }
-        public AnimatedSprite Sprite { get; private set; }
-        public Vector2 Speed { get; private set; }
-        #endregion properties
+        public const float DEPTH = 0.1f;
+        #endregion constants
 
         public Player(ZombieGame game, Vector2 initPos)
-            : base(game)
+            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH)
         {
-            ZombieGame = game;
-            Sprite = new AnimatedSprite(ZombieGame, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, 0.1f);
         }
 
         public override void Initialize()
         {
-            Speed = Vector2.Zero;
-
             base.Initialize();
         }
 
@@ -36,15 +28,11 @@ namespace zombiefactory
             SetSpriteDirection();
             MoveSprite();
 
-            Sprite.Update(gameTime);
-
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            Sprite.Draw(gameTime);
-
             base.Draw(gameTime);
         }
 
@@ -85,7 +73,7 @@ namespace zombiefactory
             }
         }
 
-        private void MoveSprite()
+        protected override void MoveSprite()
         {
             float x = Sprite.Position.X;
             float y = Sprite.Position.Y;
@@ -101,7 +89,7 @@ namespace zombiefactory
                 Sprite.Position = new Vector2(x, y);
         }
 
-        private bool IsCollision(float x, float y)
+        protected override bool IsCollision(float x, float y)
         {
             Rectangle futurePos = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
             Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
@@ -117,11 +105,13 @@ namespace zombiefactory
             tileType[(int)Direction.Left] = ZombieGame.Level.TileType[(int)((y + Sprite.FrameHeight / 2) / ZombieGame.Level.Tileset.TileHeight),
                     (int)(x / ZombieGame.Level.Tileset.TileWidth)];
 
+            //It's important that the terrain collision is done before the enemy collision, because it is much quicker than enemy collision, so we can avoid wasted cycles
             for (int i = 0; i < (int)Direction.NbDirections; ++i)
             {
                 if (tileType[i] == 82 || tileType[i] == 146 || tileType[i] == 147 || tileType[i] == 162 || tileType[i] == 163)
                     return true;
             }
+
             if (futurePos.Intersects(monolithRectangle)) //Eventually this will loop and test for every enemy's rectangle
                 return true;
 
