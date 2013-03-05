@@ -30,6 +30,7 @@ namespace zombiefactory
         public Level Level { get; private set; }
         public Camera Camera { get; private set; }
         public Sprite Monolith { get; private set; }
+        public Ennemy EnnemyTest { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -62,6 +63,7 @@ namespace zombiefactory
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
             Monolith = new Sprite(this, "Monolith", new Vector2(200.0f, 200.0f), 0.0f);
+            EnnemyTest = new Ennemy(this, new Vector2(200.0f, 300.0f), 75.0f);
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
@@ -71,6 +73,7 @@ namespace zombiefactory
             Components.Add(Gun);
             Components.Add(Camera);
             Components.Add(Monolith);
+            Components.Add(EnnemyTest);
 
             base.Initialize();
         }

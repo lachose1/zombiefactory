@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace zombiefactory
 {
-    class Ennemy : Character
+    public class Ennemy : Character
     {
         #region constants
         public const string SPRITE_NAME = "Link";
@@ -73,10 +73,14 @@ namespace zombiefactory
             //Run AI code for movement
             float x = Sprite.Position.X;
             float y = Sprite.Position.Y;
-            int Direction = Sprite.CurLine;
+            float PlayerX = ZombieGame.Player.Sprite.Position.X;
+            float PlayerY = ZombieGame.Player.Sprite.Position.Y;
 
-            float speedX = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X * MaxSpeed;
-            float speedY = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y * MaxSpeed;
+            float DistanceX = PlayerX - x;
+            float DistanceY = PlayerY - y;
+
+            float speedX = DistanceX * MaxSpeed;
+            float speedY = DistanceY * MaxSpeed;
 
             Speed = new Vector2(speedX, speedY);
 
