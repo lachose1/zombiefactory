@@ -5,7 +5,7 @@ namespace zombiefactory
 {
     public class AnimatedSprite : Sprite
     {
-        public const float UPDATE_TIME = 1.0f / 10.0f; //Will change to variable eventually, so anim speed can be adjusted for each spritesheet.
+         //Will change to variable eventually, so anim speed can be adjusted for each spritesheet.
 
         #region properties
         Rectangle[,] Rectangles;
@@ -16,10 +16,11 @@ namespace zombiefactory
         public int CurFrame { get; private set; }
         public int FrameWidth { get; private set; }
         public int FrameHeight { get; private set; }
+        public float UpdateTime { get; private set; }
         float ElapsedTime { get; set; }
         #endregion properties
 
-        public AnimatedSprite(ZombieGame game, string fileName, int frames, int lines, Vector2 position, float depth)
+        public AnimatedSprite(ZombieGame game, string fileName, int frames, int lines, Vector2 position, float depth, float updateTime)
             : base(game, fileName, position, depth)
         {
             Frames = frames;
@@ -27,7 +28,8 @@ namespace zombiefactory
 
             CurLine = 0;
             CurFrame = 0;
-            IsLooping = true;
+            IsLooping = false;
+            UpdateTime = updateTime;
             ElapsedTime = 0.0f;
 
             FrameWidth = Width / Frames;
@@ -55,9 +57,9 @@ namespace zombiefactory
             {
                 ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (ElapsedTime >= UPDATE_TIME)
+                if (ElapsedTime >= UpdateTime)
                 {
-                    ElapsedTime -= UPDATE_TIME;
+                    ElapsedTime -= UpdateTime;
 
                     CurFrame++;
                     CurFrame %= Frames;

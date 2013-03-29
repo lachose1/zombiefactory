@@ -10,6 +10,7 @@ namespace zombiefactory
         public const int SPRITE_FRAMES = 3;
         public const int SPRITE_LINES = 4;
         public const float DEPTH = 0.1f;
+        public const float UPDATE_TIME = 1.0f / 10.0f;
         #endregion constants
 
         #region properties
@@ -18,7 +19,7 @@ namespace zombiefactory
         #endregion properties
 
         public Ennemy(ZombieGame game, Vector2 initPos, float maxSpeed)
-            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH)
+            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME)
         {
             MaxSpeed = maxSpeed;
         }

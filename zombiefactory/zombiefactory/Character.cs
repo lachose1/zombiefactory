@@ -13,11 +13,11 @@ namespace zombiefactory
         public Vector2 Speed { get; protected set; }
         #endregion properties
 
-        public Character(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 initPos, float depth)
+        public Character(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 initPos, float depth, float updateTime)
             : base(game)
         {
             ZombieGame = game;
-            Sprite = new AnimatedSprite(ZombieGame, spriteName, spriteFrames, spriteLines, initPos, depth);
+            Sprite = new AnimatedSprite(ZombieGame, spriteName, spriteFrames, spriteLines, initPos, depth, updateTime);
         }
 
         public override void Initialize()
