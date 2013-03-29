@@ -50,21 +50,21 @@ namespace zombiefactory
 
             if (PlayerY > Sprite.Position.Y)
             {
-                if (PlayerY > Math.Abs(PlayerX))
-                    Sprite.CurLine = (int)Direction.Up;
-                if (PlayerX < Sprite.Position.X)
-                    Sprite.CurLine = (int)Direction.Left;
-                else
+                if ((PlayerY - Sprite.Position.Y) > Math.Abs(PlayerX - Sprite.Position.X))
+                    Sprite.CurLine = (int)Direction.Down;
+                else if (PlayerX > Sprite.Position.X)
                     Sprite.CurLine = (int)Direction.Right;
+                else
+                    Sprite.CurLine = (int)Direction.Left;
             }
             else
             {
-                if (PlayerX > Math.Abs(PlayerY))
+                if (Math.Abs(PlayerY - Sprite.Position.Y) > Math.Abs(PlayerX - Sprite.Position.X))
                     Sprite.CurLine = (int)Direction.Up;
-                if (PlayerX < Sprite.Position.X)
-                    Sprite.CurLine = (int)Direction.Left;
-                else
+                else if (PlayerX > Sprite.Position.X)
                     Sprite.CurLine = (int)Direction.Right;
+                else
+                    Sprite.CurLine = (int)Direction.Left;
             }
 
         }
