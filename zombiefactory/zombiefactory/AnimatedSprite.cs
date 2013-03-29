@@ -5,8 +5,6 @@ namespace zombiefactory
 {
     public class AnimatedSprite : Sprite
     {
-         //Will change to variable eventually, so anim speed can be adjusted for each spritesheet.
-
         #region properties
         Rectangle[,] Rectangles;
         public int Frames { get; private set; }
