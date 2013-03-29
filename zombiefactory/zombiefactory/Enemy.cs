@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace zombiefactory
 {
-    public class Ennemy : Character
+    public class Enemy : Character
     {
         #region constants
         public const string SPRITE_NAME = "Link";
@@ -18,7 +18,7 @@ namespace zombiefactory
         public bool IsMoving { get; protected set; }
         #endregion properties
 
-        public Ennemy(ZombieGame game, Vector2 initPos, float maxSpeed)
+        public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed)
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME)
         {
             MaxSpeed = maxSpeed;
@@ -44,7 +44,8 @@ namespace zombiefactory
 
         private void SetSpriteDirection()
         {
-            //Run AI code for direction
+            //TODO: Run AI code for direction, according to enemy type
+            //Currently simply looks at the player
             float PlayerX = ZombieGame.Player.Sprite.Position.X;
             float PlayerY = ZombieGame.Player.Sprite.Position.Y;
 
@@ -71,7 +72,8 @@ namespace zombiefactory
 
         protected override void MoveSprite()
         {
-            //Run AI code for movement
+            //TODO: Run AI code for movement, according to enemy type
+            //Currently simply follows the player
             float x = Sprite.Position.X;
             float y = Sprite.Position.Y;
             float PlayerX = ZombieGame.Player.Sprite.Position.X;
