@@ -11,11 +11,13 @@ namespace zombiefactory
         public const int SPRITE_LINES = 4;
         public const float DEPTH = 0.1f;
         public const float UPDATE_TIME = 1.0f / 10.0f;
+        public const float ATTACK_DELAY = 0.5f; //seconds between attacks
         #endregion constants
 
         #region properties
         int Damage { get; set; }
         public bool IsMoving { get; protected set; } //Useless? Delete?
+        float TimeSinceLastAttack { get; set; }
         #endregion properties
 
         public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed, int maxHealth, int damage)
@@ -32,6 +34,8 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
+            TimeSinceLastAttack += 1.0f / ZombieGame.FpsHandler.FpsValue;
+
             SetSpriteDirection();
             MoveSprite();
 
@@ -87,7 +91,7 @@ namespace zombiefactory
             x += Speed.X / ZombieGame.FpsHandler.FpsValue;
             y += Speed.Y / ZombieGame.FpsHandler.FpsValue;
 
-            if(!IsCollision(x, y))
+            if (!IsCollision(x, y))
                 Sprite.Position = new Vector2(x, y);
         }
 
@@ -97,7 +101,14 @@ namespace zombiefactory
                 return true;
 
             if (IsPlayerCollision(x, y))
+            {
+                if (TimeSinceLastAttack > ATTACK_DELAY)
+                {
+                    ZombieGame.Player.TakeDamage(Damage);
+                    TimeSinceLastAttack = 0.0f;
+                }
                 return true;
+            }
 
             return false;
         }
@@ -108,13 +119,7 @@ namespace zombiefactory
             Rectangle playerRect = new Rectangle((int)ZombieGame.Player.Sprite.Position.X, (int)ZombieGame.Player.Sprite.Position.Y,
                     ZombieGame.Player.Sprite.FrameWidth, ZombieGame.Player.Sprite.FrameHeight);
 
-            if (futureEnemyRect.Intersects(playerRect))
-            {
-                ZombieGame.Player.TakeDamage(Damage);
-                return true;
-            }
-
-            return false;
+            return futureEnemyRect.Intersects(playerRect);
         }
     }
 }

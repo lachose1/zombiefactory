@@ -99,7 +99,7 @@ namespace zombiefactory
 
         protected override void Update(GameTime gameTime)
         {
-            if (InputMgr.ControllerState.Buttons.Back == ButtonState.Pressed) //Back quits game for now
+            if (InputMgr.ControllerState.Buttons.Back == ButtonState.Pressed || !Player.IsAlive) //Back quits game for now
                 this.Exit();
 
             if (InputMgr.IsNewKey(Keys.F)) //F toggles FPS displayer
