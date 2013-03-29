@@ -26,11 +26,9 @@ namespace zombiefactory
         public FpsCounter FpsHandler { get; private set; }
         private FpsDisplay FpsDisplayer { get; set; } //Does not follow the camera yet
         public Player Player { get; private set; }
-        public Gun Gun { get; private set; }
         public Level Level { get; private set; }
         public Camera Camera { get; private set; }
-        public Sprite Monolith { get; private set; }
-        public Enemy EnemyTest { get; private set; }
+        public List<Enemy> Enemies { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -58,11 +56,10 @@ namespace zombiefactory
             InputMgr = new InputManager(this);
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
-            Gun = new Gun(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
-            Monolith = new Sprite(this, "Monolith", new Vector2(200.0f, 200.0f), 0.0f);
-            EnemyTest = new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f);
+            Enemies = new List<Enemy>();
+            Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f));
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
@@ -72,10 +69,7 @@ namespace zombiefactory
             Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
-            Components.Add(Gun);
             Components.Add(Camera);
-            Components.Add(Monolith);
-            Components.Add(EnemyTest);
 
             base.Initialize();
         }
@@ -111,6 +105,9 @@ namespace zombiefactory
             if (InputMgr.IsNewKey(Keys.F)) //F toggles FPS displayer
                 FpsDisplayer.Enabled = !FpsDisplayer.Enabled;
 
+            foreach (Enemy enemy in Enemies)
+                enemy.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -126,6 +123,9 @@ namespace zombiefactory
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            foreach (Enemy enemy in Enemies)
+                enemy.Draw(gameTime);
 
             base.Draw(gameTime);
         }

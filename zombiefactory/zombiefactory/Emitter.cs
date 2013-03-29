@@ -61,14 +61,17 @@ namespace zombiefactory
             }
         }
 
-        public void addParticle(string fileName, Vector2 position, Vector2 direction, float life, float depth, float speed)
+        public bool addParticle(string fileName, Vector2 position, Vector2 direction, float life, float depth, float speed)
         {
-            if (TimeSinceLastSpawn > TimeBetweenSpawn)
+            bool particleAdded = TimeSinceLastSpawn > TimeBetweenSpawn;
+
+            if (particleAdded)
             {
                 ActiveParticles.AddLast(new Particle(ZombieGame, fileName, position, direction, life, depth, speed));
                 TimeSinceLastSpawn = 0.0f;
-                ZombieGame.Gun.GunShotSound.Play();
             }
+
+            return particleAdded;
         }
     }
 }

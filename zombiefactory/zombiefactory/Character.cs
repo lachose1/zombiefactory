@@ -18,6 +18,7 @@ namespace zombiefactory
         {
             ZombieGame = game;
             Sprite = new AnimatedSprite(ZombieGame, spriteName, spriteFrames, spriteLines, initPos, depth, updateTime);
+
         }
 
         public override void Initialize()
