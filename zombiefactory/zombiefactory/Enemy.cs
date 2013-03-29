@@ -87,12 +87,28 @@ namespace zombiefactory
             x += Speed.X / ZombieGame.FpsHandler.FpsValue;
             y += Speed.Y / ZombieGame.FpsHandler.FpsValue;
 
-            Sprite.Position = new Vector2(x, y);
+            if(!IsCollision(x, y))
+                Sprite.Position = new Vector2(x, y);
         }
 
         protected override bool IsCollision(float x, float y)
         {
+            if (IsTerrainCollision(x, y))
+                return true;
+
+            if (IsPlayerCollision(x, y))
+                return true;
+
             return false;
+        }
+
+        private bool IsPlayerCollision(float x, float y)
+        {
+            Rectangle futureEnemyRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
+            Rectangle playerRect = new Rectangle((int)ZombieGame.Player.Sprite.Position.X, (int)ZombieGame.Player.Sprite.Position.Y,
+                    ZombieGame.Player.Sprite.FrameWidth, ZombieGame.Player.Sprite.FrameHeight);
+
+            return futureEnemyRect.Intersects(playerRect);
         }
     }
 }

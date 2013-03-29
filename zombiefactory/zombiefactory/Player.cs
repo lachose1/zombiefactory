@@ -101,30 +101,28 @@ namespace zombiefactory
 
         protected override bool IsCollision(float x, float y)
         {
-            Rectangle futurePos = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
-            //Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
-            //    ZombieGame.Monolith.Width, ZombieGame.Monolith.Height);
-
-            int[] tileType = new int[4]; // Tiles a 4 points, un sur chaque cote du sprite
-            tileType[(int)Direction.Up] = ZombieGame.Level.TileType[(int)(y / ZombieGame.Level.Tileset.TileHeight),
-                (int)((x + Sprite.FrameWidth / 2) / ZombieGame.Level.Tileset.TileWidth)]; //Evidemment ne fonctionne pas si le player va en x < 0 ou y < 0
-            tileType[(int)Direction.Right] = ZombieGame.Level.TileType[(int)((y + Sprite.FrameHeight / 2) / ZombieGame.Level.Tileset.TileHeight),
-                (int)((x + Sprite.FrameWidth) / ZombieGame.Level.Tileset.TileWidth)];
-            tileType[(int)Direction.Down] = ZombieGame.Level.TileType[(int)((y + Sprite.FrameHeight) / ZombieGame.Level.Tileset.TileHeight),
-                (int)((x + Sprite.FrameWidth / 2) / ZombieGame.Level.Tileset.TileWidth)];
-            tileType[(int)Direction.Left] = ZombieGame.Level.TileType[(int)((y + Sprite.FrameHeight / 2) / ZombieGame.Level.Tileset.TileHeight),
-                    (int)(x / ZombieGame.Level.Tileset.TileWidth)];
-
             //It's important that the terrain collision is done before the enemy collision, because it is much quicker than enemy collision, so we can avoid wasted cycles
-            for (int i = 0; i < (int)Direction.NbDirections; ++i)
+            if (IsTerrainCollision(x, y))
+                return true;
+
+            if (IsEnemyCollision(x, y)) //Eventually this will loop and test for every enemy's rectangle
+                return true;
+
+            return false;
+        }
+
+        private bool IsEnemyCollision(float x, float y)
+        {
+            Rectangle futurePlayerRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
+
+            foreach (Enemy enemy in ZombieGame.Enemies)
             {
-                if (tileType[i] == 82 || tileType[i] == 146 || tileType[i] == 147 || tileType[i] == 162 || tileType[i] == 163)
+                Rectangle enemyRect = new Rectangle((int)enemy.Sprite.Position.X, (int)enemy.Sprite.Position.Y,
+                    enemy.Sprite.FrameWidth, enemy.Sprite.FrameHeight);
+
+                if (futurePlayerRect.Intersects(enemyRect))
                     return true;
             }
-
-            //if (futurePos.Intersects(monolithRectangle)) //Eventually this will loop and test for every enemy's rectangle
-            //    return true;
-
 
             return false;
         }
