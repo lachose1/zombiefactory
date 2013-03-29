@@ -11,14 +11,38 @@ namespace zombiefactory
         protected ZombieGame ZombieGame { get; set; }
         public AnimatedSprite Sprite { get; protected set; }
         public Vector2 Speed { get; protected set; }
+        public int MaxHealth {get; private set; }
+        private int health;
+        public int Health
+        { 
+            get
+            {
+                return health;
+            }
+            private set
+            {
+                if (value > MaxHealth)
+                    health = MaxHealth;
+                else if (value <= 0)
+                {
+                    health = 0;
+                    IsAlive = false;
+                }
+                else
+                    health = value;
+            }
+        }
+        public bool IsAlive { get; private set; }
         #endregion properties
 
-        public Character(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 initPos, float depth, float updateTime)
+        public Character(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 initPos, float depth, float updateTime, int maxHealth)
             : base(game)
         {
             ZombieGame = game;
             Sprite = new AnimatedSprite(ZombieGame, spriteName, spriteFrames, spriteLines, initPos, depth, updateTime);
-
+            MaxHealth = maxHealth;
+            Health = MaxHealth;
+            IsAlive = true;
         }
 
         public override void Initialize()
@@ -65,6 +89,16 @@ namespace zombiefactory
             }
 
             return false;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            Health -= damage;
+        }
+
+        public void RestoreHealth(int amount)
+        {
+            Health += amount;
         }
     }
 }

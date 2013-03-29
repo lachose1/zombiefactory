@@ -18,8 +18,8 @@ namespace zombiefactory
         public bool IsMoving { get; protected set; } //Useless? Delete?
         #endregion properties
 
-        public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed)
-            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME)
+        public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed, int maxHealth)
+            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, maxHealth)
         {
             MaxSpeed = maxSpeed;
             Sprite.IsLooping = true;

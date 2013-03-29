@@ -59,7 +59,7 @@ namespace zombiefactory
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
             Enemies = new List<Enemy>();
-            Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f));
+            Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100));
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default

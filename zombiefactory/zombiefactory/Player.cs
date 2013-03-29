@@ -12,6 +12,7 @@ namespace zombiefactory
         public const float MAX_SPEED = 150.0f;
         public const float DEPTH = 0.1f;
         public const float UPDATE_TIME = 1.0f / 10.0f;
+        public const int MAX_HEALTH = 100;
         #endregion constants
 
         #region properties
@@ -19,7 +20,7 @@ namespace zombiefactory
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)
-            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME)
+            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH)
         {
             Gun = new Gun(game, initPos);
         }
