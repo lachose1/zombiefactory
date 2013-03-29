@@ -6,15 +6,15 @@ namespace zombiefactory
     public class FpsDisplay : Microsoft.Xna.Framework.DrawableGameComponent
     {
         ZombieGame ZombieGame { get; set; }
-        Vector2 BottomRightPosition { get; set; }
+        Vector2 TopLeftPosition { get; set; }
         Vector2 StringPosition { get; set; }
         string StringFps { get; set; }
         Vector2 Dimension { get; set; }
         SpriteFont FontDisplay { get; set; }
         float FpsValue { get; set; }
         string FontName { get; set; }
-        float BottomMargin { get; set; }
-        float RightMargin { get; set; }
+        float TopMargin { get; set; }
+        float LeftMargin { get; set; }
 
         public FpsDisplay(ZombieGame game, string fontName)
             : base(game)
@@ -25,11 +25,10 @@ namespace zombiefactory
 
         public override void Initialize()
         {
-            BottomMargin = 0;
-            RightMargin = 10;
+            TopMargin = 0;
+            LeftMargin = 10;
 
-            BottomRightPosition = new Vector2(ZombieGame.GraphicsDevice.Viewport.Width - RightMargin,
-                                            ZombieGame.GraphicsDevice.Viewport.Height - BottomMargin);
+            TopLeftPosition = new Vector2(LeftMargin, TopMargin);
             FpsValue = -1;
             base.Initialize();
         }
@@ -42,11 +41,10 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
-            BottomRightPosition = new Vector2(ZombieGame.GraphicsDevice.Viewport.Width - RightMargin,
-                                            ZombieGame.GraphicsDevice.Viewport.Height - BottomMargin);
+            TopLeftPosition = new Vector2(LeftMargin, TopMargin);
             StringFps = ZombieGame.FpsHandler.FpsValue.ToString("0");
             Dimension = FontDisplay.MeasureString(StringFps);
-            StringPosition = BottomRightPosition - Dimension;
+            StringPosition = TopLeftPosition - Dimension;
             FpsValue = ZombieGame.FpsHandler.FpsValue;
 
             base.Update(gameTime);

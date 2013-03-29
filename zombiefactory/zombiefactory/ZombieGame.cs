@@ -56,8 +56,6 @@ namespace zombiefactory
 
             FpsHandler = new FpsCounter(this, FPS_INTERVAL);
             InputMgr = new InputManager(this);
-            FpsDisplayer = new FpsDisplay(this, "Arial14");
-            FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
             Gun = new Gun(this, new Vector2(100.0f, 100.0f));
@@ -65,6 +63,9 @@ namespace zombiefactory
             Camera = new Camera(this);
             Monolith = new Sprite(this, "Monolith", new Vector2(200.0f, 200.0f), 0.0f);
             EnnemyTest = new Ennemy(this, new Vector2(200.0f, 300.0f), 75.0f);
+
+            FpsDisplayer = new FpsDisplay(this, "Arial14");
+            FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
