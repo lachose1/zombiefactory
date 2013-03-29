@@ -14,14 +14,14 @@ namespace zombiefactory
         #endregion constants
 
         #region properties
-        float MaxSpeed { get; set; }
+        int Damage { get; set; }
         public bool IsMoving { get; protected set; } //Useless? Delete?
         #endregion properties
 
-        public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed, int maxHealth)
-            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, maxHealth)
+        public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed, int maxHealth, int damage)
+            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, maxHealth, maxSpeed)
         {
-            MaxSpeed = maxSpeed;
+            Damage = damage;
             Sprite.IsLooping = true;
         }
 
@@ -108,7 +108,13 @@ namespace zombiefactory
             Rectangle playerRect = new Rectangle((int)ZombieGame.Player.Sprite.Position.X, (int)ZombieGame.Player.Sprite.Position.Y,
                     ZombieGame.Player.Sprite.FrameWidth, ZombieGame.Player.Sprite.FrameHeight);
 
-            return futureEnemyRect.Intersects(playerRect);
+            if (futureEnemyRect.Intersects(playerRect))
+            {
+                ZombieGame.Player.TakeDamage(Damage);
+                return true;
+            }
+
+            return false;
         }
     }
 }

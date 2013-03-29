@@ -59,7 +59,7 @@ namespace zombiefactory
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
             Enemies = new List<Enemy>();
-            Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100));
+            Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100, 10));
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
@@ -105,9 +105,10 @@ namespace zombiefactory
             if (InputMgr.IsNewKey(Keys.F)) //F toggles FPS displayer
                 FpsDisplayer.Enabled = !FpsDisplayer.Enabled;
 
+            Enemies.RemoveAll(enemy => !enemy.IsAlive);
+
             foreach (Enemy enemy in Enemies)
-                if(enemy.IsAlive)
-                    enemy.Update(gameTime);
+                enemy.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -126,8 +127,7 @@ namespace zombiefactory
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             foreach (Enemy enemy in Enemies)
-                if (enemy.IsAlive)
-                    enemy.Draw(gameTime);
+                enemy.Draw(gameTime);
 
             base.Draw(gameTime);
         }

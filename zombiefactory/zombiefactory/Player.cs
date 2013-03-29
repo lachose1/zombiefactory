@@ -20,7 +20,7 @@ namespace zombiefactory
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)
-            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH)
+            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH, MAX_SPEED)
         {
             Gun = new Gun(game, initPos, Gun.PISTOL_DAMAGE);
         }
@@ -88,8 +88,8 @@ namespace zombiefactory
         {
             float x = Sprite.Position.X;
             float y = Sprite.Position.Y;
-            float speedX = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X * MAX_SPEED;
-            float speedY = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y * MAX_SPEED;
+            float speedX = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.X * MaxSpeed;
+            float speedY = ZombieGame.InputMgr.ControllerState.ThumbSticks.Left.Y * MaxSpeed;
 
             Speed = new Vector2(speedX, speedY);
 

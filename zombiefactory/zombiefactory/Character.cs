@@ -33,9 +33,10 @@ namespace zombiefactory
             }
         }
         public bool IsAlive { get; private set; }
+        public float MaxSpeed { get; private set; }
         #endregion properties
 
-        public Character(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 initPos, float depth, float updateTime, int maxHealth)
+        public Character(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 initPos, float depth, float updateTime, int maxHealth, float maxSpeed)
             : base(game)
         {
             ZombieGame = game;
@@ -43,6 +44,7 @@ namespace zombiefactory
             MaxHealth = maxHealth;
             Health = MaxHealth;
             IsAlive = true;
+            MaxSpeed = maxSpeed;
         }
 
         public override void Initialize()
