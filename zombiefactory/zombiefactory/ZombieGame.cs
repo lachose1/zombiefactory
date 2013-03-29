@@ -30,7 +30,7 @@ namespace zombiefactory
         public Level Level { get; private set; }
         public Camera Camera { get; private set; }
         public Sprite Monolith { get; private set; }
-        public Enemy EnnemyTest { get; private set; }
+        public Enemy EnemyTest { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -62,7 +62,7 @@ namespace zombiefactory
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
             Monolith = new Sprite(this, "Monolith", new Vector2(200.0f, 200.0f), 0.0f);
-            EnnemyTest = new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f);
+            EnemyTest = new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f);
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
@@ -75,7 +75,7 @@ namespace zombiefactory
             Components.Add(Gun);
             Components.Add(Camera);
             Components.Add(Monolith);
-            Components.Add(EnnemyTest);
+            Components.Add(EnemyTest);
 
             base.Initialize();
         }

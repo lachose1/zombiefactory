@@ -14,14 +14,15 @@ namespace zombiefactory
         #endregion constants
 
         #region properties
-        public float MaxSpeed { get; protected set; }
-        public bool IsMoving { get; protected set; }
+        float MaxSpeed { get; set; }
+        public bool IsMoving { get; protected set; } //Useless? Delete?
         #endregion properties
 
         public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed)
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME)
         {
             MaxSpeed = maxSpeed;
+            Sprite.IsLooping = true;
         }
 
         public override void Initialize()
@@ -76,19 +77,17 @@ namespace zombiefactory
             //Currently simply follows the player
             float x = Sprite.Position.X;
             float y = Sprite.Position.Y;
-            float PlayerX = ZombieGame.Player.Sprite.Position.X;
-            float PlayerY = ZombieGame.Player.Sprite.Position.Y;
 
-            float DistanceX = PlayerX - x;
-            float DistanceY = PlayerY - y;
+            Vector2 distance = new Vector2(ZombieGame.Player.Sprite.Position.X - x,
+                ZombieGame.Player.Sprite.Position.Y - y);
+            distance.Normalize();
 
-            float speedX = DistanceX * MaxSpeed;
-            float speedY = DistanceY * MaxSpeed;
-
-            Speed = new Vector2(speedX, speedY);
+            Speed = distance * MaxSpeed;
 
             x += Speed.X / ZombieGame.FpsHandler.FpsValue;
-            y -= Speed.Y / ZombieGame.FpsHandler.FpsValue;
+            y += Speed.Y / ZombieGame.FpsHandler.FpsValue;
+
+            Sprite.Position = new Vector2(x, y);
         }
 
         protected override bool IsCollision(float x, float y)
