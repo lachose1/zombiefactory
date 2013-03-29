@@ -28,8 +28,8 @@ namespace zombiefactory
             BottomMargin = 0;
             RightMargin = 10;
 
-            BottomRightPosition = new Vector2(ZombieGame.Window.ClientBounds.Width - RightMargin,
-                                            ZombieGame.Window.ClientBounds.Height - BottomMargin);
+            BottomRightPosition = new Vector2(ZombieGame.GraphicsDevice.Viewport.Width - RightMargin,
+                                            ZombieGame.GraphicsDevice.Viewport.Height - BottomMargin);
             FpsValue = -1;
             base.Initialize();
         }
@@ -42,19 +42,21 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
-            if (ZombieGame.FpsHandler.FpsValue != FpsValue)
-            {
-                StringFps = ZombieGame.FpsHandler.FpsValue.ToString("0");
-                Dimension = FontDisplay.MeasureString(StringFps);
-                StringPosition = BottomRightPosition - Dimension;
-                FpsValue = ZombieGame.FpsHandler.FpsValue;
-            }
+            BottomRightPosition = new Vector2(ZombieGame.GraphicsDevice.Viewport.Width - RightMargin,
+                                            ZombieGame.GraphicsDevice.Viewport.Height - BottomMargin);
+            StringFps = ZombieGame.FpsHandler.FpsValue.ToString("0");
+            Dimension = FontDisplay.MeasureString(StringFps);
+            StringPosition = BottomRightPosition - Dimension;
+            FpsValue = ZombieGame.FpsHandler.FpsValue;
 
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            if (!Enabled)
+                return;
+
             ZombieGame.SpriteBatch.DrawString(FontDisplay, StringFps, StringPosition, Color.Black, 0, 
                 Vector2.Zero, 1.0f, SpriteEffects.None, 0);
 

@@ -24,7 +24,7 @@ namespace zombiefactory
         public ResourceManager<Song> MusicMgr { get; private set; }
         public ResourceManager<SoundEffect> SfxMgr { get; private set; }
         public FpsCounter FpsHandler { get; private set; }
-        //private FpsDisplay FpsDisplayer { get; set; } Does not follow the camera yet
+        private FpsDisplay FpsDisplayer { get; set; } //Does not follow the camera yet
         public Player Player { get; private set; }
         public Gun Gun { get; private set; }
         public Level Level { get; private set; }
@@ -56,7 +56,8 @@ namespace zombiefactory
 
             FpsHandler = new FpsCounter(this, FPS_INTERVAL);
             InputMgr = new InputManager(this);
-            //FpsDisplayer = new FpsDisplay(this, "Arial14");
+            FpsDisplayer = new FpsDisplay(this, "Arial14");
+            FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
 
             Player = new Player(this, new Vector2(100.0f, 100.0f));
             Gun = new Gun(this, new Vector2(100.0f, 100.0f));
@@ -67,7 +68,7 @@ namespace zombiefactory
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
-            //Components.Add(FpsDisplayer);
+            Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
             Components.Add(Gun);
@@ -103,8 +104,11 @@ namespace zombiefactory
 
         protected override void Update(GameTime gameTime)
         {
-            if (InputMgr.ControllerState.Buttons.Back == ButtonState.Pressed)
+            if (InputMgr.ControllerState.Buttons.Back == ButtonState.Pressed) //Back quits game for now
                 this.Exit();
+
+            if (InputMgr.IsNewKey(Keys.F)) //F toggles FPS displayer
+                FpsDisplayer.Enabled = !FpsDisplayer.Enabled;
 
             base.Update(gameTime);
         }
