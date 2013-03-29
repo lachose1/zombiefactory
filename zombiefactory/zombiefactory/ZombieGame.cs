@@ -106,7 +106,8 @@ namespace zombiefactory
                 FpsDisplayer.Enabled = !FpsDisplayer.Enabled;
 
             foreach (Enemy enemy in Enemies)
-                enemy.Update(gameTime);
+                if(enemy.IsAlive)
+                    enemy.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -125,7 +126,8 @@ namespace zombiefactory
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             foreach (Enemy enemy in Enemies)
-                enemy.Draw(gameTime);
+                if (enemy.IsAlive)
+                    enemy.Draw(gameTime);
 
             base.Draw(gameTime);
         }

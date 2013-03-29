@@ -22,7 +22,7 @@ namespace zombiefactory
         public Player(ZombieGame game, Vector2 initPos)
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH)
         {
-            Gun = new Gun(game, initPos);
+            Gun = new Gun(game, initPos, Gun.PISTOL_DAMAGE);
         }
 
         public override void Initialize()

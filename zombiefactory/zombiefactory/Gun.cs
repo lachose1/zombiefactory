@@ -12,6 +12,7 @@ namespace zombiefactory
         const float STICK_THRESHOLD = 0.04f;
         const float PISTOL_FIRE_RATE = 0.25f;
         const float PISTOL_BULLET_SPEED = 500.0f;
+        public const int PISTOL_DAMAGE = 10;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
@@ -23,17 +24,22 @@ namespace zombiefactory
         public SoundEffect GunShotSound { get; set; }
         #endregion properties
 
-        public Gun(ZombieGame game, Vector2 initPos)
+        public Gun(ZombieGame game, Vector2 initPos, int damage)
             : base(game)
         {
             ZombieGame = game;
+
             Sprite = new Sprite(ZombieGame, "Pistol", initPos, 0.0f);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Sprite.Rotation = 3 * MathHelper.PiOver2;
+
             Emitters = new List<Emitter>();
             Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE));
+
             IsShooting = false;
             GunShotSound = ZombieGame.SfxMgr.Find("PistolShot");
+
+            Damage = damage;
         }
 
         public override void Initialize()
@@ -135,7 +141,10 @@ namespace zombiefactory
                         enemy.Sprite.FrameWidth, enemy.Sprite.FrameHeight);
 
                     if (particleRectangle.Intersects(enemyRect))
+                    {
                         particle.IsAlive = false;
+                        enemy.TakeDamage(Damage);
+                    }
                 }
             }
         }
