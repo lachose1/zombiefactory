@@ -126,14 +126,17 @@ namespace zombiefactory
 
         private void CheckCollision()
         {
-            //Rectangle monolithRectangle = new Rectangle((int)ZombieGame.Monolith.Position.X, (int)ZombieGame.Monolith.Position.Y,
-            //   ZombieGame.Monolith.Width, ZombieGame.Monolith.Height);
-
             foreach (Particle particle in Emitters[0].ActiveParticles)
             {
                 Rectangle particleRectangle = new Rectangle((int)particle.Position.X, (int)particle.Position.Y, particle.Width, particle.Height);
-                //if (particleRectangle.Intersects(monolithRectangle))
-                //    particle.IsAlive = false;
+                foreach (Enemy enemy in ZombieGame.Enemies)
+                {
+                    Rectangle enemyRect = new Rectangle((int)enemy.Sprite.Position.X, (int)enemy.Sprite.Position.Y, 
+                        enemy.Sprite.FrameWidth, enemy.Sprite.FrameHeight);
+
+                    if (particleRectangle.Intersects(enemyRect))
+                        particle.IsAlive = false;
+                }
             }
         }
     }
