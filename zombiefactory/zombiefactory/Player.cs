@@ -11,7 +11,7 @@ namespace zombiefactory
         public const int SPRITE_LINES = 4;
         public const float MAX_SPEED = 150.0f;
         public const float DEPTH = 0.1f;
-        public const float UPDATE_TIME = 1.0f / 10.0f;
+        public const float UPDATE_TIME = 1.0f / 7.5f;
         public const int MAX_HEALTH = 100;
         #endregion constants
 
