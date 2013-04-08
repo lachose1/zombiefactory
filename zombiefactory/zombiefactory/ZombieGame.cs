@@ -78,6 +78,7 @@ namespace zombiefactory
         {
             FontMgr.Add("Fonts/Arial14");
             TextureMgr.Add("Sprites/Link");
+            TextureMgr.Add("Sprites/character-4directions");
             TextureMgr.Add("Sprites/Pistol");
             TextureMgr.Add("Sprites/Bullet");
             TextureMgr.Add("Tilesets/alttp_tiles");
