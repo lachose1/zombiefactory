@@ -116,7 +116,7 @@ namespace zombiefactory
         {
             Rectangle futurePlayerRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
 
-            foreach (Enemy enemy in ZombieGame.Enemies)
+            foreach (Enemy enemy in ZombieGame.EnemySpawner.ActiveEnemies)
             {
                 Rectangle enemyRect = new Rectangle((int)enemy.Sprite.Position.X, (int)enemy.Sprite.Position.Y,
                     enemy.Sprite.FrameWidth, enemy.Sprite.FrameHeight);

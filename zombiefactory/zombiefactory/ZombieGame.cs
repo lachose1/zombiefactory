@@ -28,7 +28,8 @@ namespace zombiefactory
         public Player Player { get; private set; }
         public Level Level { get; private set; }
         public Camera Camera { get; private set; }
-        public List<Enemy> Enemies { get; private set; }
+        //public List<Enemy> Enemies { get; private set; }
+        public EnemySpawner EnemySpawner { get; set; }
         #endregion properties
 
         public ZombieGame()
@@ -58,8 +59,9 @@ namespace zombiefactory
             Player = new Player(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
-            Enemies = new List<Enemy>();
-            Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100, 10));
+            //Enemies = new List<Enemy>();
+            //Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100, 10));
+            EnemySpawner = new EnemySpawner(this, 100, true, 0.5f, new Vector2(200.0f, 300.0f));
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
@@ -69,6 +71,7 @@ namespace zombiefactory
             Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
+            Components.Add(EnemySpawner);
             Components.Add(Camera);
 
             base.Initialize();
@@ -106,10 +109,10 @@ namespace zombiefactory
             if (InputMgr.IsNewKey(Keys.F)) //F toggles FPS displayer
                 FpsDisplayer.Enabled = !FpsDisplayer.Enabled;
 
-            Enemies.RemoveAll(enemy => !enemy.IsAlive);
+            //Enemies.RemoveAll(enemy => !enemy.IsAlive);
 
-            foreach (Enemy enemy in Enemies)
-                enemy.Update(gameTime);
+            //foreach (Enemy enemy in Enemies)
+                //enemy.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -127,8 +130,8 @@ namespace zombiefactory
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            foreach (Enemy enemy in Enemies)
-                enemy.Draw(gameTime);
+            //foreach (Enemy enemy in Enemies)
+                //enemy.Draw(gameTime);
 
             base.Draw(gameTime);
         }

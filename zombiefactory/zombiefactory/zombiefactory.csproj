@@ -113,7 +113,7 @@
     <Compile Include="Character.cs" />
     <Compile Include="Emitter.cs" />
     <Compile Include="Enemy.cs" />
-    <Compile Include="EnnemySpawner.cs" />
+    <Compile Include="EnemySpawner.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="FpsDisplay.cs" />
