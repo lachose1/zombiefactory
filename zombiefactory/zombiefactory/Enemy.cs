@@ -16,7 +16,6 @@ namespace zombiefactory
 
         #region properties
         int Damage { get; set; }
-        public bool IsMoving { get; protected set; } //Useless? Delete?
         float TimeSinceLastAttack { get; set; }
         #endregion properties
 
