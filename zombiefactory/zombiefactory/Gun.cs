@@ -34,7 +34,7 @@ namespace zombiefactory
             Sprite.Rotation = 3 * MathHelper.PiOver2;
 
             Emitters = new List<ParticleEmitter>();
-            Emitters.Add(new ParticleEmitter(ZombieGame, 100, false, PISTOL_FIRE_RATE));
+            Emitters.Add(new ParticleEmitter(ZombieGame, 100, false, PISTOL_FIRE_RATE, Sprite.Position));
 
             IsShooting = false;
             GunShotSound = ZombieGame.SfxMgr.Find("PistolShot");
@@ -59,10 +59,13 @@ namespace zombiefactory
                 {
                     GunShotSound.Play();
                 }
-            }    
+            }
 
             foreach (ParticleEmitter emitter in Emitters)
+            {
+                emitter.Position = Sprite.Position;
                 emitter.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }

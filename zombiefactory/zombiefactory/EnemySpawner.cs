@@ -1,45 +1,20 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-
 
 namespace zombiefactory
 {
     
-    public class EnemySpawner : Microsoft.Xna.Framework.DrawableGameComponent
+    public class EnemySpawner : Emitter
     {
 
-        ZombieGame ZombieGame { get; set; }
-        int MaxEnemies { get; set; }
-        bool AutomaticSpawn { get; set; }
-        float TimeBetweenSpawn { get; set; }
-        float TimeSinceLastSpawn { get; set; }
+        #region properties
         public LinkedList<Enemy> ActiveEnemies { get; set; }
-        Vector2 Position { get; set; }
-        
+        #endregion properties
+
         public EnemySpawner(ZombieGame game, int maxEnemies, bool automaticSpawn, float timeBetweenSpawn, Vector2 position)
-            : base(game)
+            : base(game, maxEnemies, automaticSpawn, timeBetweenSpawn, position)
         {
-            ZombieGame = game;
-            MaxEnemies = maxEnemies;
-            AutomaticSpawn = automaticSpawn;
-            TimeBetweenSpawn = timeBetweenSpawn;
-            TimeSinceLastSpawn = TimeBetweenSpawn;
-            Position = position;
             ActiveEnemies = new LinkedList<Enemy>();
-        }
-
-        public override void Initialize()
-        {
-
-            base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
@@ -65,7 +40,6 @@ namespace zombiefactory
             if (AutomaticSpawn)
                 addEnemy(75.0f, 10, 10);
 
-            TimeSinceLastSpawn += 1.0f / ZombieGame.FpsHandler.FpsValue;
             base.Update(gameTime);
         }
 

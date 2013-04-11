@@ -5,23 +5,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace zombiefactory
 {
-    public class ParticleEmitter : DrawableGameComponent
+    public class ParticleEmitter : Emitter
     {
-        ZombieGame ZombieGame { get; set; }
-        public int MaxParticles { get; set; }
-        public bool AutomaticSpawn { get; set; }
-        float TimeBetweenSpawn { get; set; }
-        float TimeSinceLastSpawn { get; set; }
+        #region properties
         public LinkedList<Particle> ActiveParticles;
-        Random Noise { get; set; }
+        #endregion properties
 
-        public ParticleEmitter(ZombieGame game, int maxParticles, bool automaticSpawn, float timeBetweenSpawn)
-            :base(game)
+        public ParticleEmitter(ZombieGame game, int maxParticles, bool automaticSpawn, float timeBetweenSpawn, Vector2 position)
+            : base(game, maxParticles, automaticSpawn, timeBetweenSpawn, position)
         {
-            ZombieGame = game;
-            TimeBetweenSpawn = timeBetweenSpawn;
-            AutomaticSpawn = automaticSpawn;
-            TimeSinceLastSpawn = 0.0f;
             ActiveParticles = new LinkedList<Particle>();
         }
 
