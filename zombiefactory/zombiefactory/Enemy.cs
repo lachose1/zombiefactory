@@ -109,6 +109,28 @@ namespace zombiefactory
                 return true;
             }
 
+            if (IsEnemyCollision(x, y))
+                return true;
+
+            return false;
+        }
+
+        protected override bool IsEnemyCollision(float x, float y)
+        {
+            Rectangle futureEnemyRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
+
+            foreach (Enemy enemy in ZombieGame.EnemySpawner.ActiveEnemies)
+            {
+                if (this != enemy)
+                {
+                    Rectangle enemyRect = new Rectangle((int)enemy.Sprite.Position.X, (int)enemy.Sprite.Position.Y,
+                        enemy.Sprite.FrameWidth, enemy.Sprite.FrameHeight);
+
+                    if (futureEnemyRect.Intersects(enemyRect))
+                        return true;
+                }
+            }
+
             return false;
         }
 

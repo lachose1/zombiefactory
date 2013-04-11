@@ -93,6 +93,8 @@ namespace zombiefactory
             return false;
         }
 
+        protected abstract bool IsEnemyCollision(float x, float y);
+
         public void TakeDamage(int damage)
         {
             Health -= damage;

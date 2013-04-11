@@ -112,7 +112,7 @@ namespace zombiefactory
             return false;
         }
 
-        private bool IsEnemyCollision(float x, float y)
+        protected override bool IsEnemyCollision(float x, float y)
         {
             Rectangle futurePlayerRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
 
