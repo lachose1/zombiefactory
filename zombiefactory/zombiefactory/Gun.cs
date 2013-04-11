@@ -20,7 +20,7 @@ namespace zombiefactory
         int Damage { get; set; }
         int Ammo { get; set; }
         bool IsShooting { get; set; }
-        List<Emitter> Emitters; //This is a list because of the possibility of designing a gun shooting many bullets at once (e.g. shotgun)
+        List<ParticleEmitter> Emitters; //This is a list because of the possibility of designing a gun shooting many bullets at once (e.g. shotgun)
         public SoundEffect GunShotSound { get; set; }
         #endregion properties
 
@@ -33,8 +33,8 @@ namespace zombiefactory
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Sprite.Rotation = 3 * MathHelper.PiOver2;
 
-            Emitters = new List<Emitter>();
-            Emitters.Add(new Emitter(ZombieGame, 100, false, PISTOL_FIRE_RATE));
+            Emitters = new List<ParticleEmitter>();
+            Emitters.Add(new ParticleEmitter(ZombieGame, 100, false, PISTOL_FIRE_RATE));
 
             IsShooting = false;
             GunShotSound = ZombieGame.SfxMgr.Find("PistolShot");
@@ -61,7 +61,7 @@ namespace zombiefactory
                 }
             }    
 
-            foreach (Emitter emitter in Emitters)
+            foreach (ParticleEmitter emitter in Emitters)
                 emitter.Update(gameTime);
 
             base.Update(gameTime);

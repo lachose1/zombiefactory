@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace zombiefactory
 {
-    public class Emitter : DrawableGameComponent
+    public class ParticleEmitter : DrawableGameComponent
     {
         ZombieGame ZombieGame { get; set; }
         public int MaxParticles { get; set; }
@@ -15,7 +15,7 @@ namespace zombiefactory
         public LinkedList<Particle> ActiveParticles;
         Random Noise { get; set; }
 
-        public Emitter(ZombieGame game, int maxParticles, bool automaticSpawn, float timeBetweenSpawn)
+        public ParticleEmitter(ZombieGame game, int maxParticles, bool automaticSpawn, float timeBetweenSpawn)
             :base(game)
         {
             ZombieGame = game;
