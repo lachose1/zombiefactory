@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+// TODO: We need to give bullets a max lifespan or something so
+// they get destroyed eventually when going out of the screen
 
 namespace zombiefactory
 {
