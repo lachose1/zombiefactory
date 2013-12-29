@@ -83,11 +83,15 @@ namespace zombiefactory
             TextureMgr.Add("Sprites/Link");
             TextureMgr.Add("Sprites/character-4directions");
             TextureMgr.Add("Sprites/Pistol");
+            TextureMgr.Add("Sprites/SMG");
             TextureMgr.Add("Sprites/Bullet");
             TextureMgr.Add("Tilesets/alttp_tiles");
             TextureMgr.Add("Sprites/Monolith");
 
             SfxMgr.Add("Sounds/PistolShot");
+            SfxMgr.Add("Sounds/SMGShot");
+            SfxMgr.Add("Sounds/DefaultDamage");
+            SfxMgr.Add("Sounds/LinkDamage");
         }
 
         protected override void LoadContent()

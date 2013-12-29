@@ -24,6 +24,7 @@ namespace zombiefactory
         {
             Damage = damage;
             Sprite.IsLooping = true;
+            DamageSound = ZombieGame.SfxMgr.Find(SPRITE_NAME + "Damage");
         }
 
         public override void Initialize()

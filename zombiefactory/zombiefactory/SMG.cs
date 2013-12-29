@@ -6,16 +6,16 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace zombiefactory
 {
-    public class Pistol : Gun
+    public class SMG : Gun
     {
 
-        const string NAME = "Pistol";
-        const float FIRE_RATE = 0.25f;
-        const float BULLET_SPEED = 500.0f;
-        public const int DAMAGE = 10;
+        const string NAME = "SMG";
+        const float FIRE_RATE = 0.07f;
+        const float BULLET_SPEED = 600.0f;
+        public const int DAMAGE = 2;
 
-        public Pistol(ZombieGame game, Vector2 initPos)
-            : base(game, initPos, NAME, DAMAGE, -1, -1, 12, FIRE_RATE, BULLET_SPEED)
+        public SMG(ZombieGame game, Vector2 initPos)
+            : base(game, initPos, NAME, DAMAGE, 1000, 32, 32, FIRE_RATE, BULLET_SPEED)
         {
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, Sprite.Position));
         }

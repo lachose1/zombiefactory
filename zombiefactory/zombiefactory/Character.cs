@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace zombiefactory
 {
@@ -12,6 +13,7 @@ namespace zombiefactory
         public AnimatedSprite Sprite { get; protected set; }
         public Vector2 Speed { get; protected set; }
         public int MaxHealth {get; private set; }
+        public SoundEffect DamageSound { get; set; }
         private int health;
         public int Health
         { 
@@ -45,6 +47,7 @@ namespace zombiefactory
             Health = MaxHealth;
             IsAlive = true;
             MaxSpeed = maxSpeed;
+            DamageSound = ZombieGame.SfxMgr.Find("DefaultDamage");
         }
 
         public override void Initialize()
@@ -98,6 +101,7 @@ namespace zombiefactory
         public void TakeDamage(int damage)
         {
             Health -= damage;
+            DamageSound.Play();
         }
 
         public void RestoreHealth(int amount)
