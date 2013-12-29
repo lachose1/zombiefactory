@@ -6,40 +6,48 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace zombiefactory
 {
-    public class Gun : Microsoft.Xna.Framework.DrawableGameComponent
+    public abstract class Gun : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
         const float STICK_THRESHOLD = 0.04f;
-        const float PISTOL_FIRE_RATE = 0.25f;
-        const float PISTOL_BULLET_SPEED = 500.0f;
-        public const int PISTOL_DAMAGE = 10;
 
         #region properties
         ZombieGame ZombieGame { get; set; }
-        Sprite Sprite { get; set; }
+        protected Sprite Sprite { get; set; }
+        string GunName { get; set; }
         int Damage { get; set; }
+        int MaxAmmo { get; set; }
         int Ammo { get; set; }
-        bool IsShooting { get; set; }
-        List<ParticleEmitter> Emitters; //This is a list because of the possibility of designing a gun shooting many bullets at once (e.g. shotgun)
+        int ClipSize { get; set; }
+        float FireRate { get; set; }
+        float BulletSpeed { get; set; }
+        protected bool IsShooting { get; set; }
+        protected List<ParticleEmitter> Emitters; //This is a list because of the possibility of designing a gun shooting many bullets at once (e.g. shotgun)
         public SoundEffect GunShotSound { get; set; }
         #endregion properties
 
-        public Gun(ZombieGame game, Vector2 initPos, int damage)
+        public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo, int clipSize, float fireRate, float bulletSpeed)
             : base(game)
         {
             ZombieGame = game;
 
-            Sprite = new Sprite(ZombieGame, "Pistol", initPos, 0.0f);
+            Sprite = new Sprite(ZombieGame, gunName, initPos, 0.0f);
             Sprite.Origin = new Vector2(0, Sprite.Height / 2);
             Sprite.Rotation = 3 * MathHelper.PiOver2;
 
             Emitters = new List<ParticleEmitter>();
-            Emitters.Add(new ParticleEmitter(ZombieGame, 100, false, PISTOL_FIRE_RATE, Sprite.Position));
+            Emitters.Add(new ParticleEmitter(ZombieGame, 100, false, fireRate, Sprite.Position));
 
             IsShooting = false;
-            GunShotSound = ZombieGame.SfxMgr.Find("PistolShot");
+            GunShotSound = ZombieGame.SfxMgr.Find(gunName + "Shot");
 
+            GunName = gunName;
             Damage = damage;
+            MaxAmmo = maxAmmo;
+            Ammo = ammo;
+            ClipSize = clipSize;
+            FireRate = fireRate;
+            BulletSpeed = bulletSpeed;
         }
 
         public override void Initialize()
@@ -52,28 +60,18 @@ namespace zombiefactory
             SetSpriteDirection();
             MoveSprite();
             CheckCollision();
-
-            if (IsShooting)
-            {
-                if (Emitters[0].addParticle("Bullet", Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f, ComputeBulletSpeed()))
-                {
-                    GunShotSound.Play();
-                }
-            }
-
-            foreach (ParticleEmitter emitter in Emitters)
-            {
-                emitter.Position = Sprite.Position;
-                emitter.Update(gameTime);
-            }
-
+            Shoot(gameTime);
+            
             base.Update(gameTime);
         }
 
+        protected abstract void Shoot(GameTime gameTime);
+
         public override void Draw(GameTime gameTime)
         {
-            Sprite.Draw(gameTime);
-            Emitters[0].Draw(gameTime);
+            Sprite.Draw(gameTime); // Draw the gun
+            foreach (ParticleEmitter e in Emitters) // Draw the bullets
+                e.Draw(gameTime);
 
             base.Draw(gameTime);
         }
@@ -121,10 +119,10 @@ namespace zombiefactory
             Sprite.Position = new Vector2(x, y);
         }
 
-        private float ComputeBulletSpeed()
+        protected float ComputeBulletSpeed()
         {
-            float bulletSpeedX = (float)Math.Cos(Sprite.Rotation) * PISTOL_BULLET_SPEED;
-            float bulletSpeedY = (float)Math.Sin(Sprite.Rotation) * PISTOL_BULLET_SPEED;
+            float bulletSpeedX = (float)Math.Cos(Sprite.Rotation) * BulletSpeed;
+            float bulletSpeedY = (float)Math.Sin(Sprite.Rotation) * BulletSpeed;
             bulletSpeedX += ZombieGame.Player.Speed.X;
             bulletSpeedY -= ZombieGame.Player.Speed.Y;
 
@@ -135,18 +133,21 @@ namespace zombiefactory
 
         private void CheckCollision()
         {
-            foreach (Particle particle in Emitters[0].ActiveParticles)
+            foreach (ParticleEmitter e in Emitters)
             {
-                Rectangle particleRectangle = new Rectangle((int)particle.Position.X, (int)particle.Position.Y, particle.Width, particle.Height);
-                foreach (Enemy enemy in ZombieGame.EnemySpawner.ActiveEnemies)
+                foreach (Particle particle in e.ActiveParticles)
                 {
-                    Rectangle enemyRect = new Rectangle((int)enemy.Sprite.Position.X, (int)enemy.Sprite.Position.Y, 
-                        enemy.Sprite.FrameWidth, enemy.Sprite.FrameHeight);
-
-                    if (particleRectangle.Intersects(enemyRect))
+                    Rectangle particleRectangle = new Rectangle((int)particle.Position.X, (int)particle.Position.Y, particle.Width, particle.Height);
+                    foreach (Enemy enemy in ZombieGame.EnemySpawner.ActiveEnemies)
                     {
-                        particle.IsAlive = false;
-                        enemy.TakeDamage(Damage);
+                        Rectangle enemyRect = new Rectangle((int)enemy.Sprite.Position.X, (int)enemy.Sprite.Position.Y,
+                            enemy.Sprite.FrameWidth, enemy.Sprite.FrameHeight);
+
+                        if (particleRectangle.Intersects(enemyRect))
+                        {
+                            particle.IsAlive = false;
+                            enemy.TakeDamage(Damage);
+                        }
                     }
                 }
             }

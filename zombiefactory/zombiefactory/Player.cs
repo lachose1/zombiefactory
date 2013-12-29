@@ -16,13 +16,13 @@ namespace zombiefactory
         #endregion constants
 
         #region properties
-        Gun Gun { get; set; }
+        Pistol Gun { get; set; }
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH, MAX_SPEED)
         {
-            Gun = new Gun(game, initPos, Gun.PISTOL_DAMAGE);
+            Gun = new Pistol(game, initPos);
         }
 
         public override void Initialize()
