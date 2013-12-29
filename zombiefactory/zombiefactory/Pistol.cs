@@ -18,7 +18,7 @@ namespace zombiefactory
         #endregion properties
 
         public Pistol(ZombieGame game, Vector2 initPos)
-            : base(game, initPos, PISTOL_NAME, PISTOL_DAMAGE, -1, -1, 12, PISTOL_FIRE_RATE, PISTOL_BULLET_SPEED)
+            : base(game, initPos, PISTOL_NAME, PISTOL_DAMAGE, 1000, 32, 32, PISTOL_FIRE_RATE, PISTOL_BULLET_SPEED)
         {
             
         }
