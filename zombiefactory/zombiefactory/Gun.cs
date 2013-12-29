@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 
 // TODO: We need to give bullets a max lifespan or something so
 // they get destroyed eventually when going out of the screen
+// Probably should use Emitter's MaxItems property to do that.
 
 namespace zombiefactory
 {
@@ -24,7 +25,7 @@ namespace zombiefactory
         float FireRate { get; set; }
         float BulletSpeed { get; set; }
         protected bool IsShooting { get; set; }
-        protected List<ParticleEmitter> Emitters; //This is a list because of the possibility of designing a gun shooting many bullets at once (e.g. shotgun)
+        protected List<ParticleEmitter> Emitters;
         public SoundEffect GunShotSound { get; set; }
         #endregion properties
 
@@ -32,17 +33,6 @@ namespace zombiefactory
             : base(game)
         {
             ZombieGame = game;
-
-            Sprite = new Sprite(ZombieGame, gunName, initPos, 0.0f);
-            Sprite.Origin = new Vector2(0, Sprite.Height / 2);
-            Sprite.Rotation = 3 * MathHelper.PiOver2;
-
-            Emitters = new List<ParticleEmitter>();
-            Emitters.Add(new ParticleEmitter(ZombieGame, 100, false, fireRate, Sprite.Position));
-
-            IsShooting = false;
-            GunShotSound = ZombieGame.SfxMgr.Find(gunName + "Shot");
-
             GunName = gunName;
             Damage = damage;
             MaxAmmo = maxAmmo;
@@ -50,6 +40,15 @@ namespace zombiefactory
             ClipSize = clipSize;
             FireRate = fireRate;
             BulletSpeed = bulletSpeed;
+
+            Sprite = new Sprite(ZombieGame, GunName, initPos, 0.0f);
+            Sprite.Origin = new Vector2(0, Sprite.Height / 2);
+            Sprite.Rotation = 3 * MathHelper.PiOver2;
+
+            Emitters = new List<ParticleEmitter>();
+
+            IsShooting = false;
+            GunShotSound = ZombieGame.SfxMgr.Find(GunName + "Shot");
         }
 
         public override void Initialize()
@@ -61,13 +60,29 @@ namespace zombiefactory
         {
             SetSpriteDirection();
             MoveSprite();
+            MoveEmitters();
             CheckCollision();
             Shoot(gameTime);
             
             base.Update(gameTime);
         }
 
-        protected abstract void Shoot(GameTime gameTime);
+        protected void Shoot(GameTime gameTime)
+        {
+            if (IsShooting)
+            {
+                foreach (ParticleEmitter emitter in Emitters)
+                {
+                    if (emitter.addParticle("Bullet", emitter.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f, ComputeBulletSpeed()))
+                    {
+                        GunShotSound.Play();
+                    }
+                }
+            }
+
+            foreach (ParticleEmitter emitter in Emitters)
+                emitter.Update(gameTime);
+        }
 
         public override void Draw(GameTime gameTime)
         {
@@ -117,9 +132,10 @@ namespace zombiefactory
             Vector2 PlayerPosition = ZombieGame.Player.Sprite.Position;
             float x = PlayerPosition.X + ZombieGame.Player.Sprite.FrameWidth / 2 + Sprite.Width / 2;
             float y = PlayerPosition.Y + ZombieGame.Player.Sprite.FrameHeight / 2;
-
             Sprite.Position = new Vector2(x, y);
         }
+
+        protected abstract void MoveEmitters();
 
         protected float ComputeBulletSpeed()
         {

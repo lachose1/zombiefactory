@@ -14,30 +14,15 @@ namespace zombiefactory
         const float PISTOL_BULLET_SPEED = 500.0f;
         public const int PISTOL_DAMAGE = 10;
 
-        #region properties
-        #endregion properties
-
         public Pistol(ZombieGame game, Vector2 initPos)
             : base(game, initPos, PISTOL_NAME, PISTOL_DAMAGE, -1, -1, 12, PISTOL_FIRE_RATE, PISTOL_BULLET_SPEED)
         {
-            
+            Emitters.Add(new ParticleEmitter(game, 100, false, PISTOL_FIRE_RATE, Sprite.Position));
         }
 
-        protected override void Shoot(GameTime gameTime)
+        protected override void MoveEmitters()
         {
-            if (IsShooting)
-            {
-                if (Emitters[0].addParticle("Bullet", Sprite.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f, ComputeBulletSpeed()))
-                {
-                    GunShotSound.Play();
-                }
-            }
-
-            foreach (ParticleEmitter emitter in Emitters)
-            {
-                emitter.Position = Sprite.Position;
-                emitter.Update(gameTime);
-            }
+            Emitters[0].Position = Sprite.Position;
         }
     }
 }
