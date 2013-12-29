@@ -88,6 +88,8 @@ namespace zombiefactory
             TextureMgr.Add("Sprites/Monolith");
 
             SfxMgr.Add("Sounds/PistolShot");
+            SfxMgr.Add("Sounds/DefaultDamage");
+            SfxMgr.Add("Sounds/LinkDamage");
         }
 
         protected override void LoadContent()
