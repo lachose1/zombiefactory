@@ -19,6 +19,9 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
+            while (ActiveParticles.Count > MaxItems)
+                ActiveParticles.RemoveFirst();
+
             LinkedListNode<Particle> node = ActiveParticles.First;
             while (node != null)
             {

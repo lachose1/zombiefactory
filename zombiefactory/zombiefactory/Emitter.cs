@@ -19,7 +19,7 @@ namespace zombiefactory
         protected bool AutomaticSpawn { get; private set; }
         protected float TimeBetweenSpawn { get; private set; }
         protected float TimeSinceLastSpawn { get; set; }
-        int MaxItems { get; set; }
+        protected int MaxItems { get; set; }
         public Vector2 Position { get; set; }
         #endregion properties
 
