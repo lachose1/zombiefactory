@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace zombiefactory
 {
@@ -19,6 +20,8 @@ namespace zombiefactory
         #region properties
         List<Tuple<string, bool, Gun>> GunBelt;
         Gun Gun { get; set; }
+        int CurrentGun;
+        int NumberOfGuns;
         //Pistol Gun { get; set; }
         //Shotgun Gun { get; set; }
         // SMG Gun { get; set; }
@@ -28,11 +31,12 @@ namespace zombiefactory
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH, MAX_SPEED)
         {
             GunBelt = new List<Tuple<string, bool, Gun>>();
-            populateGunBelt(game, initPos);
+            PopulateGunBelt(game, initPos);
             //Gun = new Pistol(game, initPos);
             //Gun = new Shotgun(game, initPos);
             // Gun = new SMG(game, initPos);
-            Gun = GunBelt[2].Item3;
+            CurrentGun = 0;
+            Gun = GunBelt[CurrentGun].Item3;
         }
 
         public override void Initialize()
@@ -40,17 +44,19 @@ namespace zombiefactory
             base.Initialize();
         }
 
-        private void populateGunBelt(ZombieGame game, Vector2 initPos)
+        private void PopulateGunBelt(ZombieGame game, Vector2 initPos)
         {
             GunBelt.Add(new Tuple<string, bool, Gun>("Pistol", true, new Pistol(game, initPos)));
             GunBelt.Add(new Tuple<string, bool, Gun>("Shotgun", true, new Shotgun(game, initPos)));
             GunBelt.Add(new Tuple<string, bool, Gun>("SMG", true, new SMG(game, initPos)));
+            NumberOfGuns = GunBelt.Count;
         }
 
         public override void Update(GameTime gameTime)
         {
             SetSpriteDirection();
             MoveSprite();
+            SwitchWeapon();
 
             Gun.Update(gameTime);
 
@@ -62,6 +68,19 @@ namespace zombiefactory
             Gun.Draw(gameTime);
 
             base.Draw(gameTime);
+        }
+
+        private void SwitchWeapon()
+        {
+            if (ZombieGame.InputMgr.ControllerState.Buttons.RightShoulder == ButtonState.Pressed)
+                CurrentGun++;
+            if (ZombieGame.InputMgr.ControllerState.Buttons.LeftShoulder == ButtonState.Pressed)
+                CurrentGun--;
+            if (CurrentGun < 0)
+                CurrentGun = NumberOfGuns-1;
+            if (CurrentGun > NumberOfGuns-1)
+                CurrentGun = 0;
+            Gun = GunBelt[CurrentGun].Item3;
         }
 
         private void SetSpriteDirection()
