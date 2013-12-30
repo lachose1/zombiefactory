@@ -37,8 +37,6 @@ namespace zombiefactory
                         ActiveParticles.RemoveLast();
                 }
             }
-            //if (AutomaticSpawn)
-            //    addParticle(ParticleToSpawn);
 
             TimeSinceLastSpawn += 1.0f / ZombieGame.FpsHandler.FpsValue;
         }

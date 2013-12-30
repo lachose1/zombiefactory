@@ -56,9 +56,6 @@ namespace zombiefactory
                     }
                 }
             }
-
-            foreach (ParticleEmitter emitter in Emitters)
-                emitter.Update(gameTime);
         }
     }
 }
