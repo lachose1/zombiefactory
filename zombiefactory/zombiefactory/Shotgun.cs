@@ -9,7 +9,7 @@ namespace zombiefactory
     public class Shotgun : Gun
     {
 
-        const string NAME = "Shotgun"; // !!! Change to Shotgun once we have the sprite and sound files
+        const string NAME = "Shotgun";
         const float FIRE_RATE = 0.55f;
         const float BULLET_SPEED = 500.0f;
         const float EMITTERS_OFFSET = 2;

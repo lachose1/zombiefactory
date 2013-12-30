@@ -63,6 +63,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\pickme.png">
+      <Name>pickme</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\shotgun.png">
+      <Name>shotgun</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Tilesets\alttp_tiles.png">
       <Name>alttp_tiles</Name>
       <Importer>TextureImporter</Importer>
@@ -141,13 +151,6 @@
   <ItemGroup>
     <Compile Include="Sprites\SMG.png">
       <Name>SMG</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sprites\shotgun.png">
-      <Name>shotgun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
