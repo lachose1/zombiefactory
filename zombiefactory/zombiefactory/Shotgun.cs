@@ -38,7 +38,7 @@ namespace zombiefactory
 
         protected override void Shoot(GameTime gameTime)
         {
-            if (IsShooting)
+            if (IsShooting && !IsReloading)
             {
                 foreach (ParticleEmitter emitter in Emitters)
                 {
@@ -46,6 +46,7 @@ namespace zombiefactory
                     {
                         GunShotSound.Play();
                         ShotgunPump.Play();
+                        --ClipAmmo;
                     }
                 }
             }

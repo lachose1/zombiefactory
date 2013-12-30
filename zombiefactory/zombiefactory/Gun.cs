@@ -26,7 +26,7 @@ namespace zombiefactory
         public int Ammo // Total ammo carried for this gun, minus what's in the current clip
         {
             get { return ammo; }
-            private set
+            protected set
             {
                 if (value < 0)
                     ammo = 0;
@@ -41,7 +41,7 @@ namespace zombiefactory
         public int ClipAmmo // Ammo in the current clip
         {
             get { return clipAmmo; }
-            private set
+            protected set
             {
                 if (value < 0)
                     clipAmmo = 0;
@@ -56,6 +56,7 @@ namespace zombiefactory
         float FireRate { get; set; }
         float BulletSpeed { get; set; }
         protected bool IsShooting { get; set; }
+        protected bool IsReloading { get; set; }
         protected List<ParticleEmitter> Emitters;
         public SoundEffect GunShotSound { get; set; }
         #endregion properties
@@ -94,6 +95,7 @@ namespace zombiefactory
             Emitters = new List<ParticleEmitter>();
 
             IsShooting = false;
+            IsReloading = false;
             GunShotSound = ZombieGame.SfxMgr.Find(GunName + "Shot");
         }
 
@@ -122,6 +124,7 @@ namespace zombiefactory
                     if (emitter.addParticle("Bullet", emitter.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f, ComputeBulletSpeed()))
                     {
                         GunShotSound.Play();
+                        --ClipAmmo;
                     }
                 }
             }
