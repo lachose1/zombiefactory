@@ -38,7 +38,7 @@ namespace zombiefactory
                 }
             }
             if (AutomaticSpawn)
-                addEnemy(75.0f, 10, 10);
+                addEnemy("Zombie");
 
             base.Update(gameTime);
         }
@@ -53,13 +53,13 @@ namespace zombiefactory
             }
         }
 
-        public bool addEnemy(float maxSpeed, int maxHealth, int damage)
+        public bool addEnemy(string Name)
         {
             bool enemyAdded = TimeSinceLastSpawn >= TimeBetweenSpawn;
 
-            if(enemyAdded)
+            if (enemyAdded)
             {
-                ActiveEnemies.AddLast(new Enemy(ZombieGame, Position, maxSpeed, maxHealth, damage));
+                ActiveEnemies.AddLast(new Zombie(ZombieGame, Position));
                 TimeSinceLastSpawn = 0.0f;
             }
 

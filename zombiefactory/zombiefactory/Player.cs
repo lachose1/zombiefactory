@@ -20,8 +20,21 @@ namespace zombiefactory
         #region properties
         List<Tuple<string, bool, Gun>> GunBelt;
         Gun Gun { get; set; }
-        int CurrentGun;
-        int NumberOfGuns;
+        int currentGun;
+        int CurrentGun
+        {
+            get { return currentGun; }
+            set 
+            {
+                if (value < 0)
+                    currentGun = NumberOfGuns - 1;
+                else if (value > NumberOfGuns - 1)
+                    currentGun = 0;
+                else
+                    currentGun = value;
+            }
+        }
+        int NumberOfGuns { get; set; }
         //Pistol Gun { get; set; }
         //Shotgun Gun { get; set; }
         // SMG Gun { get; set; }
@@ -76,8 +89,6 @@ namespace zombiefactory
                 ++CurrentGun;
             else if (ZombieGame.InputMgr.IsNewButton(Buttons.LeftShoulder))
                 --CurrentGun;
-
-            CurrentGun %= NumberOfGuns;
 
             Gun = GunBelt[CurrentGun].Item3;
         }

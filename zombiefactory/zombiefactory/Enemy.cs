@@ -3,28 +3,22 @@ using Microsoft.Xna.Framework;
 
 namespace zombiefactory
 {
-    public class Enemy : Character
+    public abstract class Enemy : Character
     {
-        #region constants
-        public const string SPRITE_NAME = "Link";
-        public const int SPRITE_FRAMES = 3;
-        public const int SPRITE_LINES = 4;
-        public const float DEPTH = 0.1f;
-        public const float UPDATE_TIME = 1.0f / 10.0f;
-        public const float ATTACK_DELAY = 0.5f; //seconds between attacks
-        #endregion constants
 
         #region properties
         int Damage { get; set; }
+        float AttackDelay { get; set; }
         float TimeSinceLastAttack { get; set; }
         #endregion properties
 
-        public Enemy(ZombieGame game, Vector2 initPos, float maxSpeed, int maxHealth, int damage)
-            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, maxHealth, maxSpeed)
+        public Enemy(ZombieGame game, Vector2 initPos, string spriteName, int spriteFrames, int spriteLines, float depth, float updateTime, int maxHealth, int damage, float maxSpeed, float attackDelay)
+            : base(game, spriteName, spriteFrames, spriteLines, initPos, depth, updateTime, maxHealth, maxSpeed)
         {
             Damage = damage;
             Sprite.IsLooping = true;
-            DamageSound = ZombieGame.SfxMgr.Find(SPRITE_NAME + "Damage");
+            DamageSound = ZombieGame.SfxMgr.Find(spriteName + "Damage");
+            AttackDelay = attackDelay;
         }
 
         public override void Initialize()
@@ -102,7 +96,7 @@ namespace zombiefactory
 
             if (IsPlayerCollision(x, y))
             {
-                if (TimeSinceLastAttack > ATTACK_DELAY)
+                if (TimeSinceLastAttack > AttackDelay)
                 {
                     ZombieGame.Player.TakeDamage(Damage);
                     TimeSinceLastAttack = 0.0f;
