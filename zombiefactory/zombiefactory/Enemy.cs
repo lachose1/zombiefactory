@@ -7,8 +7,8 @@ namespace zombiefactory
     {
 
         #region properties
-        int Damage { get; set; }
-        float AttackDelay { get; set; }
+        protected int Damage { get; set; }
+        protected float AttackDelay { get; set; }
         protected float TimeSinceLastAttack { get; set; }
         #endregion properties
 
@@ -129,7 +129,7 @@ namespace zombiefactory
             return false;
         }
 
-        private bool IsPlayerCollision(float x, float y)
+        protected bool IsPlayerCollision(float x, float y)
         {
             Rectangle futureEnemyRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
             Rectangle playerRect = new Rectangle((int)ZombieGame.Player.Sprite.Position.X, (int)ZombieGame.Player.Sprite.Position.Y,
