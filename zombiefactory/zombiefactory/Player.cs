@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace zombiefactory
@@ -16,22 +17,34 @@ namespace zombiefactory
         #endregion constants
 
         #region properties
+        List<Tuple<string, bool, Gun>> GunBelt;
+        Gun Gun { get; set; }
         //Pistol Gun { get; set; }
-        Shotgun Gun { get; set; }
+        //Shotgun Gun { get; set; }
         // SMG Gun { get; set; }
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH, MAX_SPEED)
         {
+            GunBelt = new List<Tuple<string, bool, Gun>>();
+            populateGunBelt(game, initPos);
             //Gun = new Pistol(game, initPos);
-            Gun = new Shotgun(game, initPos);
+            //Gun = new Shotgun(game, initPos);
             // Gun = new SMG(game, initPos);
+            Gun = GunBelt[2].Item3;
         }
 
         public override void Initialize()
         {
             base.Initialize();
+        }
+
+        private void populateGunBelt(ZombieGame game, Vector2 initPos)
+        {
+            GunBelt.Add(new Tuple<string, bool, Gun>("Pistol", true, new Pistol(game, initPos)));
+            GunBelt.Add(new Tuple<string, bool, Gun>("Shotgun", true, new Shotgun(game, initPos)));
+            GunBelt.Add(new Tuple<string, bool, Gun>("SMG", true, new SMG(game, initPos)));
         }
 
         public override void Update(GameTime gameTime)
