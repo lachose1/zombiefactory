@@ -31,6 +31,8 @@ namespace zombiefactory
             TopLeftPosition = new Vector2(LeftMargin, TopMargin);
             FpsValue = -1;
             base.Initialize();
+
+            LoadContent();
         }
 
         protected override void LoadContent()
@@ -43,8 +45,7 @@ namespace zombiefactory
         {
             TopLeftPosition = new Vector2(LeftMargin, TopMargin);
             StringFps = ZombieGame.FpsHandler.FpsValue.ToString("0");
-            Dimension = FontDisplay.MeasureString(StringFps);
-            StringPosition = TopLeftPosition - Dimension;
+            StringPosition = TopLeftPosition;
             FpsValue = ZombieGame.FpsHandler.FpsValue;
 
             base.Update(gameTime);

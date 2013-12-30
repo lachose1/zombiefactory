@@ -61,7 +61,7 @@ namespace zombiefactory
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
             LevelMusic = MusicMgr.Find("song1");
-            MediaPlayer.Play(LevelMusic);
+            //MediaPlayer.Play(LevelMusic);
             MediaPlayer.Volume = 0.5f;
             //Enemies = new List<Enemy>();
             //Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100, 10));
@@ -69,10 +69,11 @@ namespace zombiefactory
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
+            FpsDisplayer.Initialize();
 
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
-            Components.Add(FpsDisplayer);
+            // Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
             Components.Add(EnemySpawner);
@@ -122,6 +123,9 @@ namespace zombiefactory
             if (InputMgr.IsNewKey(Keys.F)) //F toggles FPS displayer
                 FpsDisplayer.Enabled = !FpsDisplayer.Enabled;
 
+            if (FpsDisplayer.Enabled)
+                FpsDisplayer.Update(gameTime);
+
             //Enemies.RemoveAll(enemy => !enemy.IsAlive);
 
             //foreach (Enemy enemy in Enemies)
@@ -130,30 +134,23 @@ namespace zombiefactory
             base.Update(gameTime);
         }
 
-        protected override bool BeginDraw()
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
-                DepthStencilState.Default, RasterizerState.CullNone, null, Camera.Transform);
-
-            return base.BeginDraw();
-        }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
+                DepthStencilState.Default, RasterizerState.CullNone, null, Camera.Transform);
 
             //foreach (Enemy enemy in Enemies)
                 //enemy.Draw(gameTime);
 
             base.Draw(gameTime);
-        }
 
-        protected override void EndDraw()
-        {
             SpriteBatch.End();
 
-            base.EndDraw();
+            SpriteBatch.Begin();
+            FpsDisplayer.Draw(gameTime);
+            SpriteBatch.End();
         }
     }
 }
