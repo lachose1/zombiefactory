@@ -15,6 +15,7 @@ namespace zombiefactory
         const float STICK_THRESHOLD = 0.04f;
 
         #region properties
+        public bool IsSelected { get; set; }
         protected ZombieGame ZombieGame { get; set; }
         protected Sprite Sprite { get; set; }
         public string GunName { get; private set; }
@@ -54,7 +55,6 @@ namespace zombiefactory
                 {
                     IsReloading = true;
                     TimerReloading = 0;
-                    GunReloadSound.Play();
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace zombiefactory
         public SoundEffect GunShotSound { get; set; }
         public SoundEffect GunReloadSound { get; set; }
         float ReloadingTime { get; set; }
-        float TimerReloading { get; set; }
+        public float TimerReloading { get; set; }
         public bool IsAmmoEmpty { get { return !InfiniteAmmo && Ammo == 0 && ClipAmmo == 0; } }
         #endregion properties
 
@@ -111,6 +111,8 @@ namespace zombiefactory
             IsReloading = false;
             GunShotSound = ZombieGame.SfxMgr.Find(GunName + "Shot");
             GunReloadSound = ZombieGame.SfxMgr.Find(GunName + "Reload");
+
+            IsSelected = false;
         }
 
         public override void Initialize()
@@ -120,18 +122,28 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
-            if(IsReloading)
-                TimerReloading += 1.0f / ZombieGame.FpsHandler.FpsValue;
+            if (IsSelected)
+            {
+                if (IsReloading)
+                {
+                    if (TimerReloading == 0)
+                        GunReloadSound.Play();
 
-            if (TimerReloading >= ReloadingTime)
-                Reload();
+                    TimerReloading += 1.0f / ZombieGame.FpsHandler.FpsValue;
+                }
 
-            SetSpriteDirection();
-            MoveSprite();
-            MoveEmitters();
-            CheckCollision();
-            Shoot(gameTime);
-            
+                if (TimerReloading >= ReloadingTime)
+                    Reload();
+
+                SetSpriteDirection();
+                MoveSprite();
+                MoveEmitters();
+                CheckCollision();
+                Shoot(gameTime);
+            }
+
+            foreach (ParticleEmitter emitter in Emitters)
+                emitter.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -164,9 +176,6 @@ namespace zombiefactory
                     }
                 }
             }
-
-            foreach (ParticleEmitter emitter in Emitters)
-                emitter.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

@@ -44,6 +44,7 @@ namespace zombiefactory
             PopulateGunBelt(game, initPos);
             CurrentGun = 0;
             Gun = GunBelt[CurrentGun].Item3;
+            Gun.IsSelected = true;
         }
 
         public override void Initialize()
@@ -65,7 +66,8 @@ namespace zombiefactory
             MoveSprite();
             SwitchWeapon();
 
-            Gun.Update(gameTime);
+            foreach (Tuple<string, bool, Gun> gunTuple in GunBelt)
+                gunTuple.Item3.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -80,11 +82,20 @@ namespace zombiefactory
         private void SwitchWeapon()
         {
             if (ZombieGame.InputMgr.IsNewButton(Buttons.RightShoulder))
+            {
+                Gun.IsSelected = false;
+                Gun.TimerReloading = 0; // That way reload only happens after waiting in a continuous time period
                 ++CurrentGun;
+            }
             else if (ZombieGame.InputMgr.IsNewButton(Buttons.LeftShoulder))
+            {
+                Gun.IsSelected = false;
+                Gun.TimerReloading = 0;
                 --CurrentGun;
+            }
 
             Gun = GunBelt[CurrentGun].Item3;
+            Gun.IsSelected = true;
         }
 
         private void SetSpriteDirection()
