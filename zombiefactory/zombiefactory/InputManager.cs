@@ -61,5 +61,10 @@ namespace zombiefactory
         {
             return KbState.IsKeyDown(key);
         }
+
+        public bool IsNewButton(Buttons button)
+        {
+            return PreviousControllerState.IsButtonUp(button) && ControllerState.IsButtonDown(button);
+        }
     }
 }

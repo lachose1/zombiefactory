@@ -72,14 +72,13 @@ namespace zombiefactory
 
         private void SwitchWeapon()
         {
-            if (ZombieGame.InputMgr.ControllerState.Buttons.RightShoulder == ButtonState.Pressed)
-                CurrentGun++;
-            if (ZombieGame.InputMgr.ControllerState.Buttons.LeftShoulder == ButtonState.Pressed)
-                CurrentGun--;
-            if (CurrentGun < 0)
-                CurrentGun = NumberOfGuns-1;
-            if (CurrentGun > NumberOfGuns-1)
-                CurrentGun = 0;
+            if (ZombieGame.InputMgr.IsNewButton(Buttons.RightShoulder))
+                ++CurrentGun;
+            else if (ZombieGame.InputMgr.IsNewButton(Buttons.LeftShoulder))
+                --CurrentGun;
+
+            CurrentGun %= NumberOfGuns;
+
             Gun = GunBelt[CurrentGun].Item3;
         }
 
