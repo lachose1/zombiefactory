@@ -49,6 +49,12 @@ namespace zombiefactory
                     clipAmmo = ClipSize;
                 else
                     clipAmmo = value;
+
+                if (clipAmmo == 0 && Ammo != 0 && !InfiniteAmmo)
+                {
+                    IsReloading = true;
+                    TimerReloading = 0;
+                }
             }
         }
 
@@ -59,15 +65,20 @@ namespace zombiefactory
         protected bool IsReloading { get; set; }
         protected List<ParticleEmitter> Emitters;
         public SoundEffect GunShotSound { get; set; }
+        float ReloadingTime { get; set; }
+        float TimerReloading { get; set; }
+        public bool IsAmmoEmpty { get { return !InfiniteAmmo && Ammo == 0 && ClipAmmo == 0; } }
         #endregion properties
 
-        public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo, int clipSize, float fireRate, float bulletSpeed, bool infiniteAmmo)
+        public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo,
+            int clipSize, float fireRate, float bulletSpeed, bool infiniteAmmo, float reloadingTime)
             : base(game)
         {
             ZombieGame = game;
             GunName = gunName;
             Damage = damage;
             InfiniteAmmo = infiniteAmmo;
+            ReloadingTime = reloadingTime;
 
             MaxAmmo = maxAmmo;
             Ammo = ammo;
@@ -106,6 +117,12 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
+            if(IsReloading)
+                TimerReloading += 1.0f / ZombieGame.FpsHandler.FpsValue;
+
+            if (TimerReloading >= ReloadingTime)
+                Reload();
+
             SetSpriteDirection();
             MoveSprite();
             MoveEmitters();
@@ -115,9 +132,22 @@ namespace zombiefactory
             base.Update(gameTime);
         }
 
+        private void Reload()
+        {
+            IsReloading = false;
+            TimerReloading = 0;
+
+            if (Ammo >= ClipSize)
+                ClipAmmo = ClipSize;
+            else
+                ClipAmmo = Ammo;
+
+            Ammo -= ClipAmmo;
+        }
+
         protected virtual void Shoot(GameTime gameTime)
         {
-            if (IsShooting)
+            if (IsShooting && !IsReloading && ! IsAmmoEmpty)
             {
                 foreach (ParticleEmitter emitter in Emitters)
                 {

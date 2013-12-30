@@ -12,10 +12,11 @@ namespace zombiefactory
         const string NAME = "SMG";
         const float FIRE_RATE = 0.07f;
         const float BULLET_SPEED = 600.0f;
+        const float RELOAD_TIME = 1.0f;
         public const int DAMAGE = 2;
 
         public SMG(ZombieGame game, Vector2 initPos)
-            : base(game, initPos, NAME, DAMAGE, 1000, 320, 32, FIRE_RATE, BULLET_SPEED, false)
+            : base(game, initPos, NAME, DAMAGE, 1000, 320, 32, FIRE_RATE, BULLET_SPEED, false, RELOAD_TIME)
         {
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, Sprite.Position));
         }
