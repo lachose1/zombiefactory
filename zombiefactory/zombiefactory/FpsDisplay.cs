@@ -26,7 +26,7 @@ namespace zombiefactory
         public override void Initialize()
         {
             TopMargin = 0;
-            LeftMargin = 10;
+            LeftMargin = 5;
 
             TopLeftPosition = new Vector2(LeftMargin, TopMargin);
             FpsValue = -1;

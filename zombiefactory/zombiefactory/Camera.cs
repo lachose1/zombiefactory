@@ -13,7 +13,7 @@ namespace zombiefactory
         Viewport View { get; set; }
         Vector2 Centre { get; set; }
         Vector2 PlayerSize { get; set; }
-        public Vector2 ScreenSize { get; private set; }
+        Vector2 ScreenSize { get; set; }
 
         public Camera(ZombieGame game)
             : base(game)
