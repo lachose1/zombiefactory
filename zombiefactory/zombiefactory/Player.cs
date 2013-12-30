@@ -16,16 +16,16 @@ namespace zombiefactory
         #endregion constants
 
         #region properties
-        Pistol Gun { get; set; }
-        // Shotgun Gun { get; set; }
+        //Pistol Gun { get; set; }
+        Shotgun Gun { get; set; }
         // SMG Gun { get; set; }
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH, MAX_SPEED)
         {
-            Gun = new Pistol(game, initPos);
-            // Gun = new Shotgun(game, initPos);
+            //Gun = new Pistol(game, initPos);
+            Gun = new Shotgun(game, initPos);
             // Gun = new SMG(game, initPos);
         }
 

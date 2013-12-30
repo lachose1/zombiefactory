@@ -27,6 +27,7 @@ namespace zombiefactory
         private FpsDisplay FpsDisplayer { get; set; } //Does not follow the camera yet
         public Player Player { get; private set; }
         public Level Level { get; private set; }
+        public Song LevelMusic { get; private set; }
         public Camera Camera { get; private set; }
         //public List<Enemy> Enemies { get; private set; }
         public EnemySpawner EnemySpawner { get; set; }
@@ -59,6 +60,9 @@ namespace zombiefactory
             Player = new Player(this, new Vector2(100.0f, 100.0f));
             Level = new Level(this, "testlvl");
             Camera = new Camera(this);
+            LevelMusic = MusicMgr.Find("song1");
+            MediaPlayer.Play(LevelMusic);
+            MediaPlayer.Volume = 0.5f;
             //Enemies = new List<Enemy>();
             //Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100, 10));
             EnemySpawner = new EnemySpawner(this, 100, true, 0.5f, new Vector2(200.0f, 300.0f));
@@ -84,14 +88,19 @@ namespace zombiefactory
             TextureMgr.Add("Sprites/character-4directions");
             TextureMgr.Add("Sprites/Pistol");
             TextureMgr.Add("Sprites/SMG");
+            TextureMgr.Add("Sprites/Shotgun");
             TextureMgr.Add("Sprites/Bullet");
             TextureMgr.Add("Tilesets/alttp_tiles");
             TextureMgr.Add("Sprites/Monolith");
 
             SfxMgr.Add("Sounds/PistolShot");
             SfxMgr.Add("Sounds/SMGShot");
+            SfxMgr.Add("Sounds/ShotgunShot");
+            SfxMgr.Add("Sounds/ShotgunPump");
             SfxMgr.Add("Sounds/DefaultDamage");
             SfxMgr.Add("Sounds/LinkDamage");
+
+            MusicMgr.Add("Music/song1");
         }
 
         protected override void LoadContent()

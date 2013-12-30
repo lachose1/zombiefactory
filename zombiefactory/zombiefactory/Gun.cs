@@ -15,7 +15,7 @@ namespace zombiefactory
         const float STICK_THRESHOLD = 0.04f;
 
         #region properties
-        ZombieGame ZombieGame { get; set; }
+        protected ZombieGame ZombieGame { get; set; }
         protected Sprite Sprite { get; set; }
         string GunName { get; set; }
         int Damage { get; set; }
@@ -67,7 +67,7 @@ namespace zombiefactory
             base.Update(gameTime);
         }
 
-        protected void Shoot(GameTime gameTime)
+        protected virtual void Shoot(GameTime gameTime)
         {
             if (IsShooting)
             {
