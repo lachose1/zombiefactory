@@ -18,7 +18,7 @@ namespace zombiefactory
         public Pistol(ZombieGame game, Vector2 initPos)
             : base(game, initPos, NAME, DAMAGE, -1, -1, 12, FIRE_RATE, BULLET_SPEED, true, RELOAD_TIME)
         {
-            Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, Sprite.Position));
+            Emitters.Add(new ParticleEmitter(game, 50, false, FIRE_RATE, Sprite.Position));
         }
 
         protected override void MoveEmitters()

@@ -18,7 +18,7 @@ namespace zombiefactory
         public SMG(ZombieGame game, Vector2 initPos)
             : base(game, initPos, NAME, DAMAGE, 1000, 320, 32, FIRE_RATE, BULLET_SPEED, false, RELOAD_TIME)
         {
-            Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, Sprite.Position));
+            Emitters.Add(new ParticleEmitter(game, 50, false, FIRE_RATE, Sprite.Position));
         }
 
         protected override void MoveEmitters()

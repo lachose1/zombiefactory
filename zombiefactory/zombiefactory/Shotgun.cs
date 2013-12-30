@@ -23,8 +23,8 @@ namespace zombiefactory
         public Shotgun(ZombieGame game, Vector2 initPos)
             : base(game, initPos, NAME, DAMAGE, 96, 96, 12, FIRE_RATE, BULLET_SPEED, false, RELOAD_TIME)
         {
-            Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, new Vector2(Sprite.Position.X - EMITTERS_OFFSET, Sprite.Position.Y)));
-            Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, new Vector2(Sprite.Position.X + EMITTERS_OFFSET, Sprite.Position.Y)));
+            Emitters.Add(new ParticleEmitter(game, 50, false, FIRE_RATE, new Vector2(Sprite.Position.X - EMITTERS_OFFSET, Sprite.Position.Y)));
+            Emitters.Add(new ParticleEmitter(game, 50, false, FIRE_RATE, new Vector2(Sprite.Position.X + EMITTERS_OFFSET, Sprite.Position.Y)));
             ShotgunPump = game.SfxMgr.Find("ShotgunPump");
         }
 
