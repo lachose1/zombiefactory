@@ -38,7 +38,7 @@ namespace zombiefactory
             Sprite.Update(gameTime);
             HoveringSprite.Update(gameTime);
 
-            float newY = (float)(5.0 * Math.Sin(0.005 * gameTime.TotalGameTime.Milliseconds) + SpawningLocation.Y - 20.0);
+            float newY = (float)(5.0 * Math.Sin(0.005 * gameTime.TotalGameTime.TotalMilliseconds) + SpawningLocation.Y - 20.0);
 
             HoveringSprite.Position = new Vector2(HoveringSprite.Position.X, newY);
 
