@@ -15,7 +15,7 @@ namespace zombiefactory
         public const int DAMAGE = 2;
 
         public SMG(ZombieGame game, Vector2 initPos)
-            : base(game, initPos, NAME, DAMAGE, 1000, 32, 32, FIRE_RATE, BULLET_SPEED)
+            : base(game, initPos, NAME, DAMAGE, 1000, 320, 32, FIRE_RATE, BULLET_SPEED, false)
         {
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, Sprite.Position));
         }

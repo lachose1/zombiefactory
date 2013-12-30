@@ -24,12 +24,12 @@ namespace zombiefactory
         public ResourceManager<Song> MusicMgr { get; private set; }
         public ResourceManager<SoundEffect> SfxMgr { get; private set; }
         public FpsCounter FpsHandler { get; private set; }
-        private FpsDisplay FpsDisplayer { get; set; } //Does not follow the camera yet
+        private FpsDisplay FpsDisplayer { get; set; }
         public Player Player { get; private set; }
         public Level Level { get; private set; }
         public Song LevelMusic { get; private set; }
         public Camera Camera { get; private set; }
-        //public List<Enemy> Enemies { get; private set; }
+        public HUD HUD { get; private set; }
         public EnemySpawner EnemySpawner { get; set; }
         #endregion properties
 
@@ -71,9 +71,11 @@ namespace zombiefactory
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
             FpsDisplayer.Initialize();
 
+            HUD = new HUD(this, "Arial14");
+            HUD.Initialize();
+
             Components.Add(FpsHandler);
             Components.Add(InputMgr);
-            // Components.Add(FpsDisplayer);
             Components.Add(Level);
             Components.Add(Player);
             Components.Add(EnemySpawner);
@@ -128,10 +130,7 @@ namespace zombiefactory
             if (FpsDisplayer.Enabled)
                 FpsDisplayer.Update(gameTime);
 
-            //Enemies.RemoveAll(enemy => !enemy.IsAlive);
-
-            //foreach (Enemy enemy in Enemies)
-                //enemy.Update(gameTime);
+            HUD.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -142,16 +141,12 @@ namespace zombiefactory
 
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.Default, RasterizerState.CullNone, null, Camera.Transform);
-
-            //foreach (Enemy enemy in Enemies)
-                //enemy.Draw(gameTime);
-
             base.Draw(gameTime);
-
             SpriteBatch.End();
 
             SpriteBatch.Begin();
             FpsDisplayer.Draw(gameTime);
+            HUD.Draw(gameTime);
             SpriteBatch.End();
         }
     }

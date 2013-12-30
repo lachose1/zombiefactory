@@ -20,7 +20,7 @@ namespace zombiefactory
         #endregion properties
 
         public Shotgun(ZombieGame game, Vector2 initPos)
-            : base(game, initPos, NAME, DAMAGE, -1, -1, 12, FIRE_RATE, BULLET_SPEED)
+            : base(game, initPos, NAME, DAMAGE, 96, 96, 12, FIRE_RATE, BULLET_SPEED, false)
         {
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, new Vector2(Sprite.Position.X - EMITTERS_OFFSET, Sprite.Position.Y)));
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, new Vector2(Sprite.Position.X + EMITTERS_OFFSET, Sprite.Position.Y)));

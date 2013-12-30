@@ -15,7 +15,7 @@ namespace zombiefactory
         public const int DAMAGE = 10;
 
         public Pistol(ZombieGame game, Vector2 initPos)
-            : base(game, initPos, NAME, DAMAGE, -1, -1, 12, FIRE_RATE, BULLET_SPEED)
+            : base(game, initPos, NAME, DAMAGE, -1, -1, 12, FIRE_RATE, BULLET_SPEED, true)
         {
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, Sprite.Position));
         }

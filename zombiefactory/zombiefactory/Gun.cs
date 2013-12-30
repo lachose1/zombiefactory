@@ -17,11 +17,42 @@ namespace zombiefactory
         #region properties
         protected ZombieGame ZombieGame { get; set; }
         protected Sprite Sprite { get; set; }
-        string GunName { get; set; }
+        public string GunName { get; private set; }
+        public bool InfiniteAmmo { get; private set; }
         int Damage { get; set; }
-        int MaxAmmo { get; set; }
-        int Ammo { get; set; }
-        int ClipSize { get; set; }
+        int MaxAmmo { get; set; } // Max ammo that can be carried for this gun
+
+        int ammo;
+        public int Ammo // Total ammo carried for this gun, minus what's in the current clip
+        {
+            get { return ammo; }
+            private set
+            {
+                if (value < 0)
+                    ammo = 0;
+                else if (value > MaxAmmo)
+                    ammo = MaxAmmo;
+                else
+                    ammo = value;
+            }
+        }
+
+        int clipAmmo;
+        public int ClipAmmo // Ammo in the current clip
+        {
+            get { return clipAmmo; }
+            private set
+            {
+                if (value < 0)
+                    clipAmmo = 0;
+                else if (value > ClipSize)
+                    clipAmmo = ClipSize;
+                else
+                    clipAmmo = value;
+            }
+        }
+
+        int ClipSize { get; set; } // Max ammo in a clip
         float FireRate { get; set; }
         float BulletSpeed { get; set; }
         protected bool IsShooting { get; set; }
@@ -29,15 +60,30 @@ namespace zombiefactory
         public SoundEffect GunShotSound { get; set; }
         #endregion properties
 
-        public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo, int clipSize, float fireRate, float bulletSpeed)
+        public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo, int clipSize, float fireRate, float bulletSpeed, bool infiniteAmmo)
             : base(game)
         {
             ZombieGame = game;
             GunName = gunName;
             Damage = damage;
+            InfiniteAmmo = infiniteAmmo;
+
             MaxAmmo = maxAmmo;
             Ammo = ammo;
             ClipSize = clipSize;
+
+            if (!InfiniteAmmo)
+            {
+                if (Ammo >= ClipSize)
+                    ClipAmmo = ClipSize;
+                else
+                    ClipAmmo = Ammo;
+
+                Ammo -= ClipAmmo;
+            }
+            else
+                ClipAmmo = ClipSize;
+
             FireRate = fireRate;
             BulletSpeed = bulletSpeed;
 
