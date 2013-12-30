@@ -35,8 +35,7 @@ namespace zombiefactory
             ClipAmmo = "0";
             Ammo = "0";
 
-            ScreenSize = new Vector2(ZombieGame.GraphicsDevice.DisplayMode.Width,
-                ZombieGame.GraphicsDevice.DisplayMode.Height);
+            ScreenSize = new Vector2(800, 600);
 
             base.Initialize();
 
@@ -63,17 +62,13 @@ namespace zombiefactory
                 Ammo = ZombieGame.Player.Gun.Ammo.ToString();
             }
 
-
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            ZombieGame.SpriteBatch.DrawString(FontDisplay, GunName, new Vector2(100, 100), Color.Black, 0,
-                Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-            ZombieGame.SpriteBatch.DrawString(FontDisplay, ClipAmmo, new Vector2(100, 120), Color.Black, 0,
-                Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-            ZombieGame.SpriteBatch.DrawString(FontDisplay, Ammo, new Vector2(100, 140), Color.Black, 0,
+            string DisplayString = GunName + " | " + ClipAmmo + " | " + Ammo + " ";
+            ZombieGame.SpriteBatch.DrawString(FontDisplay, DisplayString, ScreenSize - FontDisplay.MeasureString(DisplayString), Color.Black, 0,
                 Vector2.Zero, 1.0f, SpriteEffects.None, 0);
 
             base.Draw(gameTime);
