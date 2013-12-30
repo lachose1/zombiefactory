@@ -54,6 +54,7 @@ namespace zombiefactory
                 {
                     IsReloading = true;
                     TimerReloading = 0;
+                    GunReloadSound.Play();
                 }
             }
         }
@@ -65,6 +66,7 @@ namespace zombiefactory
         protected bool IsReloading { get; set; }
         protected List<ParticleEmitter> Emitters;
         public SoundEffect GunShotSound { get; set; }
+        public SoundEffect GunReloadSound { get; set; }
         float ReloadingTime { get; set; }
         float TimerReloading { get; set; }
         public bool IsAmmoEmpty { get { return !InfiniteAmmo && Ammo == 0 && ClipAmmo == 0; } }
@@ -108,6 +110,7 @@ namespace zombiefactory
             IsShooting = false;
             IsReloading = false;
             GunShotSound = ZombieGame.SfxMgr.Find(GunName + "Shot");
+            GunReloadSound = ZombieGame.SfxMgr.Find(GunName + "Reload");
         }
 
         public override void Initialize()
@@ -147,14 +150,17 @@ namespace zombiefactory
 
         protected virtual void Shoot(GameTime gameTime)
         {
+            int firstEmitter = 0;
             if (IsShooting && !IsReloading && ! IsAmmoEmpty)
             {
                 foreach (ParticleEmitter emitter in Emitters)
                 {
                     if (emitter.addParticle("Bullet", emitter.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f, ComputeBulletSpeed()))
                     {
-                        GunShotSound.Play();
+                        if(firstEmitter == 0)
+                            GunShotSound.Play();
                         --ClipAmmo;
+                        firstEmitter++;
                     }
                 }
             }

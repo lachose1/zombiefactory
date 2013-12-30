@@ -39,15 +39,20 @@ namespace zombiefactory
 
         protected override void Shoot(GameTime gameTime)
         {
-            if (IsShooting && !IsReloading)
+            int firstEmitter = 0;
+            if (IsShooting && !IsReloading && !IsAmmoEmpty)
             {
                 foreach (ParticleEmitter emitter in Emitters)
                 {
                     if (emitter.addParticle("Bullet", emitter.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f, ComputeBulletSpeed()))
                     {
-                        GunShotSound.Play();
-                        ShotgunPump.Play();
+                        if (firstEmitter == 0)
+                        {
+                            GunShotSound.Play();
+                            ShotgunPump.Play();
+                        }
                         --ClipAmmo;
+                        firstEmitter++;
                     }
                 }
             }
