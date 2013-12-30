@@ -9,7 +9,7 @@ namespace zombiefactory
         #region properties
         int Damage { get; set; }
         float AttackDelay { get; set; }
-        float TimeSinceLastAttack { get; set; }
+        protected float TimeSinceLastAttack { get; set; }
         #endregion properties
 
         public Enemy(ZombieGame game, Vector2 initPos, string spriteName, int spriteFrames, int spriteLines, float depth, float updateTime, int maxHealth, int damage, float maxSpeed, float attackDelay)
@@ -41,7 +41,7 @@ namespace zombiefactory
             base.Draw(gameTime);
         }
 
-        private void SetSpriteDirection()
+        protected void SetSpriteDirection()
         {
             //TODO: Run AI code for direction, according to enemy type
             //Currently simply looks at the player

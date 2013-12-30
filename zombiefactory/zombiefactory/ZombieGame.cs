@@ -85,6 +85,7 @@ namespace zombiefactory
         {
             FontMgr.Add("Fonts/Arial14");
             TextureMgr.Add("Sprites/Link");
+            TextureMgr.Add("Sprites/Leaper");
             TextureMgr.Add("Sprites/character-4directions");
             TextureMgr.Add("Sprites/Pistol");
             TextureMgr.Add("Sprites/SMG");
@@ -99,6 +100,7 @@ namespace zombiefactory
             SfxMgr.Add("Sounds/ShotgunPump");
             SfxMgr.Add("Sounds/DefaultDamage");
             SfxMgr.Add("Sounds/LinkDamage");
+            SfxMgr.Add("Sounds/LeaperDamage");
 
             MusicMgr.Add("Music/song1");
         }
