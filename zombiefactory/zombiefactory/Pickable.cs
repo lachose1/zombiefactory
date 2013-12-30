@@ -35,22 +35,45 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
+            if (IsPickedUp)
+                return;
             Sprite.Update(gameTime);
             HoveringSprite.Update(gameTime);
 
-            float newY = (float)(5.0 * Math.Sin(0.005 * gameTime.TotalGameTime.TotalMilliseconds) + SpawningLocation.Y - 20.0);
+            if (IsPlayerCollision(Sprite.Position.X, Sprite.Position.Y))
+                PickedUp();
 
-            HoveringSprite.Position = new Vector2(HoveringSprite.Position.X, newY);
+            HoveringSprite.Position = new Vector2(HoveringSprite.Position.X, (float)(5.0 * Math.Sin(0.005 * gameTime.TotalGameTime.TotalMilliseconds) + SpawningLocation.Y - 20.0));
 
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            if (IsPickedUp)
+                return;
             Sprite.Draw(gameTime);
             HoveringSprite.Draw(gameTime);
 
             base.Draw(gameTime);
+        }
+
+        public void PickedUp()
+        {
+            IsPickedUp = true;
+            //Ajouter que le pickable sote lui meme de components
+        }
+
+        protected bool IsPlayerCollision(float x, float y)
+        {
+            Rectangle PickableRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
+
+            Rectangle PlayerRect = new Rectangle((int)ZombieGame.Player.Sprite.Position.X, (int)ZombieGame.Player.Sprite.Position.Y, ZombieGame.Player.Sprite.FrameWidth, ZombieGame.Player.Sprite.FrameHeight);
+
+            if (PickableRect.Intersects(PlayerRect))
+                return true;
+
+            return false;
         }
     }
 }
