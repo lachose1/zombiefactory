@@ -17,11 +17,6 @@ namespace zombiefactory
         public const int MAX_DAMAGE = 10;
         #endregion constants
 
-        #region properties
-        int Damage { get; set; }
-        float TimeSinceLastAttack { get; set; }
-        #endregion properties
-
         public Zombie(ZombieGame game, Vector2 initPos)
             : base(game, initPos, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, DEPTH, UPDATE_TIME, MAX_HEALTH, MAX_DAMAGE, MAX_SPEED, ATTACK_DELAY)
         {

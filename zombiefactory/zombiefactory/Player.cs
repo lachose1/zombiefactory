@@ -19,7 +19,7 @@ namespace zombiefactory
 
         #region properties
         List<Tuple<string, bool, Gun>> GunBelt;
-        Gun Gun { get; set; }
+        public Gun Gun { get; private set; }
         int currentGun;
         int CurrentGun
         {
@@ -35,9 +35,6 @@ namespace zombiefactory
             }
         }
         int NumberOfGuns { get; set; }
-        //Pistol Gun { get; set; }
-        //Shotgun Gun { get; set; }
-        // SMG Gun { get; set; }
         #endregion properties
 
         public Player(ZombieGame game, Vector2 initPos)
@@ -45,9 +42,6 @@ namespace zombiefactory
         {
             GunBelt = new List<Tuple<string, bool, Gun>>();
             PopulateGunBelt(game, initPos);
-            //Gun = new Pistol(game, initPos);
-            //Gun = new Shotgun(game, initPos);
-            // Gun = new SMG(game, initPos);
             CurrentGun = 0;
             Gun = GunBelt[CurrentGun].Item3;
         }

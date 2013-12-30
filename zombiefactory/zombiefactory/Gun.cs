@@ -17,27 +17,85 @@ namespace zombiefactory
         #region properties
         protected ZombieGame ZombieGame { get; set; }
         protected Sprite Sprite { get; set; }
-        string GunName { get; set; }
+        public string GunName { get; private set; }
+        public bool InfiniteAmmo { get; private set; }
         int Damage { get; set; }
-        int MaxAmmo { get; set; }
-        int Ammo { get; set; }
-        int ClipSize { get; set; }
+        int MaxAmmo { get; set; } // Max ammo that can be carried for this gun
+
+        int ammo;
+        public int Ammo // Total ammo carried for this gun, minus what's in the current clip
+        {
+            get { return ammo; }
+            protected set
+            {
+                if (value < 0)
+                    ammo = 0;
+                else if (value > MaxAmmo)
+                    ammo = MaxAmmo;
+                else
+                    ammo = value;
+            }
+        }
+
+        int clipAmmo;
+        public int ClipAmmo // Ammo in the current clip
+        {
+            get { return clipAmmo; }
+            protected set
+            {
+                if (value < 0)
+                    clipAmmo = 0;
+                else if (value > ClipSize)
+                    clipAmmo = ClipSize;
+                else
+                    clipAmmo = value;
+
+                if (clipAmmo == 0)
+                {
+                    IsReloading = true;
+                    TimerReloading = 0;
+                }
+            }
+        }
+
+        int ClipSize { get; set; } // Max ammo in a clip
         float FireRate { get; set; }
         float BulletSpeed { get; set; }
         protected bool IsShooting { get; set; }
+        protected bool IsReloading { get; set; }
         protected List<ParticleEmitter> Emitters;
         public SoundEffect GunShotSound { get; set; }
+        float ReloadingTime { get; set; }
+        float TimerReloading { get; set; }
+        public bool IsAmmoEmpty { get { return !InfiniteAmmo && Ammo == 0 && ClipAmmo == 0; } }
         #endregion properties
 
-        public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo, int clipSize, float fireRate, float bulletSpeed)
+        public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo,
+            int clipSize, float fireRate, float bulletSpeed, bool infiniteAmmo, float reloadingTime)
             : base(game)
         {
             ZombieGame = game;
             GunName = gunName;
             Damage = damage;
+            InfiniteAmmo = infiniteAmmo;
+            ReloadingTime = reloadingTime;
+
             MaxAmmo = maxAmmo;
             Ammo = ammo;
             ClipSize = clipSize;
+
+            if (!InfiniteAmmo)
+            {
+                if (Ammo >= ClipSize)
+                    ClipAmmo = ClipSize;
+                else
+                    ClipAmmo = Ammo;
+
+                Ammo -= ClipAmmo;
+            }
+            else
+                ClipAmmo = ClipSize;
+
             FireRate = fireRate;
             BulletSpeed = bulletSpeed;
 
@@ -48,6 +106,7 @@ namespace zombiefactory
             Emitters = new List<ParticleEmitter>();
 
             IsShooting = false;
+            IsReloading = false;
             GunShotSound = ZombieGame.SfxMgr.Find(GunName + "Shot");
         }
 
@@ -58,6 +117,12 @@ namespace zombiefactory
 
         public override void Update(GameTime gameTime)
         {
+            if(IsReloading)
+                TimerReloading += 1.0f / ZombieGame.FpsHandler.FpsValue;
+
+            if (TimerReloading >= ReloadingTime)
+                Reload();
+
             SetSpriteDirection();
             MoveSprite();
             MoveEmitters();
@@ -67,15 +132,29 @@ namespace zombiefactory
             base.Update(gameTime);
         }
 
+        private void Reload()
+        {
+            IsReloading = false;
+            TimerReloading = 0;
+
+            if (Ammo >= ClipSize || InfiniteAmmo)
+                ClipAmmo = ClipSize;
+            else
+                ClipAmmo = Ammo;
+
+            Ammo -= ClipAmmo;
+        }
+
         protected virtual void Shoot(GameTime gameTime)
         {
-            if (IsShooting)
+            if (IsShooting && !IsReloading && ! IsAmmoEmpty)
             {
                 foreach (ParticleEmitter emitter in Emitters)
                 {
                     if (emitter.addParticle("Bullet", emitter.Position, new Vector2((float)Math.Cos(Sprite.Rotation), (float)Math.Sin(Sprite.Rotation)), 200.0f, 0.0f, ComputeBulletSpeed()))
                     {
                         GunShotSound.Play();
+                        --ClipAmmo;
                     }
                 }
             }

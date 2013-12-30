@@ -13,6 +13,7 @@ namespace zombiefactory
         const float FIRE_RATE = 0.55f;
         const float BULLET_SPEED = 500.0f;
         const float EMITTERS_OFFSET = 2;
+        const float RELOAD_TIME = 1.0f;
         public const int DAMAGE = 20;
 
         #region properties
@@ -20,7 +21,7 @@ namespace zombiefactory
         #endregion properties
 
         public Shotgun(ZombieGame game, Vector2 initPos)
-            : base(game, initPos, NAME, DAMAGE, -1, -1, 12, FIRE_RATE, BULLET_SPEED)
+            : base(game, initPos, NAME, DAMAGE, 96, 96, 12, FIRE_RATE, BULLET_SPEED, false, RELOAD_TIME)
         {
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, new Vector2(Sprite.Position.X - EMITTERS_OFFSET, Sprite.Position.Y)));
             Emitters.Add(new ParticleEmitter(game, 100, false, FIRE_RATE, new Vector2(Sprite.Position.X + EMITTERS_OFFSET, Sprite.Position.Y)));
@@ -38,7 +39,7 @@ namespace zombiefactory
 
         protected override void Shoot(GameTime gameTime)
         {
-            if (IsShooting)
+            if (IsShooting && !IsReloading)
             {
                 foreach (ParticleEmitter emitter in Emitters)
                 {
@@ -46,6 +47,7 @@ namespace zombiefactory
                     {
                         GunShotSound.Play();
                         ShotgunPump.Play();
+                        --ClipAmmo;
                     }
                 }
             }
