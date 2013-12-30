@@ -59,7 +59,7 @@ namespace zombiefactory
 
             if (enemyAdded)
             {
-                ActiveEnemies.AddLast(new Zombie(ZombieGame, Position));
+                ActiveEnemies.AddLast(new Leaper(ZombieGame, Position));
                 TimeSinceLastSpawn = 0.0f;
             }
 
