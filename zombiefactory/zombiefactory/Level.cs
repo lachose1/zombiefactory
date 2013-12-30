@@ -15,8 +15,8 @@ namespace zombiefactory
         Color Color { get; set; }
         SpriteEffects Effects { get; set; }
         float Depth { get; set; }
-        int Width { get; set; }
         int Height { get; set; }
+        int Width { get; set; }
         public int[,] TileType { get; private set; }
 
         //Idealement le nom et la taille du tileset vont tous aller dans le fichier lvl.dat ou wtv, et on va juste passer game et levelName
@@ -27,16 +27,16 @@ namespace zombiefactory
             string tilesetName = levelData.ReadLine();
             int tilesetRows = int.Parse(levelData.ReadLine());
             int tilesetColumns = int.Parse(levelData.ReadLine());
-            Width = int.Parse(levelData.ReadLine());
             Height = int.Parse(levelData.ReadLine());
+            Width = int.Parse(levelData.ReadLine());
 
-            TileType = new int[Width, Height];
+            TileType = new int[Height, Width];
 
-            for (int i = 0; i < Width; ++i)
+            for (int i = 0; i < Height; ++i)
             {
                 string[] numbers = levelData.ReadLine().Split(' ');
 
-                for (int j = 0; j < Height; ++j)
+                for (int j = 0; j < Width; ++j)
                 {
                     TileType[i, j] = int.Parse(numbers[j]);
                 }
@@ -65,11 +65,11 @@ namespace zombiefactory
 
         public override void Draw(GameTime gameTime)
         {
-            for (int i = 0; i < Width; ++i)
+            for (int i = 0; i < Height; ++i)
             {
-                for (int j = 0; j < Height; ++j)
+                for (int j = 0; j < Width; ++j)
                 {
-                    ZombieGame.SpriteBatch.Draw(Tileset.TilesTexture, new Vector2((int)(j * Tileset.TileWidth * Scale), (int)(i * Tileset.TileHeight * Scale)),
+                    ZombieGame.SpriteBatch.Draw(Tileset.TilesTexture, new Vector2((int)(j * Tileset.TileHeight * Scale), (int)(i * Tileset.TileWidth * Scale)),
                         Tileset.getRectangle(TileType[i, j]), Color, Rotation, Origin, Scale, Effects, Depth);
                 }
             }
