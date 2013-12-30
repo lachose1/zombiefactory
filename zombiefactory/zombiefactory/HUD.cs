@@ -52,15 +52,11 @@ namespace zombiefactory
         {
             GunName = ZombieGame.Player.Gun.GunName;
             if (ZombieGame.Player.Gun.InfiniteAmmo)
-            {
-                ClipAmmo = "Inf";
                 Ammo = "Inf";
-            }
             else
-            {
-                ClipAmmo = ZombieGame.Player.Gun.ClipAmmo.ToString();
                 Ammo = ZombieGame.Player.Gun.Ammo.ToString();
-            }
+
+            ClipAmmo = ZombieGame.Player.Gun.ClipAmmo.ToString();
 
             base.Update(gameTime);
         }

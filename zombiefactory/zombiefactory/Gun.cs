@@ -50,7 +50,7 @@ namespace zombiefactory
                 else
                     clipAmmo = value;
 
-                if (clipAmmo == 0 && Ammo != 0 && !InfiniteAmmo)
+                if (clipAmmo == 0)
                 {
                     IsReloading = true;
                     TimerReloading = 0;
@@ -137,7 +137,7 @@ namespace zombiefactory
             IsReloading = false;
             TimerReloading = 0;
 
-            if (Ammo >= ClipSize)
+            if (Ammo >= ClipSize || InfiniteAmmo)
                 ClipAmmo = ClipSize;
             else
                 ClipAmmo = Ammo;
