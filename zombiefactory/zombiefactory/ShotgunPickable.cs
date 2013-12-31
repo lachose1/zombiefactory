@@ -19,7 +19,7 @@ namespace zombiefactory
         #endregion properties
 
         public ShotgunPickable(ZombieGame game, Vector2 spawningLocation)
-            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, spawningLocation, DEPTH, UPDATE_TIME, 0)
+            : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, spawningLocation, DEPTH, UPDATE_TIME)
         {
             ZombieGame = game;
         }

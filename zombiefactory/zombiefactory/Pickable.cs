@@ -12,16 +12,14 @@ namespace zombiefactory
         public AnimatedSprite HoveringSprite { get; protected set; }
         public SoundEffect PickupSound { get; set; }
         public Vector2 SpawningLocation { get; set; }
-        public int HoveringTextType;
         public bool IsPickedUp { get; set; }
         #endregion properties
 
-        public Pickable(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 spawningLocation, float depth, float updateTime, int hoveringTextType)
+        public Pickable(ZombieGame game, string spriteName, int spriteFrames, int spriteLines, Vector2 spawningLocation, float depth, float updateTime)
             : base(game)
         {
             ZombieGame = game;
             IsPickedUp = false;
-            HoveringTextType = hoveringTextType;
             SpawningLocation = spawningLocation;
             Sprite = new AnimatedSprite(ZombieGame, spriteName, spriteFrames, spriteLines, spawningLocation, depth, updateTime);
             HoveringSprite = new AnimatedSprite(ZombieGame, "Pickme", 1, 1, new Vector2(spawningLocation.X - 24.0f, spawningLocation.Y - 20.0f), depth, updateTime);
@@ -37,13 +35,15 @@ namespace zombiefactory
         {
             if (IsPickedUp)
                 return;
+
             Sprite.Update(gameTime);
             HoveringSprite.Update(gameTime);
 
             if (IsPlayerCollision(Sprite.Position.X, Sprite.Position.Y))
                 PickedUp();
 
-            HoveringSprite.Position = new Vector2(HoveringSprite.Position.X, (float)(5.0 * Math.Sin(0.005 * gameTime.TotalGameTime.TotalMilliseconds) + SpawningLocation.Y - 20.0));
+            HoveringSprite.Position = new Vector2(HoveringSprite.Position.X,
+                (float)(5.0 * Math.Sin(0.005 * gameTime.TotalGameTime.TotalMilliseconds) + SpawningLocation.Y - 20.0));
 
             base.Update(gameTime);
         }
@@ -52,6 +52,7 @@ namespace zombiefactory
         {
             if (IsPickedUp)
                 return;
+
             Sprite.Draw(gameTime);
             HoveringSprite.Draw(gameTime);
 
@@ -68,12 +69,10 @@ namespace zombiefactory
         {
             Rectangle PickableRect = new Rectangle((int)x, (int)y, Sprite.FrameWidth, Sprite.FrameHeight);
 
-            Rectangle PlayerRect = new Rectangle((int)ZombieGame.Player.Sprite.Position.X, (int)ZombieGame.Player.Sprite.Position.Y, ZombieGame.Player.Sprite.FrameWidth, ZombieGame.Player.Sprite.FrameHeight);
+            Rectangle PlayerRect = new Rectangle((int)ZombieGame.Player.Sprite.Position.X, (int)ZombieGame.Player.Sprite.Position.Y,
+                ZombieGame.Player.Sprite.FrameWidth, ZombieGame.Player.Sprite.FrameHeight);
 
-            if (PickableRect.Intersects(PlayerRect))
-                return true;
-
-            return false;
+            return PickableRect.Intersects(PlayerRect);
         }
     }
 }
