@@ -55,7 +55,7 @@ namespace zombiefactory
         private void PopulateGunBelt(ZombieGame game, Vector2 initPos)
         {
             GunBelt.Add(new Tuple<string, bool, Gun>("Pistol", true, new Pistol(game, initPos)));
-            GunBelt.Add(new Tuple<string, bool, Gun>("Shotgun", true, new Shotgun(game, initPos)));
+            GunBelt.Add(new Tuple<string, bool, Gun>("Shotgun", false, new Shotgun(game, initPos)));
             GunBelt.Add(new Tuple<string, bool, Gun>("SMG", true, new SMG(game, initPos)));
             NumberOfGuns = GunBelt.Count;
         }
@@ -85,14 +85,21 @@ namespace zombiefactory
             {
                 Gun.IsSelected = false;
                 Gun.TimerReloading = 0; // That way reload only happens after waiting in a continuous time period
-                ++CurrentGun;
+                do
+                {
+                    ++CurrentGun;
+                } while (!GunBelt[CurrentGun].Item2); // This assumes there will always be at least one gun in belt (pistol) else infinite loop
             }
             else if (ZombieGame.InputMgr.IsNewButton(Buttons.LeftShoulder))
             {
                 Gun.IsSelected = false;
                 Gun.TimerReloading = 0;
-                --CurrentGun;
+                do
+                {
+                    --CurrentGun;
+                } while (!GunBelt[CurrentGun].Item2);
             }
+
 
             Gun = GunBelt[CurrentGun].Item3;
             Gun.IsSelected = true;
