@@ -114,7 +114,7 @@
     <Compile Include="HUD.cs" />
     <Compile Include="Leaper.cs" />
     <Compile Include="Pickable.cs" />
-    <Compile Include="ShotgunPickable.cs" />
+    <Compile Include="GunPickable.cs" />
     <Compile Include="Zombie.cs" />
     <Compile Include="SMG.cs" />
     <Compile Include="Pistol.cs" />

@@ -68,9 +68,9 @@ namespace zombiefactory
             //Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100, 10));
             EnemySpawner = new EnemySpawner(this, 100, true, 1.0f, new Vector2(200.0f, 300.0f));
             Pickables = new List<Pickable>();
-            Pickables.Add(new GunPickable(this, new Vector2(265.0f, 300.0f), "Pistol"));
             Pickables.Add(new GunPickable(this, new Vector2(300.0f, 300.0f), "Shotgun"));
-            Pickables.Add(new GunPickable(this, new Vector2(335.0f, 300.0f), "SMG"));
+            Pickables.Add(new GunPickable(this, new Vector2(350.0f, 300.0f), "SMG"));
+            Pickables.Add(new GunPickable(this, new Vector2(400.0f, 300.0f), "Shotgun"));
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
