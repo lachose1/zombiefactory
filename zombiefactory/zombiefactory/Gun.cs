@@ -70,6 +70,7 @@ namespace zombiefactory
         float ReloadingTime { get; set; }
         public float TimerReloading { get; set; }
         public bool IsAmmoEmpty { get { return !InfiniteAmmo && Ammo == 0 && ClipAmmo == 0; } }
+        public bool IsPickedUp { get; set; }
         #endregion properties
 
         public Gun(ZombieGame game, Vector2 initPos, string gunName, int damage, int maxAmmo, int ammo,
@@ -113,6 +114,7 @@ namespace zombiefactory
             GunReloadSound = ZombieGame.SfxMgr.Find(GunName + "Reload");
 
             IsSelected = false;
+            IsPickedUp = false;
         }
 
         public override void Initialize()

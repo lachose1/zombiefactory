@@ -59,11 +59,13 @@ namespace zombiefactory
             base.Draw(gameTime);
         }
 
-        public void PickedUp()
+        private void PickedUp()
         {
             IsPickedUp = true;
-            //Ajouter que le pickable sote lui meme de components
+            OnPickUp();
         }
+
+        protected abstract void OnPickUp();
 
         protected bool IsPlayerCollision(float x, float y)
         {

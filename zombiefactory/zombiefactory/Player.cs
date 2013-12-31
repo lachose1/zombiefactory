@@ -18,7 +18,7 @@ namespace zombiefactory
         #endregion constants
 
         #region properties
-        List<Tuple<string, bool, Gun>> GunBelt;
+        List<Tuple<string, Gun>> GunBelt;
         public Gun Gun { get; private set; }
         int currentGun;
         int CurrentGun
@@ -40,10 +40,10 @@ namespace zombiefactory
         public Player(ZombieGame game, Vector2 initPos)
             : base(game, SPRITE_NAME, SPRITE_FRAMES, SPRITE_LINES, initPos, DEPTH, UPDATE_TIME, MAX_HEALTH, MAX_SPEED)
         {
-            GunBelt = new List<Tuple<string, bool, Gun>>();
+            GunBelt = new List<Tuple<string, Gun>>();
             PopulateGunBelt(game, initPos);
             CurrentGun = 0;
-            Gun = GunBelt[CurrentGun].Item3;
+            Gun = GunBelt[CurrentGun].Item2;
             Gun.IsSelected = true;
         }
 
@@ -54,10 +54,25 @@ namespace zombiefactory
 
         private void PopulateGunBelt(ZombieGame game, Vector2 initPos)
         {
-            GunBelt.Add(new Tuple<string, bool, Gun>("Pistol", true, new Pistol(game, initPos)));
-            GunBelt.Add(new Tuple<string, bool, Gun>("Shotgun", false, new Shotgun(game, initPos)));
-            GunBelt.Add(new Tuple<string, bool, Gun>("SMG", true, new SMG(game, initPos)));
+            Pistol pistol = new Pistol(game, initPos);
+            pistol.IsPickedUp = true;
+            Shotgun shotgun = new Shotgun(game, initPos);
+            SMG smg = new SMG(game, initPos);
+            smg.IsPickedUp = true;
+
+            GunBelt.Add(new Tuple<string, Gun>("Pistol", pistol));
+            GunBelt.Add(new Tuple<string, Gun>("Shotgun", shotgun));
+            GunBelt.Add(new Tuple<string, Gun>("SMG", smg));
             NumberOfGuns = GunBelt.Count;
+        }
+
+        public void PickUpGun(String gunName)
+        {
+            Tuple<string, Gun> gunTuple = GunBelt.Find(t => t.Item1 == gunName);
+            if (!gunTuple.Item2.IsPickedUp)
+            {
+                gunTuple.Item2.IsPickedUp = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -66,8 +81,8 @@ namespace zombiefactory
             MoveSprite();
             SwitchWeapon();
 
-            foreach (Tuple<string, bool, Gun> gunTuple in GunBelt)
-                gunTuple.Item3.Update(gameTime);
+            foreach (Tuple<string, Gun> gunTuple in GunBelt)
+                gunTuple.Item2.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -88,7 +103,7 @@ namespace zombiefactory
                 do
                 {
                     ++CurrentGun;
-                } while (!GunBelt[CurrentGun].Item2); // This assumes there will always be at least one gun in belt (pistol) else infinite loop
+                } while (!GunBelt[CurrentGun].Item2.IsPickedUp); // This assumes there will always be at least one gun in belt (pistol) else infinite loop
             }
             else if (ZombieGame.InputMgr.IsNewButton(Buttons.LeftShoulder))
             {
@@ -97,11 +112,11 @@ namespace zombiefactory
                 do
                 {
                     --CurrentGun;
-                } while (!GunBelt[CurrentGun].Item2);
+                } while (!GunBelt[CurrentGun].Item2.IsPickedUp);
             }
 
 
-            Gun = GunBelt[CurrentGun].Item3;
+            Gun = GunBelt[CurrentGun].Item2;
             Gun.IsSelected = true;
         }
 

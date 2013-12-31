@@ -28,5 +28,10 @@ namespace zombiefactory
         {
             base.Initialize();
         }
+
+        protected override void OnPickUp()
+        {
+            ZombieGame.Player.PickUpGun("Shotgun");
+        }
     }
 }
