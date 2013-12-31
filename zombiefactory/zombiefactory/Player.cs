@@ -55,10 +55,9 @@ namespace zombiefactory
         private void PopulateGunBelt(ZombieGame game, Vector2 initPos)
         {
             Pistol pistol = new Pistol(game, initPos);
-            pistol.IsPickedUp = true;
+            pistol.IsPickedUp = true; // Player starts with the pistol picked up
             Shotgun shotgun = new Shotgun(game, initPos);
             SMG smg = new SMG(game, initPos);
-            smg.IsPickedUp = true;
 
             GunBelt.Add(new Tuple<string, Gun>("Pistol", pistol));
             GunBelt.Add(new Tuple<string, Gun>("Shotgun", shotgun));
@@ -69,10 +68,11 @@ namespace zombiefactory
         public void PickUpGun(String gunName)
         {
             Tuple<string, Gun> gunTuple = GunBelt.Find(t => t.Item1 == gunName);
+
             if (!gunTuple.Item2.IsPickedUp)
-            {
                 gunTuple.Item2.IsPickedUp = true;
-            }
+            else
+                gunTuple.Item2.RefillAmmo();
         }
 
         public override void Update(GameTime gameTime)

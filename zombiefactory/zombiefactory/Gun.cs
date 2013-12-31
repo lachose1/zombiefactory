@@ -266,5 +266,10 @@ namespace zombiefactory
                 }
             }
         }
+
+        public void RefillAmmo()
+        {
+            Ammo += 4 * ClipSize;
+        }
     }
 }
