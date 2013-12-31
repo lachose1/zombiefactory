@@ -30,7 +30,8 @@ namespace zombiefactory
         public Song LevelMusic { get; private set; }
         public Camera Camera { get; private set; }
         public HUD HUD { get; private set; }
-        public EnemySpawner EnemySpawner { get; set; }
+        public EnemySpawner EnemySpawner { get; private set; }
+        public List<Pickable> Pickables { get; private set; }
         #endregion properties
 
         public ZombieGame()
@@ -66,7 +67,8 @@ namespace zombiefactory
             //Enemies = new List<Enemy>();
             //Enemies.Add(new Enemy(this, new Vector2(200.0f, 300.0f), 75.0f, 100, 10));
             EnemySpawner = new EnemySpawner(this, 100, true, 1.0f, new Vector2(200.0f, 300.0f));
-            ShotgunPickable test = new ShotgunPickable(this, new Vector2(300.0f, 300.0f));
+            Pickables = new List<Pickable>();
+            Pickables.Add(new ShotgunPickable(this, new Vector2(300.0f, 300.0f)));
 
             FpsDisplayer = new FpsDisplay(this, "Arial14");
             FpsDisplayer.Enabled = false; //We don't want the FPS to be shown as default
@@ -81,7 +83,6 @@ namespace zombiefactory
             Components.Add(Player);
             Components.Add(EnemySpawner);
             Components.Add(Camera);
-            Components.Add(test);
 
             base.Initialize();
         }
@@ -137,6 +138,7 @@ namespace zombiefactory
                 FpsDisplayer.Update(gameTime);
 
             HUD.Update(gameTime);
+            UpdatePickables(gameTime);
 
             base.Update(gameTime);
         }
@@ -148,12 +150,22 @@ namespace zombiefactory
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.Default, RasterizerState.CullNone, null, Camera.Transform);
             base.Draw(gameTime);
+            foreach (Pickable p in Pickables)
+                p.Draw(gameTime);
             SpriteBatch.End();
 
             SpriteBatch.Begin();
             FpsDisplayer.Draw(gameTime);
             HUD.Draw(gameTime);
             SpriteBatch.End();
+        }
+
+        protected void UpdatePickables(GameTime gameTime)
+        {
+            foreach (Pickable p in Pickables)
+                p.Update(gameTime);
+
+            Pickables.RemoveAll(p => p.IsPickedUp);
         }
     }
 }
